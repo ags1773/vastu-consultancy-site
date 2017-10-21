@@ -1,5 +1,31 @@
-console.log('test');
+var breakpointMobile = 768,
+    intViewportWidth,
+    screenType;
 
+window.addEventListener("DOMContentLoaded", function(event) {
+  if(getScreenType() == 'desktop'){
+    document.querySelector('nav').className += ' fixed';
+  }
+});
+
+$(window).resize(function(){
+  navStickyToggle();
+});
+
+function getScreenType(){
+  intViewportWidth = window.innerWidth;
+  (intViewportWidth < breakpointMobile) ? (screenType = 'mobile') : (screenType = 'desktop');
+  return screenType;
+}
+
+// makes navbar fixed for large screens
+function navStickyToggle(){
+  if(getScreenType() == 'mobile' && $('nav').hasClass('fixed')){
+    $('nav').removeClass('fixed');
+  } else if(getScreenType() == 'desktop' && !($('nav').hasClass('fixed'))){
+    $('nav').addClass('fixed');
+  }
+}
 // ============================
 // ==      page scrolling    ==
 // ============================
