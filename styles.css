@@ -6,8 +6,8 @@
         Page Styles
 ==============================*/
 body{
-  /*height: auto;*/
-  color: grey;
+  color: black;
+  background: rgba(0,0,0,0.1);
 }
 html {
   font-size: 14px;
@@ -20,13 +20,14 @@ html {
   -moz-box-sizing: inherit;
   box-sizing: inherit;
 }
-.backgroundImg{
-  background: url('resources/images/low-res/nathan-fertig-68086-blur&b&w-low-res.jpg') no-repeat center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-attachment: fixed;
+#landingPage main div:first-child{
+  height: 100vh;
+  width: 100%;
+  color: white;
+
+  background: #2b5876;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #4e4376, #2b5876);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #4e4376, #2b5876); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .ui.menu{
   border-radius: 0;
@@ -39,10 +40,6 @@ html {
 }
 .temp{
   padding: 10em 3em;
-}
-.temp:nth-child(even){
-  background-color: white;
-  opacity: 0.75;
 }
 .buttonBar{
   display: flex;
@@ -75,23 +72,33 @@ html {
   display: none;
 }
 footer{
-  background-color: hsla(9,100%,64%,0.65);
+  background-color: rgba(0,128,128,0.5);
   margin-bottom: 40px;
 }
+#mapContainer{
+  display: flex;
+  flex-direction: column;
+}
 #map{
-  width: 100%;
   height: 400px;
   background-color: grey;
 }
+#map + div{
+  padding: 15px;
+}
 @media screen and (min-width: 768px){
-  .backgroundImg{
-    /*background: url('resources/images/nathan-fertig-68086-blur&b&w.jpg') no-repeat center center;*/
-    background: url('resources/images/low-res/nathan-fertig-68086-blur&b&w-low-res.jpg') no-repeat center center;
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      -o-background-size: cover;
-      background-size: cover;
-      background-attachment: fixed;
+  main{
+    padding-top: 56px;
+  }
+  #mapContainer{
+    flex-direction: row;
+  }
+  #map{
+    flex: 3 1 400px;
+  }
+  #map + div{
+    flex: 1 1 250px;
+    align-self: center;
   }
   .buttonBar{
     display: none;
