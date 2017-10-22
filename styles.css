@@ -30,6 +30,12 @@ html {
 }
 .ui.menu{
   border-radius: 0;
+  margin: 0;
+}
+.ui.form{
+  background-color: white;
+  opacity: 0.9;
+  padding: 10px;
 }
 .temp{
   padding: 10em 3em;

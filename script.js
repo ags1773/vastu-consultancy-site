@@ -48,24 +48,9 @@ function goToByScroll(id){
 // ==   show/hide buttons on scroll  ==
 // ====================================
 // Function only runs once, 250ms after the first time a user scrolls
-
-var target = $(".myPara").offset().top,
+var target =  $('nav').outerHeight(),
     timeout = null;
 
-// $(window).scroll(function () {
-//     if (!timeout) {
-//         timeout = setTimeout(function () {
-//             console.log('scroll');
-//             clearTimeout(timeout);
-//             timeout = null;
-//             if ($(window).scrollTop() >= target) {
-//                 alert('made it');
-//             }
-//         }, 250);
-//     }
-// });
-
-//Make this code more elegant if possible
 $(window).scroll(function () {
     if (!timeout) {
         timeout = setTimeout(function () {
