@@ -2,11 +2,9 @@
 This is a website giving details of a consultancy business
 
 ### Features
-* the site uses no frameworks
 * mobile first design
   
 ### Dependencies
+* Semantic-ui
 * jquery
-* font awesome
-* google font
-  
+* font awesome 
