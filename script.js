@@ -3,13 +3,15 @@ var breakpointMobile = 768,
     screenType;
 
 window.addEventListener("DOMContentLoaded", function(event) {
-  if(getScreenType() == 'desktop'){
-    document.querySelector('nav').className += ' fixed';
+  if($('#landingPage').length && getScreenType() == 'desktop'){
+    document.querySelector('nav').classList.add('fixed');
   }
 });
 
 $(window).resize(function(){
-  navStickyToggle();
+  if($('#landingPage').length){
+    navStickyToggle();
+  }
 });
 
 function getScreenType(){
@@ -26,6 +28,7 @@ function navStickyToggle(){
     $('nav').addClass('fixed');
   }
 }
+
 // ============================
 // ==      page scrolling    ==
 // ============================
@@ -37,7 +40,7 @@ $(".scrollLink").click(function(e) {
 });
 function goToByScroll(id){
       // Remove "link" from the ID
-    id = id.replace("link", "");
+    id = id.replace("Link", "");
       // Scroll
     $('html,body').animate({
         scrollTop: $("#"+id).offset().top},
@@ -48,23 +51,26 @@ function goToByScroll(id){
 // ==   show/hide buttons on scroll  ==
 // ====================================
 // Function only runs once, 250ms after the first time a user scrolls
-var target =  $('nav').outerHeight(),
-    timeout = null;
+if($('#landingPage').length){
+  // var target =  $('nav').outerHeight();
+  var target =  $("#landingPage main div:first-child + div").offset().top;
+  var timeout = null;
 
-$(window).scroll(function () {
-    if (!timeout) {
-        timeout = setTimeout(function () {
-            clearTimeout(timeout);
-            timeout = null;
-            if ($(window).scrollTop() >= target) {
-                if($('.buttonBar').hasClass('hideElement')){
-                  $('.buttonBar').addClass('showElement').removeClass('hideElement');
+  $(window).scroll(function () {
+      if (!timeout) {
+          timeout = setTimeout(function () {
+              clearTimeout(timeout);
+              timeout = null;
+              if ($(window).scrollTop() >= target) {
+                  if($('.buttonBar').hasClass('hideElement')){
+                    $('.buttonBar').addClass('showElement').removeClass('hideElement');
+                  }
+              } else{
+                if($('.buttonBar').hasClass('showElement')){
+                  $('.buttonBar').addClass('hideElement').removeClass('showElement');
                 }
-            } else{
-              if($('.buttonBar').hasClass('showElement')){
-                $('.buttonBar').addClass('hideElement').removeClass('showElement');
               }
-            }
-        }, 250);
-    }
-});
+          }, 250);
+      }
+  });
+}

@@ -13,7 +13,7 @@
 </head>
 
 <body id='contactUs'>
-  <nav class="ui stackable menu">
+  <nav class="ui secondary menu">
     <a href='index.htm' class="item">
       <i class="pied piper icon green big"></i>
       <span>Home</span>
@@ -60,24 +60,29 @@
           <button class="ui button fluid" type="submit">Submit</button>
         </form>
       </div>
-
-      <!-- Script for running map API -->
-      <script type="text/javascript">
-      function initMap() {
-          var uluru = {lat: -25.363, lng: 131.044};
-          var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 4,
-            center: uluru
-          });
-          var marker = new google.maps.Marker({
-            position: uluru,
-            map: map
-          });
-        }
-      </script>
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClMzihLwNFdt39UnmAUKSVZI28ySoOXaw&callback=initMap"></script>
   </main>
 
+  <footer>
+    <hr>
+    <p>sample text</p>
+    <p>&copy;XYZ Company, all rights reserved</p>
+  </footer>
+  
+  <!-- Script for running map API -->
+  <script type="text/javascript">
+  function initMap() {
+      var uluru = {lat: -25.363, lng: 131.044};
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 4,
+        center: uluru
+      });
+      var marker = new google.maps.Marker({
+        position: uluru,
+        map: map
+      });
+    }
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClMzihLwNFdt39UnmAUKSVZI28ySoOXaw&callback=initMap"></script>
   <script type="text/javascript" src='script.js'></script>
 </body>
 </html>
