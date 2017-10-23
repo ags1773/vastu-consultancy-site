@@ -51,6 +51,7 @@ function goToByScroll(id){
 // ==   show/hide buttons on scroll  ==
 // ====================================
 // Function only runs once, 250ms after the first time a user scrolls
+// Runs only on landing page
 if($('#landingPage').length){
   // var target =  $('nav').outerHeight();
   var target =  $("#landingPage main div:first-child + div").offset().top;
@@ -61,6 +62,13 @@ if($('#landingPage').length){
           timeout = setTimeout(function () {
               clearTimeout(timeout);
               timeout = null;
+              //adds, removes shadow to navbar
+              if(!($('.ui.secondary.menu').hasClass('navShadow')) && $(window).scrollTop() >= 1){
+                $('.ui.secondary.menu').addClass('navShadow');
+              } else if($('.ui.secondary.menu').hasClass('navShadow') && $(window).scrollTop() == 0){
+                $('.ui.secondary.menu').removeClass('navShadow');
+              }
+              //shows, hides buttonbar
               if ($(window).scrollTop() >= target) {
                   if($('.buttonBar').hasClass('hideElement')){
                     $('.buttonBar').addClass('showElement').removeClass('hideElement');
