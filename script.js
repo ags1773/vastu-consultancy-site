@@ -8,6 +8,8 @@ var breakpointMobile = 768,
 window.addEventListener("DOMContentLoaded", function(event) {
   if($('#landingPage').length && getScreenType() == 'desktop'){
     document.querySelector('nav').classList.add('fixed');
+  }
+  if($('#landingPage').length){
     sliderInit();
   }
 });
