@@ -15,7 +15,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
 });
 
 $(window).resize(function(e){
-  // e.preventDefault();
+  e.preventDefault();
   if($('#landingPage').length){
     navStickyToggle();
     slider_api.destroy();
@@ -38,6 +38,8 @@ function navStickyToggle(){
   }
 }
 
+$('.ui.accordion').accordion();
+
 // ============================
 // ==      Glide JS          ==
 // ============================
@@ -59,17 +61,6 @@ function sliderInit(){
   });
 	slider_api = slider.data('glide_api');
 }
-
-// $('.slider').glide({
-//   // autoplay: 3500,
-//   autoplay: false,
-//   hoverpause: true, // set to false for nonstop rotate
-//   arrowsWrapperClass: 'slider-arrows',
-//   // arrowRightText: '',
-//   // arrowLeftText: '',
-//   arrowRightText: '&rarr;',
-//   arrowLeftText: '&larr;'
-// });
 
 // ============================
 // ==      page scrolling    ==

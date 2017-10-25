@@ -16,10 +16,51 @@ html {
   -moz-box-sizing: inherit;
   box-sizing: inherit;
 }
+body{
+  font-family: 'Lato', sans-serif;
+  background-color: rgba(0,0,0,0.1);
+}
 #landingPage main > div:first-child{
   height: 100vh;
   width: 100%;
+  /*position: relative;*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+#landingPage main > div:first-child > div p{
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  text-align: center;
+}
+#landingPage main > div:first-child > div p:first-child{
+  /*position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);*/
+
+  font-size: 2.5em;
+}
+#aboutUs div{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+
+  padding: 10px;
+}
+#aboutUs div img{
+  max-height: 300px;
+  padding: 10px;
+  order: 1;
+  /*max-width: 800px;
+  min-width: 250px;
+  width: 33%;*/
+}
+#aboutUs, #services, #testimonials{
+  font-size: 1em;
+}
+
 #landingPage main > div:first-child, .ui.secondary.menu, footer{
   color: white;
 
@@ -42,11 +83,20 @@ html {
   -moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.75);
   box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.75);
 }
-
-/*Glide JS*/
-#Glide{
-  background-color: rgba(0,0,0,0.1);
+/*#Glide, #aboutUs, #services{
+  background-color: rgba(0,0,0,0.05);
+}*/
+#Glide, #aboutUs, #services, #testimonials{
+  line-height: 2;
+  padding-top: 5em;
 }
+#aboutUs p, #services p{
+  line-height: inherit;
+}
+#services .ui.accordion{
+  background-color: rgba(0,0,0,0.01);
+}
+
 #Glide .ui.card .image img{
   max-height: 200px;
 }
@@ -56,9 +106,9 @@ html {
 #Glide .ui.card{
   margin: 0 auto;
 }
-/*------------------------------------*/
-.ui.form{
-  background-color: white;
+
+#contactUs .ui.form{
+  background-color: rgba(0,0,0,0.1);
   opacity: 0.9;
   padding: 10px;
 }
@@ -112,7 +162,9 @@ html {
   padding: 15px;
 }
 
-/*--------------------------------------------------------------------------------*/
+/*------------------------------------*/
+/*-----     Media Queries    --------*/
+/*------------------------------------*/
 @media screen and (min-width: 768px){
   #oneLink, #twoLink{
     display: flex;
@@ -133,4 +185,18 @@ html {
   #landingPage footer{
     margin-bottom: inherit;
   }
+  #landingPage main > div:first-child > div p{
+    font-size: 1.5em;
+  }
+  #landingPage main > div:first-child > div p:first-child{
+    font-size: 4em;
+  }
+  #aboutUs div{
+    flex-direction: row;
+  }
+  #aboutUs, #services, #testimonials{
+    font-size: 1.2em;
+  }
+  /*---------Needs Improvement------------*/
+
 }
