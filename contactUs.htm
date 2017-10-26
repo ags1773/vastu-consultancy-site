@@ -6,10 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Contact Us Demo</title>
   <link rel="stylesheet" href="resources/font-awesome-4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="semantic/dist/semantic.min.css">
+  <!-- <link rel="stylesheet" href="semantic/dist/semantic.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
   <link rel="stylesheet" href="styles.css">
   <script src='resources/jquery-3.2.1.min.js'></script>
-  <script src='semantic/dist/semantic.min.js'></script>
+  <!-- <script src='semantic/dist/semantic.min.js'></script> -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js'></script>
 </head>
 
 <body id='contactUs'>
@@ -22,6 +24,42 @@
   </nav>
 
   <main>
+
+    <div id='userInput' class='ui container'>
+      <div class='ui centered grid'>
+        <div class='column'>
+          <h3>Please fill the form to schedule an appointment, we will contact you.</h3>
+          <form class="ui form">
+            <div class="field">
+              <label>First Name</label>
+              <input type="text" name="first-name" placeholder="First Name">
+            </div>
+            <div class="field">
+              <label>Last Name</label>
+              <input type="text" name="last-name" placeholder="Last Name">
+            </div>
+            <div class="field">
+              <label>Phone Number</label>
+              <input type="text" name="last-name" placeholder="Phone Number">
+            </div>
+            <div class="field">
+              <label>e-mail</label>
+              <input type="text" name="last-name" placeholder="e-mail Address">
+            </div>
+            <div class="field">
+              <div class="ui checkbox">
+                <!-- <input type="checkbox" tabindex="0" class='hidden'> -->
+                <input type="checkbox" tabindex="0">
+                <label>It's okay to contact me</label>
+              </div>
+            </div>
+            <button class="ui button primary fluid" type="submit">Submit</button>
+          </form>
+        </div><!-- /column -->
+      </div><!-- /grid -->
+    </div><!-- container -->
+    <br>
+    <hr>
     <div id='mapContainer'>
       <div id="map"></div>
       <div>
@@ -32,36 +70,7 @@
         <p>Phone: +91 8007006005</p>
       </div>
     </div>
-    <hr>
-    <div class='ui container'>
-      <h3>Please fill the form to schedule an appointment, we will contact you.</h3>
-      <form class="ui form">
-        <div class="field">
-          <label>First Name</label>
-          <input type="text" name="first-name" placeholder="First Name">
-        </div>
-        <div class="field">
-          <label>Last Name</label>
-          <input type="text" name="last-name" placeholder="Last Name">
-        </div>
-        <div class="field">
-          <label>Phone Number</label>
-          <input type="text" name="last-name" placeholder="Phone Number">
-        </div>
-        <div class="field">
-          <label>e-mail</label>
-          <input type="text" name="last-name" placeholder="e-mail Address">
-        </div>
-        <div class="field">
-          <div class="ui checkbox">
-            <!-- <input type="checkbox" tabindex="0" class='hidden'> -->
-            <input type="checkbox" tabindex="0">
-            <label>It's okay to contact me</label>
-          </div>
-        </div>
-        <button class="ui button primary fluid" type="submit">Submit</button>
-      </form>
-    </div>
+
   </main>
 
   <footer>

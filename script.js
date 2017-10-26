@@ -9,8 +9,16 @@ window.addEventListener("DOMContentLoaded", function(event) {
   if($('#landingPage').length && getScreenType() == 'desktop'){
     document.querySelector('nav').classList.add('fixed');
   }
+  if($('#contactUs').length){
+    if(getScreenType() == 'desktop'){
+      $('#userInput .ui.grid > div').addClass('eight').addClass('wide');
+    } else if(getScreenType() == 'mobile'){
+      $('#userInput .ui.grid > div').addClass('sixteen').addClass('wide');
+    }
+  }
   if($('#landingPage').length){
     sliderInit();
+    $('.ui.accordion').accordion();
   }
 });
 
@@ -21,6 +29,9 @@ $(window).resize(function(e){
     slider_api.destroy();
     sliderInit();
   }
+  if($('#contactUs').length){
+    setFormWidth();
+  }
 });
 
 function getScreenType(){
@@ -29,6 +40,13 @@ function getScreenType(){
   return screenType;
 }
 
+function setFormWidth(){
+  if(getScreenType() == 'mobile' && $('#userInput .ui.grid > div').hasClass('eight')){
+    $('#userInput .ui.grid > div').removeClass('eight').removeClass('wide').addClass('sixteen').addClass('wide');
+  } else if(getScreenType() == 'desktop' && $('#userInput .ui.grid > div').hasClass('sixteen')){
+    $('#userInput .ui.grid > div').removeClass('sixteen').removeClass('wide').addClass('eight').addClass('wide');
+  }
+}
 // makes navbar fixed for large screens
 function navStickyToggle(){
   if(getScreenType() == 'mobile' && $('nav').hasClass('fixed')){
@@ -38,7 +56,7 @@ function navStickyToggle(){
   }
 }
 
-$('.ui.accordion').accordion();
+// $('.ui.accordion').accordion();
 
 // ============================
 // ==      Glide JS          ==
