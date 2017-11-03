@@ -8,3 +8,4 @@ This is a website giving details of a consultancy business
 * Semantic-ui
 * jquery
 * font awesome 
+* glideJS
