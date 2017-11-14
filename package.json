@@ -1,0 +1,19 @@
+{
+  "name": "vastu-site",
+  "version": "1.0.0",
+  "description": "vastu site",
+  "main": "app.js",
+  "dependencies": {
+    "semantic-ui": "^2.2.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/ags1773/vastu-consultancy-site.git"
+  },
+  "author": "amogh \u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[3~\u001b[3~\u001b[A\u001b[C\u001b[C\u001b[C\u001b[C",
+  "license": "ISC"
+}
