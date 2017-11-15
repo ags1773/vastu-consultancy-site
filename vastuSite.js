@@ -17,7 +17,9 @@ app.use(expressSanitizer());
 
 app.get('/', function(req,res){
     res.render('landing');
-
+});
+app.get("/contact-us", function(req,res){
+    res.render("contactus");
 });
 
 // app.listen(process.env.PORT, process.env.IP, function(){

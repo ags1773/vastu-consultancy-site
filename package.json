@@ -7,7 +7,10 @@
     "body-parser": "^1.18.2",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
-    "express-sanitizer": "^1.0.2"
+    "express-sanitizer": "^1.0.2",
+    "font-awesome": "^4.7.0",
+    "glidejs": "^2.1.0",
+    "jquery": "^3.2.1"
   },
   "devDependencies": {},
   "scripts": {
