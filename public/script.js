@@ -121,7 +121,6 @@ if($('#landingPage').length){
       timeout = setTimeout(function () {
         clearTimeout(timeout);
         timeout = null;
-        console.log('test');
         //shows, hides buttonbar
         if (distToTop >= target) {
             if($('.buttonBar').hasClass('hideElement')){
