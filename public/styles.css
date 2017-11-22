@@ -103,11 +103,16 @@ body{
 #Glide .ui.card{
   margin: 0 auto;
 }
-#contactUs main{
+/*#contactUs main{
   display: grid;
   grid-template-columns: [col1-start] 3fr [col1-end col2-start] 2fr [col2-end];
   grid-template-rows: [row1-start] auto [row1-end row2-start] auto [row2-end];
   grid-gap: 15px;
+}*/
+#contactUs{
+  display: grid;
+  grid-template-columns: [col1-start] 3fr [col1-end col2-start] 2fr [col2-end];
+  grid-template-rows: [row1-start] 44px [row1-end row2-start] auto [row2-end row3-start] auto [row3-end row4-start] 80px [row4-end];
 }
 #contactUs .ui.form{
   background-color: rgba(0,0,0,0.1);
@@ -118,7 +123,34 @@ body{
   -moz-box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.75);
   box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.75);
 }
-#mapContainer{
+#contactUs .ui.secondary.menu{
+  grid-column-start: col1-start;
+  grid-column-end:   col2-end;
+  grid-row-start:    row1-start;
+  grid-row-end:      row1-end;
+
+  margin: 0;
+}
+#contactUs #mapContainer{
+  grid-column-start: col1-start;
+  grid-column-end:   col2-end;
+  grid-row-start:    row2-start;
+  grid-row-end:      row2-end;
+}
+#contactUs #userInput{
+  grid-column-start: col1-start;
+  grid-column-end:   col2-end;
+  grid-row-start:    row3-start;
+  grid-row-end:      row3-end;
+}
+#contactUs footer{
+  grid-column-start: col1-start;
+  grid-column-end:   col2-end;
+  grid-row-start:    row4-start;
+  grid-row-end:      row4-end;
+}
+
+/*#mapContainer{
   grid-column-start: col1-start;
   grid-column-end: col2-end;
   grid-row-start: row1-start;
@@ -129,7 +161,7 @@ body{
   grid-column-end: col2-end;
   grid-row-start: row2-start;
   grid-row-end: row2-end;
-}
+}*/
 #mapContainer, #userInput{
   display: flex;
   flex-direction: column;
@@ -195,7 +227,7 @@ body{
   #aboutUs, #services, #testimonials{
     font-size: 1.2em;
   }
-  #mapContainer{
+  /*#mapContainer{
     grid-column-start: col1-start;
     grid-column-end: col1-end;
     grid-row-start: row1-start;
@@ -206,5 +238,17 @@ body{
     grid-column-end: col2-end;
     grid-row-start: row1-start;
     grid-row-end: row2-end;
+  }*/
+  #contactUs #mapContainer{
+    grid-column-start: col1-start;
+    grid-column-end:   col1-end;
+    grid-row-start:    row2-start;
+    grid-row-end:      row3-end;
+  }
+  #contactUs #userInput{
+    grid-column-start: col2-start;
+    grid-column-end:   col2-end;
+    grid-row-start:    row2-start;
+    grid-row-end:      row3-end;
   }
 }
