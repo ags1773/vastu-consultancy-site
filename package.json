@@ -10,7 +10,8 @@
     "express-sanitizer": "^1.0.2",
     "font-awesome": "^4.7.0",
     "glidejs": "^2.1.0",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "mongoose": "^4.13.4"
   },
   "devDependencies": {},
   "scripts": {

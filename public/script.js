@@ -58,6 +58,15 @@ function navStickyToggle(){
 
 // $('.ui.accordion').accordion();
 
+// enable/disable form submit button on contact-us page
+$('#contactUs #userInput .ui.checkbox input').change(function(){
+  if(this.checked && $('#userInput .ui.button').hasClass('disabled')){
+    $('#userInput .ui.button').removeClass('disabled');
+  } else if(!this.checked && !($('#userInput .ui.button').hasClass('disabled'))){
+    $('#userInput .ui.button').addClass('disabled');
+  }
+});
+
 // ============================
 // ==      Glide JS          ==
 // ============================
