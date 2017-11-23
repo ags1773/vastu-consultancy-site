@@ -30,7 +30,7 @@ $(window).resize(function(e){
     sliderInit();
   }
   if($('#contactUs').length){
-    setFormWidth();
+    // setFormWidth();
   }
 });
 
@@ -40,13 +40,13 @@ function getScreenType(){
   return screenType;
 }
 
-function setFormWidth(){
-  if(getScreenType() == 'mobile' && $('#userInput .ui.grid > div').hasClass('eight')){
-    $('#userInput .ui.grid > div').removeClass('eight').removeClass('wide').addClass('sixteen').addClass('wide');
-  } else if(getScreenType() == 'desktop' && $('#userInput .ui.grid > div').hasClass('sixteen')){
-    $('#userInput .ui.grid > div').removeClass('sixteen').removeClass('wide').addClass('eight').addClass('wide');
-  }
-}
+// function setFormWidth(){
+//   if(getScreenType() == 'mobile' && $('#userInput .ui.grid > div').hasClass('eight')){
+//     $('#userInput .ui.grid > div').removeClass('eight').removeClass('wide').addClass('sixteen').addClass('wide');
+//   } else if(getScreenType() == 'desktop' && $('#userInput .ui.grid > div').hasClass('sixteen')){
+//     $('#userInput .ui.grid > div').removeClass('sixteen').removeClass('wide').addClass('eight').addClass('wide');
+//   }
+// }
 // makes navbar fixed for large screens
 function navStickyToggle(){
   if(getScreenType() == 'mobile' && $('nav').hasClass('fixed')){

@@ -11,13 +11,18 @@
 </head>
 
 <body id='contactUs'>
-  
+
   <nav class="ui secondary menu">
-    <a href='/' class="item">
-      <!-- <i class="pied piper icon green big"></i> -->
-      <!-- <img src="resources/images/pyramid-logo-2.svg" alt=""> -->
-      <span>Home</span>
-    </a>
+    <a href='/' class="item"><span>Home</span></a>
+    <div class="right menu">
+      <% if(currentUser){ %>
+        <a href='#' class="item">Logged in as: <%= currentUser.username %></a>
+        <a href="/logout" class="item">
+          <button class="ui button teal">Sign-Out</button>
+        </a>
+        <a href="/customerdata" class="item">Customer Data</a>
+      <% } %>
+    </div>
   </nav>
 
   <div id='mapContainer'>
