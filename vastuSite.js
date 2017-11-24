@@ -1,11 +1,15 @@
-var express             = require("express"),
-    // methodOverride      = require('method-override'),
-    bodyParser          = require('body-parser'),
-    mongoose            = require("mongoose"),
-    expressSanitizer    = require('express-sanitizer'),
+var express               = require("express"),
+    // methodOverride     = require('method-override'),
+    bodyParser            = require('body-parser'),
+    mongoose              = require("mongoose"),
+    expressSanitizer      = require('express-sanitizer'),
     passport              = require("passport"),
     LocalStrategy         = require("passport-local"),
-    passportLocalMongoose = require("passport-local-mongoose")
+    passportLocalMongoose = require("passport-local-mongoose"),
+    session               = require('express-session'),
+    cookieParser = require('cookie-parser'),
+    flash = require('connect-flash')
+
 
 mongoose.connect(process.env.DBURL_DEV1);
 var port = 8080;
@@ -18,11 +22,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressSanitizer());
 // app.use(methodOverride('_method'));
 
-//==== Passport configuration ====
-app.use(require('express-session')({
-    secret: 'I think emojis are dumb',
-    resave: false,
-    saveUninitialized: false
+//==== Passport and session configuration ====
+app.use(session({
+  secret: 'I think emojis are dumb',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 60000 }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -30,16 +35,21 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-//==== middleware to make currentUser available ====
+//==== Cookie-parser and connect-flash config ===
+app.use(cookieParser('I think emojis are dumb'));
+app.use(flash());
+
+//==== middleware to make 'currentUser' object available to all routes ====
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
     next();
 });
 
-//==== restful routes
+//==== restful routes ====
 app.get("/", function(req,res){
     res.render('landing');
 });
+
 app.get("/contact-us", function(req,res){
     res.render("contactus");
 });
@@ -67,9 +77,10 @@ app.get('/customerdata', isLoggedIn, function(req,res){
 //Login
 app.get('/login', function(req,res){
     if(!req.isAuthenticated()){
-        res.render('login');
+      res.render("login", {msg: req.session.flash || ''});
+      delete req.session.flash;
     } else {
-        res.redirect('/');
+      res.redirect('/');
     }
 });
 app.get('/contact-us/login', function(req,res){
@@ -77,10 +88,9 @@ app.get('/contact-us/login', function(req,res){
 });
 app.post('/login', passport.authenticate('local', {
     successRedirect: '/customerdata',
-    failureRedirect: '/login'
-}), function(req,res){
-    res.send('You\'ve hit the login POST route!');
-});
+    failureRedirect: '/login',
+    failureFlash: true })
+);
 
 //Register
 app.get('/register', function(req,res){
