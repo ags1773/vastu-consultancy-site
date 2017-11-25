@@ -1,0 +1,12 @@
+<nav class="ui secondary menu">
+  <a href='/' class="item"><span>Home</span></a>
+  <div class="right menu">
+    <% if(currentUser){ %>
+      <a href='#' class="item">Logged in as: <%= currentUser.username %></a>
+      <a href="/logout" class="item">
+        <button class="ui button teal">Sign-Out</button>
+      </a>
+      <a href="/customerdata" class="item">Customer Data</a>
+    <% } %>
+  </div>
+</nav>

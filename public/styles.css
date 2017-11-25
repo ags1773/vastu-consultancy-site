@@ -112,7 +112,7 @@ body{
 #contactUs{
   display: grid;
   grid-template-columns: [col1-start] 3fr [col1-end col2-start] 2fr [col2-end];
-  grid-template-rows: [row1-start] 44px [row1-end row2-start] auto [row2-end row3-start] auto [row3-end row4-start] 80px [row4-end];
+  grid-template-rows: [row1-start] 44px [row1-end row2-start] auto [row2-end row3-start] auto [row3-end row4-start] auto [row4-end];
 }
 #contactUs .ui.form{
   background-color: rgba(0,0,0,0.1);

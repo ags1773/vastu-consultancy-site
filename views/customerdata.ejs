@@ -1,31 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Customer Data</title>
-  <link rel="stylesheet" href="/font-awesome.min.css">
-  <link rel="stylesheet" href="/semantic-ui/semantic.min.css">
-  <link rel="stylesheet" href="/styles.css">
-</head>
-
+<% include partials/header %>
 <body>
-  <nav class="ui secondary menu">
-    <a href='/' class="item"><span>Home</span></a>
-    <div class="right menu">
-      <% if(currentUser){ %>
-        <a href='#' class="item">Logged in as: <%= currentUser.username %></a>
-        <a href="/logout" class="item">
-          <button class="ui button teal">Sign-Out</button>
-        </a>
-      <% } %>
-    </div>
-  </nav>
+<% include partials/navbar %>
 
   <h1>Top Secret Customer Data</h1>
 
-  <script type="text/javascript" src='/jquery.min.js'></script>
-  <script type="text/javascript" src='/semantic-ui/semantic.min.js'></script>
-</body>
-</html>
+<% include partials/footer %>
