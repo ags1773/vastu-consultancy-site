@@ -20,6 +20,15 @@ body{
   min-height: 100vh;
   font-family: 'Lato', sans-serif;
   background-color: rgba(0,0,0,0.1);
+
+  display: flex;
+  flex-flow: column wrap;
+}
+main{
+  flex-grow: 1;
+}
+.ui.secondary.menu{
+  margin: 0;
 }
 #landingPage main > div:first-child{
   height: 100vh;
@@ -71,10 +80,10 @@ body{
 .ui.secondary.menu a.item:hover{
   color: rgba(200,200,200,1);
 }
-#landingPage .ui.secondary.menu{
+/*#landingPage .ui.secondary.menu{
   border-radius: 0;
   margin: 0;
-}
+}*/
 #landingPage .navShadow{
   -webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.5);
   -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.5);
@@ -103,17 +112,6 @@ body{
 #Glide .ui.card{
   margin: 0 auto;
 }
-/*#contactUs main{
-  display: grid;
-  grid-template-columns: [col1-start] 3fr [col1-end col2-start] 2fr [col2-end];
-  grid-template-rows: [row1-start] auto [row1-end row2-start] auto [row2-end];
-  grid-gap: 15px;
-}*/
-#contactUs{
-  display: grid;
-  grid-template-columns: [col1-start] 3fr [col1-end col2-start] 2fr [col2-end];
-  grid-template-rows: [row1-start] 44px [row1-end row2-start] auto [row2-end row3-start] auto [row3-end row4-start] auto [row4-end];
-}
 #contactUs .ui.form{
   background-color: rgba(0,0,0,0.1);
   opacity: 0.9;
@@ -122,6 +120,11 @@ body{
   -webkit-box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.75);
   box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.75);
+}
+/*#contactUs{
+  display: grid;
+  grid-template-columns: [col1-start] 3fr [col1-end col2-start] 2fr [col2-end];
+  grid-template-rows: [row1-start] 44px [row1-end row2-start] auto [row2-end row3-start] auto [row3-end row4-start] auto [row4-end];
 }
 #contactUs .ui.secondary.menu{
   grid-column-start: col1-start;
@@ -148,20 +151,8 @@ body{
   grid-column-end:   col2-end;
   grid-row-start:    row4-start;
   grid-row-end:      row4-end;
-}
-
-/*#mapContainer{
-  grid-column-start: col1-start;
-  grid-column-end: col2-end;
-  grid-row-start: row1-start;
-  grid-row-end: row1-end;
-}
-#userInput{
-  grid-column-start: col1-start;
-  grid-column-end: col2-end;
-  grid-row-start: row2-start;
-  grid-row-end: row2-end;
 }*/
+
 #mapContainer, #userInput{
   display: flex;
   flex-direction: column;
@@ -227,19 +218,7 @@ body{
   #aboutUs, #services, #testimonials{
     font-size: 1.2em;
   }
-  /*#mapContainer{
-    grid-column-start: col1-start;
-    grid-column-end: col1-end;
-    grid-row-start: row1-start;
-    grid-row-end: row2-end;
-  }
-  #userInput{
-    grid-column-start: col2-start;
-    grid-column-end: col2-end;
-    grid-row-start: row1-start;
-    grid-row-end: row2-end;
-  }*/
-  #contactUs #mapContainer{
+  /*#contactUs #mapContainer{
     grid-column-start: col1-start;
     grid-column-end:   col1-end;
     grid-row-start:    row2-start;
@@ -250,5 +229,5 @@ body{
     grid-column-end:   col2-end;
     grid-row-start:    row2-start;
     grid-row-end:      row3-end;
-  }
+  }*/
 }

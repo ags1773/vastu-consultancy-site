@@ -2,45 +2,47 @@
 <body id='contactUs'>
 <% include partials/navbar %>
 
-<div id='mapContainer'>
-  <div>
-    <div id="map"></div>
+<main>
+  <div id='mapContainer'>
     <div>
-      <h2>Address:</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur</p>
-      <p>adipisicing elit. Officia aut modi</p>
-      <p>ZIP: 500003</p>
-      <p>Phone: +91 8007006005</p>
+      <div id="map"></div>
+      <div>
+        <h2>Address:</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur</p>
+        <p>adipisicing elit. Officia aut modi</p>
+        <p>ZIP: 500003</p>
+        <p>Phone: +91 8007006005</p>
+      </div>
     </div>
   </div>
-</div>
 
-<div id='userInput'>
-  <div>
-    <h3>Please fill the form to schedule an appointment, we will contact you.</h3>
-    <form class="ui form" action="/contact-us" method="POST">
-      <div class="field">
-        <input type="text" name="fname" placeholder="First Name">
-      </div>
-      <div class="field">
-        <input type="text" name="lname" placeholder="Last Name">
-      </div>
-      <div class="field">
-        <input type="text" name="phone" placeholder="Phone Number">
-      </div>
-      <div class="field">
-        <input type="text" name="email" placeholder="e-mail Address">
-      </div>
-      <div class="field">
-        <div class="ui checkbox">
-          <input type="checkbox" tabindex="0">
-          <label>It's okay to contact me</label>
+  <div id='userInput'>
+    <div>
+      <h3>Please fill the form to schedule an appointment, we will contact you.</h3>
+      <form class="ui form" action="/contact-us" method="POST">
+        <div class="field">
+          <input type="text" name="fname" placeholder="First Name">
         </div>
-      </div>
-      <button class="ui button primary fluid disabled" type="submit">Submit</button>
-    </form>
+        <div class="field">
+          <input type="text" name="lname" placeholder="Last Name">
+        </div>
+        <div class="field">
+          <input type="text" name="phone" placeholder="Phone Number">
+        </div>
+        <div class="field">
+          <input type="text" name="email" placeholder="e-mail Address">
+        </div>
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" tabindex="0">
+            <label>It's okay to contact me</label>
+          </div>
+        </div>
+        <button class="ui button primary fluid disabled" type="submit">Submit</button>
+      </form>
+    </div>
   </div>
-</div>
+</main>
 
 
 <!-- Script for running map API -->
