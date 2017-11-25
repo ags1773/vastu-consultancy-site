@@ -7,9 +7,13 @@ var express               = require("express"),
     LocalStrategy         = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
     session               = require('express-session'),
-    flash                 = require('connect-flash')
+    flash                 = require('connect-flash');
 
 var middleware = require('./middleware');
+
+//==== Requiring routes ====
+var navRoutes   = require('./routes/nav'),
+    authRoutes  = require('./routes/auth');
 
 mongoose.connect(process.env.DBURL_DEV1);
 var port = 8080;
@@ -43,73 +47,8 @@ app.use(function(req, res, next){
   next();
 });
 
-//==== restful routes ====
-app.get("/", function(req,res){
-    res.render('landing');
-});
+app.use(navRoutes);
+app.use(authRoutes);
 
-app.get("/contact-us", function(req,res){
-    res.render("contactus");
-});
-app.post("/contact-us", function(req,res){
-  var newCustomer = ({
-    fname: req.sanitize(req.body.fname),
-    lname: req.sanitize(req.body.lname),
-    phone: req.sanitize(req.body.phone),
-    email: req.sanitize(req.body.email)
-  });
-  Customer.create(newCustomer, function(err,customer){
-    if(err){
-      console.log("Error adding customer to DB");
-      console.log(err);
-    } else{
-      res.render("formsubmit");
-    }
-  })
-});
-app.get('/customerdata', middleware.isLoggedIn, function(req,res){
-  res.render("customerdata");
-});
-
-//==== Auth routes ====
-//Login
-app.get('/login', function(req,res){
-  res.render("login");
-});
-app.get('/contact-us/login', function(req,res){
-  res.redirect('/login');
-});
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/customerdata',
-  failureRedirect: '/login'
-  })
-);
-
-//Register
-app.get('/register', function(req,res){
-  if(!req.isAuthenticated()){
-    res.render('register');
-  } else{
-    res.redirect('/');
-  }
-});
-app.post('/register', function(req,res){
-  var newUser = ({username: req.body.username});
-  User.register(newUser, req.body.password, function(err, user){
-    if(err){
-      console.log(err);
-      // req.session.message = "Error registering user";
-      return res.redirect('register');
-    }
-    passport.authenticate('local')(req,res,function(){
-      res.redirect('customerdata');
-    });
-  });
-});
-//Logout
-app.get('/logout', function(req,res){
-  req.logout();
-  res.redirect('/');
-});
 
 app.listen(port);
