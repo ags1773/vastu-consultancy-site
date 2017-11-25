@@ -3,22 +3,24 @@
 <% include partials/navbar %>
 
 <main>
-  <div id='mapContainer'>
-    <div>
+  <div id='mainContainer'>
+    <div id='mapContainer'>
       <div id="map"></div>
       <div>
-        <h2>Address:</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur</p>
-        <p>adipisicing elit. Officia aut modi</p>
-        <p>ZIP: 500003</p>
-        <p>Phone: +91 8007006005</p>
+        <!-- <br> -->
+        <h3>Address:</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur
+        <br>
+        adipisicing elit. Officia aut modi
+        <br>
+        ZIP: 500003
+        <br>
+        <b>Phone: +91 8007006005</b></p>
       </div>
-    </div>
-  </div>
-
-  <div id='userInput'>
-    <div>
-      <h3>Please fill the form to schedule an appointment, we will contact you.</h3>
+    </div> <!-- /mapContainer -->
+    <div class='divider'></div>
+    <div id='userInput'>
+      <h3>Schedule an appointment</h3>
       <form class="ui form" action="/contact-us" method="POST">
         <div class="field">
           <input type="text" name="fname" placeholder="First Name">
@@ -40,8 +42,9 @@
         </div>
         <button class="ui button primary fluid disabled" type="submit">Submit</button>
       </form>
-    </div>
-  </div>
+    </div><!-- /userInput -->
+  </div><!-- /mainContainer -->
+
 </main>
 
 
@@ -59,7 +62,7 @@ function initMap() {
     });
   }
 </script>
-<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClMzihLwNFdt39UnmAUKSVZI28ySoOXaw&callback=initMap"></script> -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClMzihLwNFdt39UnmAUKSVZI28ySoOXaw&callback=initMap"></script>
 <script type="text/javascript" src='/jquery.min.js'></script>
 <script type="text/javascript" src='/semantic-ui/semantic.min.js'></script>
 <script type="text/javascript" src='script.js'></script>

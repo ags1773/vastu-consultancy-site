@@ -59,9 +59,6 @@ main{
   max-height: 300px;
   padding: 10px;
   order: 1;
-  /*max-width: 800px;
-  min-width: 250px;
-  width: 33%;*/
 }
 #aboutUs, #services, #testimonials{
   font-size: 1.2em;
@@ -121,43 +118,6 @@ main{
   -moz-box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.75);
   box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.75);
 }
-/*#contactUs{
-  display: grid;
-  grid-template-columns: [col1-start] 3fr [col1-end col2-start] 2fr [col2-end];
-  grid-template-rows: [row1-start] 44px [row1-end row2-start] auto [row2-end row3-start] auto [row3-end row4-start] auto [row4-end];
-}
-#contactUs .ui.secondary.menu{
-  grid-column-start: col1-start;
-  grid-column-end:   col2-end;
-  grid-row-start:    row1-start;
-  grid-row-end:      row1-end;
-
-  margin: 0;
-}
-#contactUs #mapContainer{
-  grid-column-start: col1-start;
-  grid-column-end:   col2-end;
-  grid-row-start:    row2-start;
-  grid-row-end:      row2-end;
-}
-#contactUs #userInput{
-  grid-column-start: col1-start;
-  grid-column-end:   col2-end;
-  grid-row-start:    row3-start;
-  grid-row-end:      row3-end;
-}
-#contactUs footer{
-  grid-column-start: col1-start;
-  grid-column-end:   col2-end;
-  grid-row-start:    row4-start;
-  grid-row-end:      row4-end;
-}*/
-
-#mapContainer, #userInput{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
 .buttonBar{
   display: flex;
   justify-content: space-between;
@@ -191,9 +151,15 @@ main{
   margin-bottom: 40px;
 }
 #map{
-  /*height: 400px;*/
   min-height: 400px;
   background-color: grey;
+}
+#userInput h3{
+  text-align: center;
+}
+#map + div{
+  padding-top: 1em;
+  text-align: center;
 }
 
 /*------------------------------------*/
@@ -218,16 +184,32 @@ main{
   #aboutUs, #services, #testimonials{
     font-size: 1.2em;
   }
-  /*#contactUs #mapContainer{
-    grid-column-start: col1-start;
-    grid-column-end:   col1-end;
-    grid-row-start:    row2-start;
-    grid-row-end:      row3-end;
+  #mainContainer{
+    margin-top: 2.5rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
   }
-  #contactUs #userInput{
-    grid-column-start: col2-start;
-    grid-column-end:   col2-end;
-    grid-row-start:    row2-start;
-    grid-row-end:      row3-end;
-  }*/
+  #mapContainer{
+    padding: 10px;
+    flex: 3 1 400px;
+    max-width: 650px;
+  }
+  .divider{
+    width: 1px;
+    height: 70vh;
+    background: black;
+    margin: 0 10px;
+  }
+  #map{
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.75);
+  }
+  #userInput{
+    padding: 10px;
+    flex: 1 1 300px;
+    max-width: 400px;
+  }
 }
