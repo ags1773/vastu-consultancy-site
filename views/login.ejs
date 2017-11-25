@@ -2,14 +2,23 @@
 <body>
 <% include partials/navbar %>
 <main>
-  <h1>Login Page</h1>
-  <h3 style="background-color:teal;"><%= success %></h3>
-  <h3 style="background-color:tomato;"><%= error %></h3>
-  <form action='/login' method='POST'>
-      <input type='text' name='username' placeholder='Username'>
-      <input type='password' name='password' placeholder='Password'>
-      <button>Login</button>
-  </form>
+  <% include partials/alerts %>
+
+  <div class="ui four column doubling stackable centered grid">
+    <div class="column">
+      <h2>Login</h2>
+      <form action="/login" method="POST" class="ui form column">
+        <div class="field">
+          <input type='text' name='username' placeholder='Username'>
+        </div>
+        <div class="field">
+          <input type='password' name='password' placeholder='Password'>
+        </div>
+        <button class="ui button teal" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
 </main>
 
 <% include partials/footer %>

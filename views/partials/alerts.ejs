@@ -1,0 +1,12 @@
+<div id="alerts" class="ui container">
+   <% if(error && error.length > 0){ %>
+     <div class="ui red message" role="alert">
+       <%= error %>
+     </div>
+   <% } %>
+   <% if(success && success.length > 0){ %>
+     <div class="ui green message" role="alert">
+       <%= success %>
+     </div>
+   <% } %>
+ </div>

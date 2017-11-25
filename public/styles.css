@@ -161,6 +161,9 @@ main{
   padding-top: 1em;
   text-align: center;
 }
+#alerts{
+  margin: 10px;
+}
 
 /*------------------------------------*/
 /*-----     Media Queries    --------*/

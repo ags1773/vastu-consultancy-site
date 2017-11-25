@@ -15,7 +15,8 @@ var middleware = require('./middleware');
 var navRoutes   = require('./routes/nav'),
     authRoutes  = require('./routes/auth');
 
-mongoose.connect(process.env.DBURL_DEV1);
+//mongoose.connect(process.env.DBURL_DEV1);
+mongoose.connect('mongodb://amogh1773:challenger@ds117136.mlab.com:17136/devinstance2');
 var port = 8080;
 var Customer = require("./models/customers");
 var User = require("./models/users");
@@ -46,9 +47,7 @@ app.use(function(req, res, next){
   res.locals.currentUser = req.user;
   next();
 });
-
 app.use(navRoutes);
 app.use(authRoutes);
-
 
 app.listen(port);
