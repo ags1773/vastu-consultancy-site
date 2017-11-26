@@ -1,15 +1,24 @@
 <% include partials/header %>
-<body>
+<body id="register">
 <% include partials/navbar %>
 
 <main>
-  <h1>Register Page</h1>
 
-  <form action='/register' method='POST'>
-      <input type='text' name='username' placeholder='Username'>
-      <input type='password' name='password' placeholder='Password'>
-      <button>Register</button>
-  </form>
+  <div class="ui four column doubling stackable centered grid">
+    <div class="column ui raised segment">
+      <h2>Register</h2>
+      <form action="/register" method="POST" class="ui form column">
+        <div class="field">
+          <input type='text' name='username' placeholder='Username'>
+        </div>
+        <div class="field">
+          <input type='password' name='password' placeholder='Password'>
+        </div>
+        <button class="ui button teal" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
 </main>
 
 <% include partials/footer %>

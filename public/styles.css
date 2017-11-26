@@ -109,7 +109,7 @@ main{
 #Glide .ui.card{
   margin: 0 auto;
 }
-#contactUs .ui.form{
+/*#contactUs .ui.form{
   background-color: rgba(0,0,0,0.1);
   opacity: 0.9;
   padding: 10px;
@@ -117,7 +117,7 @@ main{
   -webkit-box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.75);
   box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.75);
-}
+}*/
 .buttonBar{
   display: flex;
   justify-content: space-between;
@@ -164,6 +164,9 @@ main{
 #alerts{
   margin: 10px;
 }
+#login .ui.grid, #register .ui.grid{
+  margin-top: 10vh;
+}
 
 /*------------------------------------*/
 /*-----     Media Queries    --------*/
@@ -197,6 +200,8 @@ main{
     padding: 10px;
     flex: 3 1 400px;
     max-width: 650px;
+
+    border-radius: 4px;
   }
   .divider{
     width: 1px;

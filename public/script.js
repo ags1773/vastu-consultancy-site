@@ -70,9 +70,9 @@ function sliderInit(){
 	slider_api = slider.data('glide_api');
 }
 
-// ============================
-// ==      page scrolling    ==
-// ============================
+// ==============================
+// ==  Click auto scrolling    ==
+// ==============================
 $(".scrollLink").click(function(e) {
       // Prevent a page reload when a link is pressed
     e.preventDefault();
@@ -101,11 +101,19 @@ if($('#landingPage').length){
     var navbar = $('.ui.secondary.menu');
     var distToTop = $(window).scrollTop();
 
+    // if(getScreenType() == "desktop"){
+    //   if(!(navbar.hasClass('navShadow')) && distToTop >= 1){
+    //     navbar.addClass('navShadow');
+    //   } else if(navbar.hasClass('navShadow') && distToTop == 0){
+    //     navbar.removeClass('navShadow');
+    //   }
+    // }
     if(!(navbar.hasClass('navShadow')) && distToTop >= 1){
       navbar.addClass('navShadow');
     } else if(navbar.hasClass('navShadow') && distToTop == 0){
       navbar.removeClass('navShadow');
     }
+
     //runs once, 250ms after the first time a user scrolls
     if (!timeout) {
       timeout = setTimeout(function () {
