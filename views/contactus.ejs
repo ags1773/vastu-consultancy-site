@@ -3,6 +3,7 @@
 <% include partials/navbar %>
 
 <main>
+  <% include partials/alerts %>
   <div id='mainContainer'>
     <div id='mapContainer' class="ui raised segment">
       <div id="map"></div>
@@ -62,9 +63,6 @@ function initMap() {
     });
   }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClMzihLwNFdt39UnmAUKSVZI28ySoOXaw&callback=initMap"></script>
-<script type="text/javascript" src='/jquery.min.js'></script>
-<script type="text/javascript" src='/semantic-ui/semantic.min.js'></script>
-<script type="text/javascript" src='script.js'></script>
+<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClMzihLwNFdt39UnmAUKSVZI28ySoOXaw&callback=initMap"></script> -->
 
 <% include partials/footer %>

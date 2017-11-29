@@ -2,11 +2,19 @@
   <a href='/' class="item"><span>Home</span></a>
   <div class="right menu">
     <% if(currentUser){ %>
-      <a href='#' class="item">Logged in as: <%= currentUser.username %></a>
-      <a href="/logout" class="item">
-        <button class="ui button teal">Sign-Out</button>
-      </a>
-      <a href="/customerdata" class="item">Customer Data</a>
+      <div class="ui dropdown item">
+        Logged in as: <%= currentUser.username %> <i class="dropdown icon"></i>
+        <div class="menu">
+          <a href="/logout" class="item">Sign-out</a>
+          <a href="/customerdata" class="item">Customer Data</a>
+        </div>
+      </div>
     <% } %>
+    <a href="/contact-us" class="item">
+      <button class="ui right labeled icon button teal">
+        <i class="right arrow icon"></i>
+        Contact Us
+      </button>
+    </a>
   </div>
 </nav>
