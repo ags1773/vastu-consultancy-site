@@ -2,11 +2,8 @@
 /*==============================
         Page Styles
 ==============================*/
-html, body{
-  height: auto;
-}
 html {
-  /*font-size: 14px;*/
+  height: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -17,14 +14,16 @@ html {
   box-sizing: inherit;
 }
 body{
+  height: auto;
   min-height: 100vh;
   font-family: 'Lato', sans-serif;
   background-color: rgba(0,0,0,0.1);
 
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
 }
 main{
+  height: 100%;
   flex-grow: 1;
 }
 .ui.secondary.menu{
@@ -34,6 +33,7 @@ main{
   height: 100vh;
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -41,7 +41,6 @@ main{
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
   text-align: center;
-
   text-shadow: 0px 5px 10px rgba(0,0,0,1);
 }
 #landingPage main > div:first-child > div p:first-child{
@@ -71,16 +70,12 @@ main{
   background: -webkit-linear-gradient(to right, #4e4376, #2b5876);              /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #4e4376, #2b5876);                      /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
-.ui.secondary.menu a{
+.ui.secondary.menu *{
   color: inherit;
 }
-.ui.secondary.menu a.item:hover{
+.ui.secondary.menu a.item:hover, .ui.secondary.menu .dropdown.item:hover{
   color: rgba(200,200,200,1);
 }
-/*#landingPage .ui.secondary.menu{
-  border-radius: 0;
-  margin: 0;
-}*/
 #landingPage .navShadow{
   -webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.5);
   -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.5);
@@ -109,15 +104,6 @@ main{
 #Glide .ui.card{
   margin: 0 auto;
 }
-/*#contactUs .ui.form{
-  background-color: rgba(0,0,0,0.1);
-  opacity: 0.9;
-  padding: 10px;
-
-  -webkit-box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.75);
-  box-shadow: 0px 0px 7px -1px rgba(0,0,0,0.75);
-}*/
 .buttonBar{
   display: flex;
   justify-content: space-between;
