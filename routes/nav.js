@@ -7,6 +7,10 @@ router.get("/", function(req,res){
     res.render('landing');
 });
 
+router.get("/temp", function(req,res){
+    res.render('temp');
+});
+
 router.get("/contact-us", function(req,res){
     res.render("contactus");
 });
