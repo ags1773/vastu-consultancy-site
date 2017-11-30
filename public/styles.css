@@ -95,6 +95,9 @@ main{
   background-color: rgba(0,0,0,0.01);
 }
 
+#Glide{
+  height: auto;
+}
 #Glide .ui.card .image img{
   max-height: 200px;
 }
