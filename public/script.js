@@ -15,6 +15,23 @@ window.addEventListener("DOMContentLoaded", function(event) {
     sliderInit();
     $('.ui.accordion').accordion();
   }
+  if($('#customerData').length){
+    var today = new Date();
+    $('#rangeStart').calendar({
+      type: 'date',
+      today: true,
+      endCalendar: $('#rangeEnd'),
+      // minDate:,
+      maxDate: new Date(today.getFullYear(), today.getMonth(), today.getDate())
+    });
+    $('#rangeEnd').calendar({
+      type: 'date',
+      today: true,
+      startCalendar: $('#rangeStart'),
+      //minDate:
+      maxDate: new Date(today.getFullYear(), today.getMonth(), today.getDate())
+    });
+  }
 });
 
 $(window).resize(function(e){

@@ -156,6 +156,9 @@ main{
 #login .ui.grid, #register .ui.grid{
   margin-top: 10vh;
 }
+#customerData #filterBar > .item{
+  padding-right: 0;
+}
 
 /*------------------------------------*/
 /*-----     Media Queries    --------*/
