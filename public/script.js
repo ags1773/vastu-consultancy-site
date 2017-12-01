@@ -6,6 +6,8 @@ var breakpointMobile = 768,
 
 
 window.addEventListener("DOMContentLoaded", function(event) {
+  $('.ui.dropdown').dropdown();
+
   if($('#landingPage').length && getScreenType() == 'desktop'){
     document.querySelector('nav').classList.add('fixed');
   }
