@@ -1,8 +1,7 @@
 var mongoose = require("mongoose");
 
 var custSchema = new mongoose.Schema({
-  fname: String,
-  lname: String,
+  name: String,
   phone: Number,
   email: String
 });

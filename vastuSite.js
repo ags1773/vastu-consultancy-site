@@ -7,6 +7,7 @@ var express               = require("express"),
     LocalStrategy         = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
     session               = require('express-session'),
+    seedDB                = require('./seeds'),
     flash                 = require('connect-flash');
 
 var middleware = require('./middleware');
@@ -48,5 +49,8 @@ app.use(function(req, res, next){
 });
 app.use(navRoutes);
 app.use(authRoutes);
+
+
+// seedDB();
 
 app.listen(port);
