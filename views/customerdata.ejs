@@ -20,7 +20,7 @@
 <main>
   <% include partials/alerts %>
 
-  <div id="filterBar" class="ui borderless stackable menu">
+  <!-- <div id="filterBar" class="ui borderless stackable menu">
     <div class="item">
       <div class="ui small right labeled input">
         <input type="text" placeholder="Search..">
@@ -56,12 +56,24 @@
     <div class="right item">
       <button class="ui orange compact button">Apply Filters</button>
     </div>
-  </div>
+  </div> -->
 
   <form action="/customerdata" method="POST">
     <!-- <input type='text' name='objID' placeholder='ID'> -->
-    <input type="text" name="dateStart" placeholder='UNIX time - from'>
-    <input type='text' name='dateEnd' placeholder='UNIX time - to'>
+    <div class="ui calendar" id="rangeStart">
+      <div class="ui small input left icon">
+        <i class="calendar icon"></i>
+        <input type="text" name="dateStart" placeholder="Start Date">
+      </div>
+    </div>
+    <div class="ui calendar" id="rangeEnd">
+      <div class="ui small input left icon">
+        <i class="calendar icon"></i>
+        <input type="text" name="dateEnd" placeholder="End Date">
+      </div>
+    </div>
+    <!-- <input type="text" name="dateStart" placeholder='UNIX time - from'> -->
+    <!-- <input type='text' name='dateEnd' placeholder='UNIX time - to'> -->
     <button type="submit">Submit</button>
   </form>
 

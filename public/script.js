@@ -20,6 +20,16 @@ window.addEventListener("DOMContentLoaded", function(event) {
     $('#rangeStart').calendar({
       type: 'date',
       today: true,
+      monthFirst: false,
+      formatter: {
+        date: function (date, settings) {
+          if (!date) return '';
+          var dd = date.getDate();
+          var mm = date.getMonth() + 1;
+          var yyyy = date.getFullYear();
+          return yyyy + '-' + mm + '-' + dd;
+        }
+      },
       // onChange: function (date, text, mode) {
       //   console.log('start calendar changed');
       // },
@@ -29,6 +39,16 @@ window.addEventListener("DOMContentLoaded", function(event) {
     $('#rangeEnd').calendar({
       type: 'date',
       today: true,
+      monthFirst: false,
+      formatter: {
+        date: function (date, settings) {
+          if (!date) return '';
+          var dd = date.getDate();
+          var mm = date.getMonth() + 1;
+          var yyyy = date.getFullYear();
+          return yyyy + '-' + mm + '-' + dd;
+        }
+      },
       // onChange: function (date, text, mode) {
       //   console.log('end calendar changed');
       // },

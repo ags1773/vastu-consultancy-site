@@ -33,13 +33,18 @@ router.post("/contact-us", function(req,res){
   }
 });
 router.post('/customerdata', middleware.isLoggedIn, function(req,res){
+  req.body.dateStart = req.sanitize(req.body.dateStart);
+  req.body.dateEnd = req.sanitize(req.body.dateEnd);
   var startDate = "000000000000000000000000";
   var endDate   = "ffffffffffffffffffffffff";
   if(req.body.dateStart){
-    startDate = (Math.floor(req.sanitize(req.body.dateStart)/1000) + 1).toString(16) + "0000000000000000";
+    var unixStartDate = Date.parse(req.body.dateStart.toString());
+    startDate = (Math.floor(unixStartDate/1000)).toString(16) + "0000000000000000";
   }
   if(req.body.dateEnd){
-    endDate = (Math.floor(req.sanitize(req.body.dateEnd)/1000) + 1).toString(16) + "0000000000000000";
+    var unixEndDate = Date.parse(req.body.dateEnd.toString());
+    endDate = (Math.floor(unixEndDate/1000) + 86399).toString(16) + "0000000000000000";
+    //23 hrs 59 min 59 sec = 86399 sec. It will ensure to get even the last entry for the day
   }
   console.log("start--> " + startDate);
   console.log("end--> " + endDate);
