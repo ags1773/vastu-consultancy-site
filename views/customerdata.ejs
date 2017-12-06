@@ -54,10 +54,16 @@
     </div>
 
     <div class="right item">
-      <!-- <button class="ui labeled icon teal button"><i class="filter icon"></i>Apply Filters</button> -->
       <button class="ui orange compact button">Apply Filters</button>
     </div>
   </div>
+
+  <form action="/customerdata" method="POST">
+    <!-- <input type='text' name='objID' placeholder='ID'> -->
+    <input type="text" name="dateStart" placeholder='UNIX time - from'>
+    <input type='text' name='dateEnd' placeholder='UNIX time - to'>
+    <button type="submit">Submit</button>
+  </form>
 
   <div class="ui container">
 
@@ -81,45 +87,25 @@
         <tr>
           <th></th>
           <th>Customer Name</th>
-          <th>Date</th>
           <th>Phone Number</th>
           <th>Email ID</th>
+          <th>Date & Time</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="collapsing">
-            <div class="ui fitted checkbox">
-              <input type="checkbox"> <label></label>
-            </div>
-          </td>
-          <td>John Lilki</td>
-          <td>September 14, 2013</td>
-          <td>4520142589</td>
-          <td>jhlilk22@yahoo.com</td>
-        </tr>
-        <tr>
-          <td class="collapsing">
-            <div class="ui fitted checkbox">
-              <input type="checkbox"> <label></label>
-            </div>
-          </td>
-          <td>Jamie Harington</td>
-          <td>January 11, 2014</td>
-          <td>7485962547</td>
-          <td>jamieharingonton@yahoo.com</td>
-        </tr>
-        <tr>
-          <td class="collapsing">
-            <div class="ui fitted checkbox">
-              <input type="checkbox"> <label></label>
-            </div>
-          </td>
-          <td>Jill Lewis</td>
-          <td>May 11, 2014</td>
-          <td>8741029852</td>
-          <td>jilsewris22@yahoo.com</td>
-        </tr>
+        <% for(var i=0; i<custRecord.length; i++){ %>
+          <tr>
+            <td class="collapsing">
+              <div class="ui fitted checkbox">
+                <input type="checkbox"> <label></label>
+              </div>
+            </td>
+            <td><%= custRecord[i].name %></td>
+            <td><%= custRecord[i].phone %></td>
+            <td><%= custRecord[i].email %></td>
+            <td><%= custRecord[i]._id.getTimestamp() %></td>
+          </tr>
+        <% } %>
       </tbody>
       <tfoot class="full-width">
         <!-- <tr>
@@ -139,17 +125,18 @@
       </tfoot>
     </table>
 
-    <div class="ui pagination menu">
-      <a class="active item">1</a>
-      <a class="item">2</a>
-      <a class="item">3</a>
-      <a class="item">4</a>
-      <div class="disabled item">.....</div>
-      <a class="item">10</a>
+    <div id="paginationParent">
+      <div class="ui pagination menu">
+        <a class="active item">1</a>
+        <a class="item">2</a>
+        <a class="item">3</a>
+        <a class="item">4</a>
+        <div class="disabled item">.....</div>
+        <a class="item">10</a>
+      </div>
     </div>
 
   </div>
-
 </main>
 
 <footer>
@@ -164,5 +151,18 @@
 <script type="text/javascript" src='/semantic-ui/semantic.min.js'></script>
 <script type="text/javascript" src='/semantic-ui/calendar.min.js'></script>
 <script type="text/javascript" src='script.js'></script>
+<script>
+  // $("#filterBar button").on("click", function(){
+  //   console.log("Start Date---> " + $('#rangeStart').calendar('get date'));
+  //   console.log("End Date---> " + $('#rangeEnd').calendar('get date'));
+  //   console.log($('#filterBar input').val());
+  //   console.log("ISO Date " + $('#rangeStart').calendar('get date').toISOString());
+  //   $("#filterBar input").each(function(){
+  //     console.log($(this));
+  //     console.log($(this).length);
+  //     console.log("--> " + $(this).val());
+  //   });
+  // });
+</script>
 </body>
 </html>

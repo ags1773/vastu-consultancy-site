@@ -20,15 +20,19 @@ window.addEventListener("DOMContentLoaded", function(event) {
     $('#rangeStart').calendar({
       type: 'date',
       today: true,
+      // onChange: function (date, text, mode) {
+      //   console.log('start calendar changed');
+      // },
       endCalendar: $('#rangeEnd'),
-      // minDate:,
       maxDate: new Date(today.getFullYear(), today.getMonth(), today.getDate())
     });
     $('#rangeEnd').calendar({
       type: 'date',
       today: true,
+      // onChange: function (date, text, mode) {
+      //   console.log('end calendar changed');
+      // },
       startCalendar: $('#rangeStart'),
-      //minDate:
       maxDate: new Date(today.getFullYear(), today.getMonth(), today.getDate())
     });
   }

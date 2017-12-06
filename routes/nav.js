@@ -16,8 +16,7 @@ router.get("/contact-us", function(req,res){
 });
 router.post("/contact-us", function(req,res){
   var newCustomer = ({
-    fname: req.sanitize(req.body.fname),
-    lname: req.sanitize(req.body.lname),
+    name: capsFirstLtr(req.sanitize(req.body.fname)) + " " + capsFirstLtr(req.sanitize(req.body.lname)),
     phone: req.sanitize(req.body.phone),
     email: req.sanitize(req.body.email)
   });
@@ -28,10 +27,34 @@ router.post("/contact-us", function(req,res){
     } else{
       res.render("formsubmit");
     }
-  })
+  });
+  function capsFirstLtr(str){
+    return str[0].toUpperCase() + str.slice(1).toLowerCase();
+  }
+});
+router.post('/customerdata', middleware.isLoggedIn, function(req,res){
+  var startDate = "000000000000000000000000";
+  var endDate   = "ffffffffffffffffffffffff";
+  if(req.body.dateStart){
+    startDate = (Math.floor(req.sanitize(req.body.dateStart)/1000) + 1).toString(16) + "0000000000000000";
+  }
+  if(req.body.dateEnd){
+    endDate = (Math.floor(req.sanitize(req.body.dateEnd)/1000) + 1).toString(16) + "0000000000000000";
+  }
+  console.log("start--> " + startDate);
+  console.log("end--> " + endDate);
+  Customer.find({"_id" : {$gte : startDate, $lte : endDate}}, function(err,foundC){
+    res.render("customerdata", {custRecord: foundC});
+  });
 });
 router.get('/customerdata', middleware.isLoggedIn, function(req,res){
-  res.render("customerdata");
+  Customer.find({}, function(err, foundCustRecords){
+    if(err){
+      console.log(err);
+    } else{
+      res.render("customerdata", {custRecord: foundCustRecords});
+    }
+  });
 });
 
 module.exports = router;
