@@ -54,9 +54,25 @@ router.post('/customerdata', middleware.isLoggedIn, function(req,res){
   console.log("name Search --> " + nameSrch);
   console.log("start--> " + startDate);
   console.log("end--> " + endDate);
-  Customer.find({"_id" : {$gte : startDate, $lte : endDate}, $text: { $search: nameSrch }}, function(err,foundCustRecords){
-    res.render("customerdata", {custRecord: foundCustRecords});
-  });
+  // Customer.find(
+  //   {
+  //     "_id" : {$gte : startDate, $lte : endDate},
+  //     $text: { $search: nameSrch }                                           //fast but NOT thorough search. Searching 'tom' will NOT show 'tommy' .Uses index ('name' field needs to be indexed first)
+  //   },
+  //   function(err,foundCustRecords){
+  //     res.render("customerdata", {custRecord: foundCustRecords});
+  //   }
+  // );
+  Customer.find(
+    {
+      _id : {$gte : startDate, $lte : endDate},
+      name: {$regex : new RegExp(nameSrch, "i")}                                //slow but thorough search (does not use index). Searching 'tom' WILL show 'tommy' .Case insensitive, searches all characters under 'name'
+    },
+    function(err,foundCustRecords){
+      res.render("customerdata", {custRecord: foundCustRecords});
+    }
+  );
+
 });
 router.get('/customerdata', middleware.isLoggedIn, function(req,res){
   Customer.find({}, function(err, foundCustRecords){
