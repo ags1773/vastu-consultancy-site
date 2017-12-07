@@ -33,10 +33,15 @@ router.post("/contact-us", function(req,res){
   }
 });
 router.post('/customerdata', middleware.isLoggedIn, function(req,res){
-  req.body.dateStart = req.sanitize(req.body.dateStart);
-  req.body.dateEnd = req.sanitize(req.body.dateEnd);
+  req.body.nameSrch   = req.sanitize(req.body.nameSrch);
+  req.body.dateStart  = req.sanitize(req.body.dateStart);
+  req.body.dateEnd    = req.sanitize(req.body.dateEnd);
+  var nameSrch = " ";
   var startDate = "000000000000000000000000";
   var endDate   = "ffffffffffffffffffffffff";
+  if(req.body.nameSrch){
+    nameSrch = req.body.nameSrch;
+  }
   if(req.body.dateStart){
     var unixStartDate = Date.parse(req.body.dateStart.toString());
     startDate = (Math.floor(unixStartDate/1000)).toString(16) + "0000000000000000";
@@ -46,10 +51,11 @@ router.post('/customerdata', middleware.isLoggedIn, function(req,res){
     endDate = (Math.floor(unixEndDate/1000) + 86399).toString(16) + "0000000000000000";
     //23 hrs 59 min 59 sec = 86399 sec. It will ensure to get even the last entry for the day
   }
+  console.log("name Search --> " + nameSrch);
   console.log("start--> " + startDate);
   console.log("end--> " + endDate);
-  Customer.find({"_id" : {$gte : startDate, $lte : endDate}}, function(err,foundC){
-    res.render("customerdata", {custRecord: foundC});
+  Customer.find({"_id" : {$gte : startDate, $lte : endDate}, $text: { $search: nameSrch }}, function(err,foundCustRecords){
+    res.render("customerdata", {custRecord: foundCustRecords});
   });
 });
 router.get('/customerdata', middleware.isLoggedIn, function(req,res){
