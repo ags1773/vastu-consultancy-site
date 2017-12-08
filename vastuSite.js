@@ -1,5 +1,5 @@
 var express               = require("express"),
-    // methodOverride     = require('method-override'),
+    methodOverride        = require('method-override'),
     bodyParser            = require('body-parser'),
     mongoose              = require("mongoose"),
     expressSanitizer      = require('express-sanitizer'),
@@ -16,7 +16,6 @@ var middleware = require('./middleware');
 var navRoutes   = require('./routes/nav'),
     authRoutes  = require('./routes/auth');
 
-// mongoose.connect(process.env.DBURL_DEV1, { config: { autoIndex: false } });
 mongoose.connect(process.env.DBURL_DEV1);
 var port = 8080;
 var Customer = require("./models/customers");
@@ -27,7 +26,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressSanitizer());
 app.use(flash());
-// app.use(methodOverride('_method'));
+app.use(methodOverride('_method'));
 
 //==== Passport and session configuration ====
 app.use(session({

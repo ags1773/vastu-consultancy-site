@@ -83,5 +83,9 @@ router.get('/customerdata', middleware.isLoggedIn, function(req,res){
     }
   });
 });
+router.delete('/customerdata', middleware.isLoggedIn, function(req,res){
+  var deleteQueue = req.body.trash.split(",");
+  res.send("Hit Delete Route!");
+});
 
 module.exports = router;
