@@ -162,6 +162,11 @@ main{
 #customerData #paginationParent{
   text-align: center;
 }
+#customerData tfoot tr:first-child th:nth-child(2) p{
+  display: inline-block;
+  float: right;
+  background-color: skyblue;
+}
 
 /*------------------------------------*/
 /*-----     Media Queries    --------*/

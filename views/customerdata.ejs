@@ -83,19 +83,27 @@
       <thead class="full-width">
         <tr>
           <th class="collapsing">
-            <div class="ui fitted checkbox">
-              <input type="checkbox"> <label></label>
+            <div class="ui checkbox fitted">
+              <input type="checkbox" checked> <label></label>
             </div>
+            <!-- <div class="ui checked checkbox fitted">
+              <input type="checkbox" checked=""><label></label>
+            </div> -->
           </th>
           <th colspan="4">
-            <div class="ui small red labeled icon button">
+            <button id="custTrashBtn" class="ui small red labeled icon button">
               <i class="trash outline icon"></i> Move To Trash
-            </div>
-            <div class="ui small green labeled icon button">
+            </button>
+            <button class="ui small green labeled icon button">
               <i class="plus icon"></i> Add To Archive
-            </div>
+            </button>
           </th>
         </tr>
+        <!-- <tr>
+          <form action="/customerdata" method="POST">
+
+          </form>
+        </tr> -->
         <tr>
           <th></th>
           <th>Customer Name</th>
@@ -120,34 +128,25 @@
         <% } %>
       </tbody>
       <tfoot class="full-width">
-        <!-- <tr>
-          <th></th>
-          <th colspan="4">
-            <div class="ui right floated small primary labeled icon button">
-              <i class="user icon"></i> Add User
-            </div>
-            <div class="ui small  button">
-              Approve
-            </div>
-            <div class="ui small  disabled button">
-              Approve All
+        <tr>
+          <th colspan='4'>
+            <div id="paginationParent">
+              <div class="ui pagination menu">
+                <a class="active item">1</a>
+                <a class="item">2</a>
+                <a class="item">3</a>
+                <a class="item">4</a>
+                <div class="disabled item">.....</div>
+                <a class="item">10</a>
+              </div>
             </div>
           </th>
-        </tr> -->
+          <th colspan='1'>
+            <p><%= custRecord.length %> Record(s) found</p>
+          </th>
+        </tr>
       </tfoot>
     </table>
-
-    <div id="paginationParent">
-      <div class="ui pagination menu">
-        <a class="active item">1</a>
-        <a class="item">2</a>
-        <a class="item">3</a>
-        <a class="item">4</a>
-        <div class="disabled item">.....</div>
-        <a class="item">10</a>
-      </div>
-    </div>
-
   </div>
 </main>
 
@@ -164,17 +163,15 @@
 <script type="text/javascript" src='/semantic-ui/calendar.min.js'></script>
 <script type="text/javascript" src='script.js'></script>
 <script>
-  // $("#filterBar button").on("click", function(){
-  //   console.log("Start Date---> " + $('#rangeStart').calendar('get date'));
-  //   console.log("End Date---> " + $('#rangeEnd').calendar('get date'));
-  //   console.log($('#filterBar input').val());
-  //   console.log("ISO Date " + $('#rangeStart').calendar('get date').toISOString());
-  //   $("#filterBar input").each(function(){
-  //     console.log($(this));
-  //     console.log($(this).length);
-  //     console.log("--> " + $(this).val());
-  //   });
-  // });
+  var custRecord = <%- JSON.stringify(custRecord) %>;
+  $("#custTrashBtn").on("click", function(){
+    //scan checked boxes
+    //
+  });
+
+  function scanCheckboxes(){
+    //returns array containing index numbers of checked boxes
+  }
 </script>
 </body>
 </html>
