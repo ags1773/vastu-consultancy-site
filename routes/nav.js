@@ -72,7 +72,6 @@ router.post('/customerdata', middleware.isLoggedIn, function(req,res){
       res.render("customerdata", {custRecord: foundCustRecords});
     }
   );
-
 });
 router.get('/customerdata', middleware.isLoggedIn, function(req,res){
   Customer.find({}, function(err, foundCustRecords){

@@ -86,7 +86,8 @@
         <tr>
           <th class="collapsing">
             <div class="ui checkbox fitted">
-              <input type="checkbox" checked> <label></label>
+              <!-- <input type="checkbox" checked> <label></label> -->
+              <input type="checkbox"> <label></label>
             </div>
           </th>
           <th colspan="4">
@@ -169,6 +170,15 @@
     $("#hiddenFormForDeleteInput").val(deleteQueue);
     $("#hiddenFormForDelete").submit();
   });
+
+  $('tbody tr input[type="checkbox"]').click(function(){
+    if(this.checked){
+      console.log("Checked");
+    } else{
+      console.log("Un Checked");
+    }
+  });
+
 </script>
 </body>
 </html>
