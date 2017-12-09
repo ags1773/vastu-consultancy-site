@@ -2,7 +2,7 @@
   "name": "vastu-site",
   "version": "1.0.0",
   "description": "vastu site",
-  "main": "app.js",
+  "main": "vastuSite.js",
   "dependencies": {
     "body-parser": "^1.18.2",
     "connect-flash": "^0.1.1",

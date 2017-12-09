@@ -84,7 +84,19 @@ router.get('/customerdata', middleware.isLoggedIn, function(req,res){
 });
 router.delete('/customerdata', middleware.isLoggedIn, function(req,res){
   var deleteQueue = req.body.trash.split(",");
-  res.send("Hit Delete Route!");
+  console.log("Hit Delete Route...");
+  console.log(deleteQueue);
+
+  Customer.remove({_id: {$in: deleteQueue}}, function(err){
+    if(err){
+      console.log(err);
+    } else{
+      console.log("Selected records deleted!");
+      //Find next 20 records and render them..
+      //Temperorily redirecting to /customerdata
+      res.redirect('/customerdata');
+    }
+  });
 });
 
 module.exports = router;

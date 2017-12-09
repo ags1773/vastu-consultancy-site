@@ -75,8 +75,6 @@
         <input type="text" name="dateEnd" placeholder="End Date">
       </div>
     </div>
-    <!-- <input type="text" name="dateStart" placeholder='UNIX time - from'> -->
-    <!-- <input type='text' name='dateEnd' placeholder='UNIX time - to'> -->
     <button type="submit">Submit</button>
   </form>
 
@@ -86,13 +84,12 @@
         <tr>
           <th class="collapsing">
             <div class="ui checkbox fitted">
-              <!-- <input type="checkbox" checked> <label></label> -->
               <input type="checkbox"> <label></label>
             </div>
           </th>
           <th colspan="4">
             <button id="custTrashBtn" class="ui small red labeled icon button">
-              <i class="trash outline icon"></i> Move To Trash
+              <i class="trash outline icon"></i> Delete
             </button>
             <button class="ui small green labeled icon button">
               <i class="plus icon"></i> Add To Archive
@@ -162,23 +159,26 @@
   var deleteQueue = new Array();
   $("#custTrashBtn").on("click", function(){
     deleteQueue.length = 0;
-    //add IDs of those customers whose boxes are checked to the array deleteQueue
+    var j = 0;
+    //"deleteQueue" contains IDs of records to be deleted
     for(var i=0; i<custRecord.length; i++){
-      //temp code for testing
-      deleteQueue[i] = custRecord[i]._id;
+      if($($("tbody tr input[type='checkbox']")[i]).hasClass('checked')){
+        deleteQueue[j] = custRecord[i]._id;
+        j++;
+      }
     }
-    $("#hiddenFormForDeleteInput").val(deleteQueue);
-    $("#hiddenFormForDelete").submit();
+    if(deleteQueue.length){
+      $("#hiddenFormForDeleteInput").val(deleteQueue);
+      $("#hiddenFormForDelete").submit();
+    }
   });
-
   $('tbody tr input[type="checkbox"]').click(function(){
     if(this.checked){
-      console.log("Checked");
+      $(this).addClass('checked');
     } else{
-      console.log("Un Checked");
+      $(this).removeClass('checked');
     }
   });
-
 </script>
 </body>
 </html>
