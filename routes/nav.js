@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Customer = require("../models/customers");
+var Archive = require("../models/archives");
 var middleware = require('../middleware');
 
 router.get("/", function(req,res){
@@ -83,7 +84,7 @@ router.get('/customerdata', middleware.isLoggedIn, function(req,res){
   });
 });
 router.delete('/customerdata', middleware.isLoggedIn, function(req,res){
-  var deleteQueue = req.body.trash.split(",");
+  var deleteQueue = req.body.pipeline.split(",");
   console.log("Hit Delete Route...");
   console.log(deleteQueue);
 
@@ -95,6 +96,40 @@ router.delete('/customerdata', middleware.isLoggedIn, function(req,res){
       //Find next 20 records and render them..
       //Temperorily redirecting to /customerdata
       res.redirect('/customerdata');
+    }
+  });
+});
+router.get('/customerdata/archives', middleware.isLoggedIn, function(req,res){
+  Archive.find({}, function(err, foundArchives){
+    if(err){
+      console.log(err);
+    } else{
+      res.render("archives", {archivedRecord: foundArchives});
+    }
+  });
+});
+router.post('/customerdata/archives', middleware.isLoggedIn, function(req,res){
+  var archiveQueue = req.body.pipeline.split(",");
+  Customer.find({_id: {$in: archiveQueue}}, function(err, foundDocs){
+    if(err){
+      console.log(err);
+    } else{
+      console.log("Found " + foundDocs.length + " Docs..");
+      Archive.insertMany(foundDocs, function(err, insertedDocs){
+        if(err){
+          console.log(err);
+        } else{
+          console.log(insertedDocs.length + " Documents inserted into collection 'Archives'");
+          Customer.deleteMany({_id: {$in: insertedDocs}}, function(err, deletedDocs){
+            if(err){
+              console.log(err);
+            } else{
+              console.log(deletedDocs.result.n + " Documents deleted from collection 'Customers'");
+              res.redirect('/customerdata');
+            }
+          });
+        }
+      });
     }
   });
 });

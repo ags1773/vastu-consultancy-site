@@ -7,7 +7,7 @@ var express               = require("express"),
     LocalStrategy         = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
     session               = require('express-session'),
-    // seedDB                = require('./seeds'),
+    seedDB                = require('./seeds'),
     flash                 = require('connect-flash');
 
 var middleware = require('./middleware');
@@ -18,7 +18,7 @@ var navRoutes   = require('./routes/nav'),
 
 mongoose.connect(process.env.DBURL_DEV1);
 var port = 8080;
-var Customer = require("./models/customers");
+// var Customer = require("./models/customers");
 var User = require("./models/users");
 var app = express();
 app.set('view engine', 'ejs');

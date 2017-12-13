@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vastu Website</title>
+  <link rel="stylesheet" href="/font-awesome.min.css">
+  <link rel="stylesheet" href="/semantic-ui/semantic.min.css">
+  <link rel="stylesheet" href="/semantic-ui/calendar.min.css">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+
+  </style>
+</head>
+
+<body id="customerData">
+<% include partials/navbar %>
+
+<main>
+  <% include partials/alerts %>
+  <form id="pipeline" style="display:none;">
+    <input id="pipelineInput" type="hidden" name="pipeline" value="--">
+  </form>
+  <!-- <div id="filterBar" class="ui borderless stackable menu">
+    <div class="item">
+      <div class="ui small right labeled input">
+        <input type="text" placeholder="Search..">
+        <div class="ui dropdown label">
+          <div class="text">Name</div>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <div class="item">Name</div>
+            <div class="item">Phone</div>
+            <div class="item">Email</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="ui calendar" id="rangeStart">
+        <div class="ui small input left icon">
+          <i class="calendar icon"></i>
+          <input type="text" placeholder="Start Date">
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="ui calendar" id="rangeEnd">
+        <div class="ui small input left icon">
+          <i class="calendar icon"></i>
+          <input type="text" placeholder="End Date">
+        </div>
+      </div>
+    </div>
+
+    <div class="right item">
+      <button class="ui orange compact button">Apply Filters</button>
+    </div>
+  </div> -->
+
+  <form action="/customerdata" method="POST">
+    <input type='text' name='nameSrch' placeholder='Search Name...'>
+    <div class="ui calendar" id="rangeStart">
+      <div class="ui small input left icon">
+        <i class="calendar icon"></i>
+        <input type="text" name="dateStart" placeholder="Start Date">
+      </div>
+    </div>
+    <div class="ui calendar" id="rangeEnd">
+      <div class="ui small input left icon">
+        <i class="calendar icon"></i>
+        <input type="text" name="dateEnd" placeholder="End Date">
+      </div>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <div class="ui container">
+    <table class="ui compact celled striped definition table">
+      <thead class="full-width">
+        <tr>
+          <th class="collapsing">
+            <div class="ui checkbox fitted">
+              <input type="checkbox"> <label></label>
+            </div>
+          </th>
+          <th colspan="4">
+            <button id="custTrashBtn" class="ui small red labeled icon button">
+              <i class="trash outline icon"></i> Delete
+            </button>
+            <button id="custArchiveBtn" class="ui small green labeled icon button">
+              <i class="plus icon"></i> Add To Archive
+            </button>
+          </th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>Customer Name</th>
+          <th>Phone Number</th>
+          <th>Email ID</th>
+          <th>Date & Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(var i=0; i<archivedRecord.length; i++){ %>
+          <tr>
+            <td class="collapsing">
+              <div class="ui fitted checkbox">
+                <input type="checkbox"> <label></label>
+              </div>
+            </td>
+            <td><%= archivedRecord[i].name %></td>
+            <td><%= archivedRecord[i].phone %></td>
+            <td><%= archivedRecord[i].email %></td>
+            <td><%= archivedRecord[i]._id.getTimestamp() %></td>
+          </tr>
+        <% } %>
+      </tbody>
+      <tfoot class="full-width">
+        <tr>
+          <th colspan='4'>
+            <div id="paginationParent">
+              <div class="ui pagination menu">
+                <a class="active item">1</a>
+                <a class="item">2</a>
+                <a class="item">3</a>
+                <a class="item">4</a>
+                <div class="disabled item">.....</div>
+                <a class="item">10</a>
+              </div>
+            </div>
+          </th>
+          <th colspan='1'>
+            <p><%= archivedRecord.length %> Record(s) found</p>
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</main>
+
+<footer>
+  <hr>
+  <p>sample text</p>
+  <p>&copy;XYZ Company, all rights reserved</p>
+  <a href="/login">LOGIN</a>
+  <a href="/register">REGIStER</a>
+</footer>
+
+<script type="text/javascript" src='/jquery.min.js'></script>
+<script type="text/javascript" src='/semantic-ui/semantic.min.js'></script>
+<script type="text/javascript" src='/semantic-ui/calendar.min.js'></script>
+<script type="text/javascript" src='script.js'></script>
+</body>
+</html>

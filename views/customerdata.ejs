@@ -19,9 +19,8 @@
 
 <main>
   <% include partials/alerts %>
-
-  <form id="hiddenFormForDelete" style="display:none;" action="/customerdata?_method=DELETE" method="POST">
-    <input id="hiddenFormForDeleteInput" type="hidden" name="trash" value="--">
+  <form id="pipeline" style="display:none;">
+    <input id="pipelineInput" type="hidden" name="pipeline" value="--">
   </form>
   <!-- <div id="filterBar" class="ui borderless stackable menu">
     <div class="item">
@@ -91,7 +90,7 @@
             <button id="custTrashBtn" class="ui small red labeled icon button">
               <i class="trash outline icon"></i> Delete
             </button>
-            <button class="ui small green labeled icon button">
+            <button id="custArchiveBtn" class="ui small green labeled icon button">
               <i class="plus icon"></i> Add To Archive
             </button>
           </th>
@@ -156,6 +155,8 @@
 <script type="text/javascript" src='script.js'></script>
 <script>
   var custRecord = <%- JSON.stringify(custRecord) %>;
+
+  //Deletes selected customers
   var deleteQueue = new Array();
   $("#custTrashBtn").on("click", function(){
     deleteQueue.length = 0;
@@ -168,10 +169,32 @@
       }
     }
     if(deleteQueue.length){
-      $("#hiddenFormForDeleteInput").val(deleteQueue);
-      $("#hiddenFormForDelete").submit();
+      $("#pipeline").attr("method", "POST");
+      $("#pipeline").attr("action", "/customerdata?_method=DELETE");
+      $("#pipelineInput").val(deleteQueue);
+      $("#pipeline").submit();
     }
   });
+
+  //Moves selected customers to the collection "Archives"
+  var archiveQueue = new Array();
+  $("#custArchiveBtn").on("click", function(){
+    archiveQueue.length = 0;
+    var j = 0;
+    for(var i=0; i<custRecord.length; i++){
+      if($($("tbody tr input[type='checkbox']")[i]).hasClass('checked')){
+        archiveQueue[j] = custRecord[i]._id;
+        j++;
+      }
+    }
+    if(archiveQueue.length){
+      $("#pipeline").attr("method", "POST");
+      $("#pipeline").attr("action", "/customerdata/archives");
+      $("#pipelineInput").val(archiveQueue);
+      $("#pipeline").submit();
+    }
+  });
+
   $('tbody tr input[type="checkbox"]').click(function(){
     if(this.checked){
       $(this).addClass('checked');

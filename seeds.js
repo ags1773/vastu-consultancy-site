@@ -12,6 +12,11 @@ var seedData = [
         email:  "ron@yahoo.com"
       },
       {
+        name:   "hkyuj",
+        phone:  "42324",
+        email:  "dfgdfg"
+      },
+      {
         name:   "Credance Smiths",
         phone:  "9344026587",
         email:  "smelly_fish@gmail.com"
@@ -30,6 +35,46 @@ var seedData = [
         name:   "Will Turner",
         phone:  "2547841026",
         email:  "will@aol.com"
+      },
+      {
+        name:   "tyhtrfgh",
+        phone:  "356354",
+        email:  "fgbhdf"
+      },
+      {
+        name:   "Johnny Cash",
+        phone:  "5345345326",
+        email:  "johnny@aol.com"
+      },
+      {
+        name:   "Simon Fouler",
+        phone:  "5654645",
+        email:  "dxcsdfv@hotmail.com"
+      },
+      {
+        name:   "asdfds",
+        phone:  "78457424",
+        email:  "zsdgdrg"
+      },
+      {
+        name:   "Nate Dogg",
+        phone:  "84564",
+        email:  "hkyhdtf"
+      },
+      {
+        name:   "Shadtree Surgeon",
+        phone:  "59684645",
+        email:  "dfgsfv78"
+      },
+      {
+        name:   "Kala Khatta",
+        phone:  "684651",
+        email:  "dfgs35"
+      },
+      {
+        name:   "hjkuyhjyfh",
+        phone:  "785785",
+        email:  "gfsvsdf545"
       }
     ];
 
