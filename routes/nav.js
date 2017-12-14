@@ -1,8 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var Customer = require("../models/customers");
-var Archive = require("../models/archives");
-var middleware = require('../middleware');
+var express     = require('express');
+var router      = express.Router();
+var Customer    = require("../models/customers");
+var Archive     = require("../models/archives");
+var Trash       = require("../models/trashes");
+var middleware  = require('../middleware');
+var dispDbEntries  = require('../public/dispDbEntries');
+var moveDocs    = require('../public/docsMovePgm');
 
 router.get("/", function(req,res){
     res.render('landing');
@@ -15,6 +18,8 @@ router.get("/temp", function(req,res){
 router.get("/contact-us", function(req,res){
     res.render("contactus");
 });
+
+//Create customer record from contactus page
 router.post("/contact-us", function(req,res){
   var newCustomer = ({
     name: capsFirstLtr(req.sanitize(req.body.fname)) + " " + capsFirstLtr(req.sanitize(req.body.lname)),
@@ -33,47 +38,6 @@ router.post("/contact-us", function(req,res){
     return str[0].toUpperCase() + str.slice(1).toLowerCase();
   }
 });
-router.post('/customerdata', middleware.isLoggedIn, function(req,res){
-  req.body.nameSrch   = req.sanitize(req.body.nameSrch);
-  req.body.dateStart  = req.sanitize(req.body.dateStart);
-  req.body.dateEnd    = req.sanitize(req.body.dateEnd);
-  var nameSrch = " ";
-  var startDate = "000000000000000000000000";
-  var endDate   = "ffffffffffffffffffffffff";
-  if(req.body.nameSrch){
-    nameSrch = req.body.nameSrch;
-  }
-  if(req.body.dateStart){
-    var unixStartDate = Date.parse(req.body.dateStart.toString());
-    startDate = (Math.floor(unixStartDate/1000)).toString(16) + "0000000000000000";
-  }
-  if(req.body.dateEnd){
-    var unixEndDate = Date.parse(req.body.dateEnd.toString());
-    endDate = (Math.floor(unixEndDate/1000) + 86399).toString(16) + "0000000000000000";
-    //23 hrs 59 min 59 sec = 86399 sec. It will ensure to get even the last entry for the day
-  }
-  console.log("name Search --> " + nameSrch);
-  console.log("start--> " + startDate);
-  console.log("end--> " + endDate);
-  // Customer.find(
-  //   {
-  //     "_id" : {$gte : startDate, $lte : endDate},
-  //     $text: { $search: nameSrch }                                           //fast but NOT thorough search. Searching 'tom' will NOT show 'tommy' .Uses index ('name' field needs to be indexed first)
-  //   },
-  //   function(err,foundCustRecords){
-  //     res.render("customerdata", {custRecord: foundCustRecords});
-  //   }
-  // );
-  Customer.find(
-    {
-      _id : {$gte : startDate, $lte : endDate},
-      name: {$regex : new RegExp(nameSrch, "i")}                                //slow but thorough search (does not use index). Searching 'tom' WILL show 'tommy' .Case insensitive, searches all characters under 'name'
-    },
-    function(err,foundCustRecords){
-      res.render("customerdata", {custRecord: foundCustRecords});
-    }
-  );
-});
 router.get('/customerdata', middleware.isLoggedIn, function(req,res){
   Customer.find({}, function(err, foundCustRecords){
     if(err){
@@ -83,22 +47,35 @@ router.get('/customerdata', middleware.isLoggedIn, function(req,res){
     }
   });
 });
-router.delete('/customerdata', middleware.isLoggedIn, function(req,res){
-  var deleteQueue = req.body.pipeline.split(",");
-  console.log("Hit Delete Route...");
-  console.log(deleteQueue);
 
-  Customer.remove({_id: {$in: deleteQueue}}, function(err){
-    if(err){
-      console.log(err);
-    } else{
-      console.log("Selected records deleted!");
-      //Find next 20 records and render them..
-      //Temperorily redirecting to /customerdata
-      res.redirect('/customerdata');
-    }
+//Display filtered customer records
+router.post('/customerdata', middleware.isLoggedIn, function(req,res){
+  req.body.nameSrch   = req.sanitize(req.body.nameSrch);
+  req.body.dateStart  = req.sanitize(req.body.dateStart);
+  req.body.dateEnd    = req.sanitize(req.body.dateEnd);
+  dispDbEntries("Customer", req.body.nameSrch, req.body.dateStart, req.body.dateEnd, function(foundDocs){
+    res.render("customerdata", {custRecord: foundDocs});
   });
 });
+
+//move selected customer records back to the collection 'customers'
+router.put('/customerdata', middleware.isLoggedIn, function(req,res){
+  var idsQueue = req.body.pipeline.split(",");
+  var action = req.body.action;
+
+  if(action === "archiveToCust"){
+    moveDocs(idsQueue, "Archive", "Customer", function(){
+      res.redirect('/customerdata/archives');
+    });
+  }
+  if(action === "trashToCust"){
+    moveDocs(idsQueue, "Trash", "Customer", function(){
+      res.redirect('/customerdata/trash');
+    });
+  }
+
+});
+
 router.get('/customerdata/archives', middleware.isLoggedIn, function(req,res){
   Archive.find({}, function(err, foundArchives){
     if(err){
@@ -108,28 +85,84 @@ router.get('/customerdata/archives', middleware.isLoggedIn, function(req,res){
     }
   });
 });
+
+//move selected customer records to the collection 'archives'
+router.put('/customerdata/archives', middleware.isLoggedIn, function(req,res){
+  var idsQueue = req.body.pipeline.split(",");
+  var action = req.body.action;
+
+  if(action === "custToArchive"){
+    moveDocs(idsQueue, "Customer", "Archive", function(){
+      res.redirect('/customerdata');
+    });
+  }
+  if(action === "trashToArchive"){
+    moveDocs(idsQueue, "Trash", "Archive", function(){
+      res.redirect('/customerdata/trash');
+    });
+  }
+});
+
+//Display filtered archived records
 router.post('/customerdata/archives', middleware.isLoggedIn, function(req,res){
-  var archiveQueue = req.body.pipeline.split(",");
-  Customer.find({_id: {$in: archiveQueue}}, function(err, foundDocs){
+  req.body.nameSrch   = req.sanitize(req.body.nameSrch);
+  req.body.dateStart  = req.sanitize(req.body.dateStart);
+  req.body.dateEnd    = req.sanitize(req.body.dateEnd);
+
+  dispDbEntries("Archive", req.body.nameSrch, req.body.dateStart, req.body.dateEnd, function(foundDocs){
+    res.render("archives", {archivedRecord: foundDocs});
+  });
+});
+
+router.get("/customerdata/trash", middleware.isLoggedIn, function(req,res){
+  Trash.find({}, function(err, foundItems){
     if(err){
       console.log(err);
     } else{
-      console.log("Found " + foundDocs.length + " Docs..");
-      Archive.insertMany(foundDocs, function(err, insertedDocs){
-        if(err){
-          console.log(err);
-        } else{
-          console.log(insertedDocs.length + " Documents inserted into collection 'Archives'");
-          Customer.deleteMany({_id: {$in: insertedDocs}}, function(err, deletedDocs){
-            if(err){
-              console.log(err);
-            } else{
-              console.log(deletedDocs.result.n + " Documents deleted from collection 'Customers'");
-              res.redirect('/customerdata');
-            }
-          });
-        }
-      });
+      res.render("trash", {trashRecord: foundItems});
+    }
+  });
+});
+
+//Display filtered trash records
+router.post('/customerdata/trash', middleware.isLoggedIn, function(req,res){
+  req.body.nameSrch   = req.sanitize(req.body.nameSrch);
+  req.body.dateStart  = req.sanitize(req.body.dateStart);
+  req.body.dateEnd    = req.sanitize(req.body.dateEnd);
+
+  dispDbEntries("Trash", req.body.nameSrch, req.body.dateStart, req.body.dateEnd, function(foundDocs){
+    res.render("trash", {trashRecord: foundDocs});
+  });
+});
+
+//move selected customer records back to the collection 'customers'
+router.put('/customerdata/trash', middleware.isLoggedIn, function(req,res){
+  var idsQueue = req.body.pipeline.split(",");
+  var action = req.body.action;
+
+  if(action === "archiveToTrash"){
+    moveDocs(idsQueue, "Archive", "Trash", function(){
+      res.redirect('/customerdata/archives');
+    });
+  }
+  if(action === "custToTrash"){
+    moveDocs(idsQueue, "Customer", "Trash", function(){
+      res.redirect('/customerdata');
+    });
+  }
+});
+
+router.delete('/customerdata/trash', middleware.isLoggedIn, function(req,res){
+  var idsQueue = req.body.pipeline.split(",");
+
+  Trash.remove({_id: {$in: idsQueue}}, function(err){
+    if(err){
+      console.log(err);
+    } else{
+      console.log("Selected records deleted!");
+      //Find next 20 records and render them..
+      //Temperorily redirecting to /customerdata
+      res.redirect('/customerdata/trash');
     }
   });
 });

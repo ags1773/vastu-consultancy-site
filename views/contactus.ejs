@@ -1,6 +1,26 @@
 <% include partials/header %>
 <body id='contactUs'>
-<% include partials/navbar %>
+  <nav class="ui secondary menu">
+    <a href='/' class="item"><span>Home</span></a>
+    <a href="/temp" class="item"><span>Temp</span></a>
+    <div class="right menu">
+      <% if(currentUser){ %>
+        <div class="ui dropdown item">
+          Logged in as: <%= currentUser.username %> <i class="dropdown icon"></i>
+          <div class="menu">
+            <a href="/logout" class="item"><i class="sign out icon"></i>Sign-out</a>
+            <a href="/customerdata" class="item"><i class="users icon"></i>Customer Data</a>
+          </div>
+        </div>
+      <% } %>
+      <a href="/contact-us" class="item">
+        <button class="ui right labeled icon button teal">
+          <i class="right arrow icon"></i>
+          Contact Us
+        </button>
+      </a>
+    </div>
+  </nav>
 
 <main>
   <% include partials/alerts %>
@@ -21,7 +41,7 @@
     </div> <!-- /mapContainer -->
     <div class='divider'></div>
     <div id="userInput" class="ui raised segment">
-      <h3>Schedule an appointment</h3>
+      <h3 class="centerAlign">Schedule an appointment</h3>
       <form class="ui form" action="/contact-us" method="POST">
         <div class="field">
           <input type="text" name="fname" placeholder="First Name">

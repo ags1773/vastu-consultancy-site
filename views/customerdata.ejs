@@ -20,29 +20,25 @@
 <main>
   <% include partials/alerts %>
   <form id="pipeline" style="display:none;">
-    <input id="pipelineInput" type="hidden" name="pipeline" value="--">
+    <input type="hidden" name="pipeline">
+    <input type="hidden" name="action">
   </form>
-  <!-- <div id="filterBar" class="ui borderless stackable menu">
+  <div id="menuBar" class="ui fluid three item inverted menu">
+    <a class="active teal item"><i class="users icon"></i>Customer Records</a>
+    <a href="/customerdata/archives" class="item"><i class="folder open icon"></i>Archives</a>
+    <a href="/customerdata/trash" class="item"><i class="trash outline icon"></i>Trash</a>
+  </div>
+  <form id="filterBar" class="ui borderless stackable menu" action="/customerdata" method="POST">
     <div class="item">
-      <div class="ui small right labeled input">
-        <input type="text" placeholder="Search..">
-        <div class="ui dropdown label">
-          <div class="text">Name</div>
-          <i class="dropdown icon"></i>
-          <div class="menu">
-            <div class="item">Name</div>
-            <div class="item">Phone</div>
-            <div class="item">Email</div>
-          </div>
-        </div>
+      <div class="ui input">
+        <input type="text" name='nameSrch' placeholder="Search Name..">
       </div>
     </div>
-
     <div class="item">
       <div class="ui calendar" id="rangeStart">
         <div class="ui small input left icon">
           <i class="calendar icon"></i>
-          <input type="text" placeholder="Start Date">
+          <input type="text" name="dateStart" placeholder="Start Date">
         </div>
       </div>
     </div>
@@ -50,31 +46,13 @@
       <div class="ui calendar" id="rangeEnd">
         <div class="ui small input left icon">
           <i class="calendar icon"></i>
-          <input type="text" placeholder="End Date">
+          <input type="text" name="dateEnd" placeholder="End Date">
         </div>
       </div>
     </div>
-
     <div class="right item">
-      <button class="ui orange compact button">Apply Filters</button>
+      <button type="submit" class="ui orange compact button">Apply Filters</button>
     </div>
-  </div> -->
-
-  <form action="/customerdata" method="POST">
-    <input type='text' name='nameSrch' placeholder='Search Name...'>
-    <div class="ui calendar" id="rangeStart">
-      <div class="ui small input left icon">
-        <i class="calendar icon"></i>
-        <input type="text" name="dateStart" placeholder="Start Date">
-      </div>
-    </div>
-    <div class="ui calendar" id="rangeEnd">
-      <div class="ui small input left icon">
-        <i class="calendar icon"></i>
-        <input type="text" name="dateEnd" placeholder="End Date">
-      </div>
-    </div>
-    <button type="submit">Submit</button>
   </form>
 
   <div class="ui container">
@@ -87,10 +65,10 @@
             </div>
           </th>
           <th colspan="4">
-            <button id="custTrashBtn" class="ui small red labeled icon button">
-              <i class="trash outline icon"></i> Delete
+            <button id="cust2trash" class="ui small red labeled icon button">
+              <i class="trash outline icon"></i> Move To Trash
             </button>
-            <button id="custArchiveBtn" class="ui small green labeled icon button">
+            <button id="cust2arch" class="ui small green labeled icon button">
               <i class="plus icon"></i> Add To Archive
             </button>
           </th>
@@ -121,7 +99,7 @@
       <tfoot class="full-width">
         <tr>
           <th colspan='4'>
-            <div id="paginationParent">
+            <div class="centerAlign">
               <div class="ui pagination menu">
                 <a class="active item">1</a>
                 <a class="item">2</a>
@@ -133,7 +111,7 @@
             </div>
           </th>
           <th colspan='1'>
-            <p><%= custRecord.length %> Record(s) found</p>
+            <p class="recNumDisplay"><%= custRecord.length %> Record(s) found</p>
           </th>
         </tr>
       </tfoot>
@@ -152,45 +130,44 @@
 <script type="text/javascript" src='/jquery.min.js'></script>
 <script type="text/javascript" src='/semantic-ui/semantic.min.js'></script>
 <script type="text/javascript" src='/semantic-ui/calendar.min.js'></script>
-<script type="text/javascript" src='script.js'></script>
+<script type="text/javascript" src='/script.js'></script>
 <script>
   var custRecord = <%- JSON.stringify(custRecord) %>;
 
-  //Deletes selected customers
-  var deleteQueue = new Array();
-  $("#custTrashBtn").on("click", function(){
-    deleteQueue.length = 0;
+  var idsQueue = new Array();
+  $("#cust2trash").on("click", function(){
+    idsQueue.length = 0;
     var j = 0;
-    //"deleteQueue" contains IDs of records to be deleted
     for(var i=0; i<custRecord.length; i++){
       if($($("tbody tr input[type='checkbox']")[i]).hasClass('checked')){
-        deleteQueue[j] = custRecord[i]._id;
+        idsQueue[j] = custRecord[i]._id;
         j++;
       }
     }
-    if(deleteQueue.length){
+    if(idsQueue.length){
       $("#pipeline").attr("method", "POST");
-      $("#pipeline").attr("action", "/customerdata?_method=DELETE");
-      $("#pipelineInput").val(deleteQueue);
+      $("#pipeline").attr("action", "/customerdata/trash?_method=PUT");
+      $("#pipeline input:nth-child(1)").val(idsQueue);
+      $("#pipeline input:nth-child(2)").val("custToTrash");
       $("#pipeline").submit();
     }
   });
 
   //Moves selected customers to the collection "Archives"
-  var archiveQueue = new Array();
-  $("#custArchiveBtn").on("click", function(){
-    archiveQueue.length = 0;
+  $("#cust2arch").on("click", function(){
+    idsQueue.length = 0;
     var j = 0;
     for(var i=0; i<custRecord.length; i++){
       if($($("tbody tr input[type='checkbox']")[i]).hasClass('checked')){
-        archiveQueue[j] = custRecord[i]._id;
+        idsQueue[j] = custRecord[i]._id;
         j++;
       }
     }
-    if(archiveQueue.length){
+    if(idsQueue.length){
       $("#pipeline").attr("method", "POST");
-      $("#pipeline").attr("action", "/customerdata/archives");
-      $("#pipelineInput").val(archiveQueue);
+      $("#pipeline").attr("action", "/customerdata/archives?_method=PUT");
+      $("#pipeline input:nth-child(1)").val(idsQueue);
+      $("#pipeline input:nth-child(2)").val("custToArchive");
       $("#pipeline").submit();
     }
   });

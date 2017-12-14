@@ -14,7 +14,7 @@
   </style>
 </head>
 
-<body id="archivesPage">
+<body id="trashPage">
 <% include partials/navbar %>
 
 <main>
@@ -25,10 +25,10 @@
   </form>
   <div id="menuBar" class="ui fluid three item inverted menu">
     <a href="/customerdata" class="item"><i class="users icon"></i>Customer Records</a>
-    <a class="active teal item"><i class="folder open icon"></i>Archives</a>
-    <a href="/customerdata/trash" class="item"><i class="trash outline icon"></i>Trash</a>
+    <a href="/customerdata/archives" class="item"><i class="folder open icon"></i>Archives</a>
+    <a class="active teal item"><i class="trash outline icon"></i>Trash</a>
   </div>
-  <form id="filterBar" class="ui borderless stackable menu" action="/customerdata/archives" method="POST">
+  <form id="filterBar" class="ui borderless stackable menu" action="/customerdata/trash" method="POST">
     <div class="item">
       <div class="ui input">
         <input type="text" name='nameSrch' placeholder="Search Name..">
@@ -64,11 +64,14 @@
             </div>
           </th>
           <th colspan="4">
-            <button id="arch2trash" class="ui small red labeled icon button">
-              <i class="trash outline icon"></i> Move To Trash
+            <button id="trash2cust" class="ui small green labeled icon button">
+              <i class="reply icon"></i> Restore
             </button>
-            <button id="arch2cust" class="ui small green labeled icon button">
-              <i class="reply icon"></i> Remove from Archive
+            <button id="trash2arch" class="ui small green labeled icon button">
+              <i class="reply icon"></i> Restore to Archive
+            </button>
+            <button id="deleteForever" class="ui small red labeled icon button">
+              <i class="trash outline icon"></i> Delete Permanently
             </button>
           </th>
         </tr>
@@ -81,17 +84,17 @@
         </tr>
       </thead>
       <tbody>
-        <% for(var i=0; i<archivedRecord.length; i++){ %>
+        <% for(var i=0; i<trashRecord.length; i++){ %>
           <tr>
             <td class="collapsing">
               <div class="ui fitted checkbox">
                 <input type="checkbox"> <label></label>
               </div>
             </td>
-            <td><%= archivedRecord[i].name %></td>
-            <td><%= archivedRecord[i].phone %></td>
-            <td><%= archivedRecord[i].email %></td>
-            <td><%= archivedRecord[i]._id.getTimestamp() %></td>
+            <td><%= trashRecord[i].name %></td>
+            <td><%= trashRecord[i].phone %></td>
+            <td><%= trashRecord[i].email %></td>
+            <td><%= trashRecord[i]._id.getTimestamp() %></td>
           </tr>
         <% } %>
       </tbody>
@@ -110,7 +113,7 @@
             </div>
           </th>
           <th colspan='1'>
-            <p class="recNumDisplay"><%= archivedRecord.length %> Record(s) found</p>
+            <p class="recNumDisplay"><%= trashRecord.length %> Record(s) found</p>
           </th>
         </tr>
       </tfoot>
@@ -131,16 +134,15 @@
 <script type="text/javascript" src='/semantic-ui/calendar.min.js'></script>
 <script type="text/javascript" src='/script.js'></script>
 <script>
-  var archivedRecord = <%- JSON.stringify(archivedRecord) %>;
+  var trashRecord = <%- JSON.stringify(trashRecord) %>;
 
-  //Moves selected customers back to the collection "Customer"
   var idsQueue = new Array();
-  $("#arch2cust").on("click", function(){
+  $("#trash2cust").on("click", function(){
     idsQueue.length = 0;
     var j = 0;
-    for(var i=0; i<archivedRecord.length; i++){
+    for(var i=0; i<trashRecord.length; i++){
       if($($("tbody tr input[type='checkbox']")[i]).hasClass('checked')){
-        idsQueue[j] = archivedRecord[i]._id;
+        idsQueue[j] = trashRecord[i]._id;
         j++;
       }
     }
@@ -148,26 +150,42 @@
       $("#pipeline").attr("method", "POST");
       $("#pipeline").attr("action", "/customerdata?_method=PUT");
       $("#pipeline input:nth-child(1)").val(idsQueue);
-      $("#pipeline input:nth-child(2)").val("archiveToCust");
+      $("#pipeline input:nth-child(2)").val("trashToCust");
       $("#pipeline").submit();
     }
   });
 
-  //Moves selected customers to the collection "Trash"
-  $("#arch2trash").on("click", function(){
+  $("#trash2arch").on("click", function(){
     idsQueue.length = 0;
     var j = 0;
-    for(var i=0; i<archivedRecord.length; i++){
+    for(var i=0; i<trashRecord.length; i++){
       if($($("tbody tr input[type='checkbox']")[i]).hasClass('checked')){
-        idsQueue[j] = archivedRecord[i]._id;
+        idsQueue[j] = trashRecord[i]._id;
         j++;
       }
     }
     if(idsQueue.length){
       $("#pipeline").attr("method", "POST");
-      $("#pipeline").attr("action", "/customerdata/trash?_method=PUT");
+      $("#pipeline").attr("action", "/customerdata/archives?_method=PUT");
       $("#pipeline input:nth-child(1)").val(idsQueue);
-      $("#pipeline input:nth-child(2)").val("archiveToTrash");
+      $("#pipeline input:nth-child(2)").val("trashToArchive");
+      $("#pipeline").submit();
+    }
+  });
+
+  $("#deleteForever").on("click", function(){
+    idsQueue.length = 0;
+    var j = 0;
+    for(var i=0; i<trashRecord.length; i++){
+      if($($("tbody tr input[type='checkbox']")[i]).hasClass('checked')){
+        idsQueue[j] = trashRecord[i]._id;
+        j++;
+      }
+    }
+    if(idsQueue.length){
+      $("#pipeline").attr("method", "POST");
+      $("#pipeline").attr("action", "/customerdata/trash?_method=DELETE");
+      $("#pipeline input:nth-child(1)").val(idsQueue);
       $("#pipeline").submit();
     }
   });

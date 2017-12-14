@@ -15,7 +15,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     sliderInit();
     $('.ui.accordion').accordion();
   }
-  if($('#customerData').length){
+  if($('#customerData').length || $('#archivesPage').length || $('#trashPage').length){
     var today = new Date();
     $('#rangeStart').calendar({
       type: 'date',
