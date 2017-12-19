@@ -129,56 +129,7 @@
 <script type="text/javascript" src='/jquery.min.js'></script>
 <script type="text/javascript" src='/semantic-ui/semantic.min.js'></script>
 <script type="text/javascript" src='/semantic-ui/calendar.min.js'></script>
+<script> var mainGlobalObject = {archivedRecord : <%- JSON.stringify(archivedRecord) %>}; </script>
 <script type="text/javascript" src='/script.js'></script>
-<script>
-  var archivedRecord = <%- JSON.stringify(archivedRecord) %>;
-
-  //Moves selected customers back to the collection "Customer"
-  var idsQueue = new Array();
-  $("#arch2cust").on("click", function(){
-    idsQueue.length = 0;
-    var j = 0;
-    for(var i=0; i<archivedRecord.length; i++){
-      if($($("tbody tr input[type='checkbox']")[i]).hasClass('checked')){
-        idsQueue[j] = archivedRecord[i]._id;
-        j++;
-      }
-    }
-    if(idsQueue.length){
-      $("#pipeline").attr("method", "POST");
-      $("#pipeline").attr("action", "/customerdata?_method=PUT");
-      $("#pipeline input:nth-child(1)").val(idsQueue);
-      $("#pipeline input:nth-child(2)").val("archiveToCust");
-      $("#pipeline").submit();
-    }
-  });
-
-  //Moves selected customers to the collection "Trash"
-  $("#arch2trash").on("click", function(){
-    idsQueue.length = 0;
-    var j = 0;
-    for(var i=0; i<archivedRecord.length; i++){
-      if($($("tbody tr input[type='checkbox']")[i]).hasClass('checked')){
-        idsQueue[j] = archivedRecord[i]._id;
-        j++;
-      }
-    }
-    if(idsQueue.length){
-      $("#pipeline").attr("method", "POST");
-      $("#pipeline").attr("action", "/customerdata/trash?_method=PUT");
-      $("#pipeline input:nth-child(1)").val(idsQueue);
-      $("#pipeline input:nth-child(2)").val("archiveToTrash");
-      $("#pipeline").submit();
-    }
-  });
-
-  $('tbody tr input[type="checkbox"]').click(function(){
-    if(this.checked){
-      $(this).addClass('checked');
-    } else{
-      $(this).removeClass('checked');
-    }
-  });
-</script>
 </body>
 </html>

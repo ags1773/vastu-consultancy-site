@@ -11,15 +11,10 @@ router.get("/", function(req,res){
     res.render('landing');
 });
 
-router.get("/temp", function(req,res){
-    res.render('temp');
-});
-
 router.get("/contact-us", function(req,res){
     res.render("contactus");
 });
 
-//Create customer record from contactus page
 router.post("/contact-us", function(req,res){
   var newCustomer = ({
     name: capsFirstLtr(req.sanitize(req.body.fname)) + " " + capsFirstLtr(req.sanitize(req.body.lname)),
@@ -48,7 +43,6 @@ router.get('/customerdata', middleware.isLoggedIn, function(req,res){
   });
 });
 
-//Display filtered customer records
 router.post('/customerdata', middleware.isLoggedIn, function(req,res){
   req.body.nameSrch   = req.sanitize(req.body.nameSrch);
   req.body.dateStart  = req.sanitize(req.body.dateStart);
@@ -58,7 +52,6 @@ router.post('/customerdata', middleware.isLoggedIn, function(req,res){
   });
 });
 
-//move selected customer records back to the collection 'customers'
 router.put('/customerdata', middleware.isLoggedIn, function(req,res){
   var idsQueue = req.body.pipeline.split(",");
   var action = req.body.action;
@@ -86,7 +79,6 @@ router.get('/customerdata/archives', middleware.isLoggedIn, function(req,res){
   });
 });
 
-//move selected customer records to the collection 'archives'
 router.put('/customerdata/archives', middleware.isLoggedIn, function(req,res){
   var idsQueue = req.body.pipeline.split(",");
   var action = req.body.action;
@@ -103,7 +95,6 @@ router.put('/customerdata/archives', middleware.isLoggedIn, function(req,res){
   }
 });
 
-//Display filtered archived records
 router.post('/customerdata/archives', middleware.isLoggedIn, function(req,res){
   req.body.nameSrch   = req.sanitize(req.body.nameSrch);
   req.body.dateStart  = req.sanitize(req.body.dateStart);
@@ -124,7 +115,6 @@ router.get("/customerdata/trash", middleware.isLoggedIn, function(req,res){
   });
 });
 
-//Display filtered trash records
 router.post('/customerdata/trash', middleware.isLoggedIn, function(req,res){
   req.body.nameSrch   = req.sanitize(req.body.nameSrch);
   req.body.dateStart  = req.sanitize(req.body.dateStart);
@@ -135,7 +125,6 @@ router.post('/customerdata/trash', middleware.isLoggedIn, function(req,res){
   });
 });
 
-//move selected customer records back to the collection 'customers'
 router.put('/customerdata/trash', middleware.isLoggedIn, function(req,res){
   var idsQueue = req.body.pipeline.split(",");
   var action = req.body.action;
@@ -150,21 +139,18 @@ router.put('/customerdata/trash', middleware.isLoggedIn, function(req,res){
       res.redirect('/customerdata');
     });
   }
-});
-
-router.delete('/customerdata/trash', middleware.isLoggedIn, function(req,res){
-  var idsQueue = req.body.pipeline.split(",");
-
-  Trash.remove({_id: {$in: idsQueue}}, function(err){
-    if(err){
-      console.log(err);
-    } else{
-      console.log("Selected records deleted!");
-      //Find next 20 records and render them..
-      //Temperorily redirecting to /customerdata
-      res.redirect('/customerdata/trash');
-    }
-  });
+  if(action === "deleteForever"){
+    Trash.remove({_id: {$in: idsQueue}}, function(err){
+      if(err){
+        console.log(err);
+      } else{
+        console.log("Selected records deleted!");
+        //Find next 20 records and render them..
+        //Temperorily redirecting to /customerdata
+        res.redirect('/customerdata/trash');
+      }
+    });
+  }
 });
 
 module.exports = router;

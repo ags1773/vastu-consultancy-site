@@ -16,7 +16,45 @@ window.addEventListener("DOMContentLoaded", function(event) {
     $('.ui.accordion').accordion();
   }
   if($('#customerData').length || $('#archivesPage').length || $('#trashPage').length){
-    var today = new Date();
+    let idsQueue = new Array();
+    var sendDataOverPipeline = function(dataObj, formAction, pipelineAction){
+      idsQueue.length = 0;
+      let j = 0;
+      for(let i=0; i<dataObj.length; i++){
+        if($($("tbody tr input[type='checkbox']")[i]).hasClass('checked')){
+          idsQueue[j] = dataObj[i]._id;
+          j++;
+        }
+      }
+      if(idsQueue.length){
+        $("#pipeline").attr("method", "POST");
+        $("#pipeline").attr("action", (formAction + "?_method=PUT"));
+        $("#pipeline input:nth-child(1)").val(idsQueue);
+        $("#pipeline input:nth-child(2)").val(pipelineAction);
+        $("#pipeline").submit();
+      }
+    }
+
+    //adds and removes "checked" class to checkboxes
+      $('tbody tr input[type="checkbox"]').click(function(){
+        if(this.checked){
+          $(this).addClass('checked');
+        } else{
+          $(this).removeClass('checked');
+        }
+      });
+
+    // checkbox select all
+      $('thead tr:nth-child(1) input[type="checkbox"]').click(function(){
+        if(this.checked){
+          $('tbody tr input[type="checkbox"]').addClass('checked').prop( "checked", true );
+        } else{
+          $('tbody tr input[type="checkbox"]').removeClass('checked').prop( "checked", false );
+        }
+      });
+
+    //calendar settings
+    let today = new Date();
     $('#rangeStart').calendar({
       type: 'date',
       today: true,
@@ -24,15 +62,12 @@ window.addEventListener("DOMContentLoaded", function(event) {
       formatter: {
         date: function (date, settings) {
           if (!date) return '';
-          var dd = date.getDate();
-          var mm = date.getMonth() + 1;
-          var yyyy = date.getFullYear();
+          let dd = date.getDate();
+          let mm = date.getMonth() + 1;
+          let yyyy = date.getFullYear();
           return yyyy + '-' + mm + '-' + dd;
         }
       },
-      // onChange: function (date, text, mode) {
-      //   console.log('start calendar changed');
-      // },
       endCalendar: $('#rangeEnd'),
       maxDate: new Date(today.getFullYear(), today.getMonth(), today.getDate())
     });
@@ -43,18 +78,55 @@ window.addEventListener("DOMContentLoaded", function(event) {
       formatter: {
         date: function (date, settings) {
           if (!date) return '';
-          var dd = date.getDate();
-          var mm = date.getMonth() + 1;
-          var yyyy = date.getFullYear();
+          let dd = date.getDate();
+          let mm = date.getMonth() + 1;
+          let yyyy = date.getFullYear();
           return yyyy + '-' + mm + '-' + dd;
         }
       },
-      // onChange: function (date, text, mode) {
-      //   console.log('end calendar changed');
-      // },
       startCalendar: $('#rangeStart'),
       maxDate: new Date(today.getFullYear(), today.getMonth(), today.getDate())
     });
+
+    if($('#customerData').length){
+      if("custRecord" in mainGlobalObject){
+        $("#cust2trash").on("click", function(){
+          sendDataOverPipeline(mainGlobalObject.custRecord, "/customerdata/trash", "custToTrash");
+        });
+        $("#cust2arch").on("click", function(){
+          sendDataOverPipeline(mainGlobalObject.custRecord, "/customerdata/archives", "custToArchive");
+        });
+      } else{
+        console.log("'custRecord' property of 'mainGlobalObject' not found!")
+      }
+    }
+    if($('#archivesPage').length){
+      if("archivedRecord" in mainGlobalObject){
+        $("#arch2trash").on("click", function(){
+          sendDataOverPipeline(mainGlobalObject.archivedRecord, "/customerdata/trash", "archiveToTrash");
+        });
+        $("#arch2cust").on("click", function(){
+          sendDataOverPipeline(mainGlobalObject.archivedRecord, "/customerdata", "archiveToCust");
+        });
+      } else{
+        console.log("'archivedRecord' property of 'mainGlobalObject' not found!")
+      }
+    }
+    if($('#trashPage').length){
+      if("trashRecord" in mainGlobalObject){
+        $("#trash2cust").on("click", function(){
+          sendDataOverPipeline(mainGlobalObject.trashRecord, "/customerdata", "trashToCust");
+        });
+        $("#trash2arch").on("click", function(){
+          sendDataOverPipeline(mainGlobalObject.trashRecord, "/customerdata/archives", "trashToArchive");
+        });
+        $("#deleteForever").on("click", function(){
+          sendDataOverPipeline(mainGlobalObject.trashRecord, "/customerdata/trash", "deleteForever");
+        });
+      } else{
+        console.log("'trashRecord' property of 'mainGlobalObject' not found!")
+      }
+    }
   }
 });
 
@@ -136,13 +208,13 @@ function goToByScroll(id){
 // ========================
 if($('#landingPage').length){
   // var target =  $('nav').outerHeight();
-  var target =  $("#landingPage main div:first-child + div").offset().top;
-  var timeout = null;
+  let target =  $("#landingPage main div:first-child + div").offset().top;
+  let timeout = null;
 
   $(window).scroll(function () {
     //adds, removes shadow to navbar
-    var navbar = $('.ui.secondary.menu');
-    var distToTop = $(window).scrollTop();
+    let navbar = $('.ui.secondary.menu');
+    let distToTop = $(window).scrollTop();
 
     // if(getScreenType() == "desktop"){
     //   if(!(navbar.hasClass('navShadow')) && distToTop >= 1){

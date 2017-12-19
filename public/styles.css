@@ -164,6 +164,9 @@ main{
 #menuBar{
   margin-bottom:0;
 }
+#menuBar, #menuBar a, #filterBar{
+  border-radius: 0;
+}
 #filterBar{
   margin-top:0;
 }

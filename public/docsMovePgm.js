@@ -1,9 +1,4 @@
 function docsMove(idsQueue, sourceCollection, destCollection, callback){
-  console.log("******************************");
-  console.log(idsQueue);
-  console.log(sourceCollection);
-  console.log(destCollection);
-  console.log("******************************");
   var Source, Destination;
   if(sourceCollection === "Customer"){
     Source = require("../models/customers");
