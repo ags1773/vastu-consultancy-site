@@ -36,7 +36,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     }
 
     //adds and removes "checked" class to checkboxes
-      $('tbody tr input[type="checkbox"]').click(function(){
+      $('tbody tr input[type="checkbox"]').click(function(event){
         if(this.checked){
           $(this).addClass('checked');
         } else{
@@ -45,7 +45,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
       });
 
     // checkbox select all
-      $('thead tr:nth-child(1) input[type="checkbox"]').click(function(){
+      $('thead tr:nth-child(1) input[type="checkbox"]').click(function(event){
         if(this.checked){
           $('tbody tr input[type="checkbox"]').addClass('checked').prop( "checked", true );
         } else{
@@ -90,10 +90,10 @@ window.addEventListener("DOMContentLoaded", function(event) {
 
     if($('#customerData').length){
       if("custRecord" in mainGlobalObject){
-        $("#cust2trash").on("click", function(){
+        $("#cust2trash").on("click", function(event){
           sendDataOverPipeline(mainGlobalObject.custRecord, "/customerdata/trash", "custToTrash");
         });
-        $("#cust2arch").on("click", function(){
+        $("#cust2arch").on("click", function(event){
           sendDataOverPipeline(mainGlobalObject.custRecord, "/customerdata/archives", "custToArchive");
         });
       } else{
@@ -102,10 +102,10 @@ window.addEventListener("DOMContentLoaded", function(event) {
     }
     if($('#archivesPage').length){
       if("archivedRecord" in mainGlobalObject){
-        $("#arch2trash").on("click", function(){
+        $("#arch2trash").on("click", function(event){
           sendDataOverPipeline(mainGlobalObject.archivedRecord, "/customerdata/trash", "archiveToTrash");
         });
-        $("#arch2cust").on("click", function(){
+        $("#arch2cust").on("click", function(event){
           sendDataOverPipeline(mainGlobalObject.archivedRecord, "/customerdata", "archiveToCust");
         });
       } else{
@@ -114,13 +114,13 @@ window.addEventListener("DOMContentLoaded", function(event) {
     }
     if($('#trashPage').length){
       if("trashRecord" in mainGlobalObject){
-        $("#trash2cust").on("click", function(){
+        $("#trash2cust").on("click", function(event){
           sendDataOverPipeline(mainGlobalObject.trashRecord, "/customerdata", "trashToCust");
         });
-        $("#trash2arch").on("click", function(){
+        $("#trash2arch").on("click", function(event){
           sendDataOverPipeline(mainGlobalObject.trashRecord, "/customerdata/archives", "trashToArchive");
         });
-        $("#deleteForever").on("click", function(){
+        $("#deleteForever").on("click", function(event){
           sendDataOverPipeline(mainGlobalObject.trashRecord, "/customerdata/trash", "deleteForever");
         });
       } else{
@@ -188,9 +188,9 @@ function sliderInit(){
 // ==============================
 // ==  Click auto scrolling    ==
 // ==============================
-$(".scrollLink").click(function(e) {
+$(".scrollLink").click(function(event) {
       // Prevent a page reload when a link is pressed
-    e.preventDefault();
+    event.preventDefault();
       // Call the scroll function
     goToByScroll(this.id);
 });

@@ -1,11 +1,11 @@
-var express     = require('express');
-var router      = express.Router();
-var Customer    = require("../models/customers");
-var Archive     = require("../models/archives");
-var Trash       = require("../models/trashes");
-var middleware  = require('../middleware');
-var dispDbEntries  = require('../public/dispDbEntries');
-var moveDocs    = require('../public/docsMovePgm');
+var express       = require('express'),
+    router        = express.Router(),
+    Customer      = require('../models/customers'),
+    Archive       = require('../models/archives'),
+    Trash         = require('../models/trashes'),
+    middleware    = require('../middleware'),
+    dispDbEntries = require('../public/dispDbEntries'),
+    moveDocs      = require('../public/docsMovePgm');
 
 router.get("/", function(req,res){
     res.render('landing');
@@ -16,6 +16,9 @@ router.get("/contact-us", function(req,res){
 });
 
 router.post("/contact-us", function(req,res){
+  let capsFirstLtr = function(str){
+    return str[0].toUpperCase() + str.slice(1).toLowerCase();
+  }
   var newCustomer = ({
     name: capsFirstLtr(req.sanitize(req.body.fname)) + " " + capsFirstLtr(req.sanitize(req.body.lname)),
     phone: req.sanitize(req.body.phone),
@@ -26,20 +29,26 @@ router.post("/contact-us", function(req,res){
       console.log("Error adding customer to DB");
       console.log(err);
     } else{
-      res.render("formsubmit");
+      req.flash('success', 'Details submitted successfully!');
+      res.redirect("/contact-us");
     }
   });
-  function capsFirstLtr(str){
-    return str[0].toUpperCase() + str.slice(1).toLowerCase();
-  }
 });
 router.get('/customerdata', middleware.isLoggedIn, function(req,res){
-  Customer.find({}, function(err, foundCustRecords){
-    if(err){
-      console.log(err);
-    } else{
-      res.render("customerdata", {custRecord: foundCustRecords});
-    }
+  //recordsPerPage value can be set
+  let recordsPerPage = 10;
+  let pgCount;
+  let skipCounter = 0;
+  Customer.count({}, function(err, count){
+    console.log(count + " Records found..");
+    ((count%recordsPerPage) === 0)?(pgCount = count/recordsPerPage):(pgCount=((count/recordsPerPage)-((count%recordsPerPage)/recordsPerPage)+1));
+    Customer.find({}).sort({_id: 1}).limit(recordsPerPage).skip(skipCounter).exec(function(err,foundCustRecords){
+      if(err){
+        console.log(err);
+      } else{
+        res.render("customerdata", {custRecord: foundCustRecords, pgCount: pgCount});
+      }
+    });
   });
 });
 
@@ -146,7 +155,6 @@ router.put('/customerdata/trash', middleware.isLoggedIn, function(req,res){
       } else{
         console.log("Selected records deleted!");
         //Find next 20 records and render them..
-        //Temperorily redirecting to /customerdata
         res.redirect('/customerdata/trash');
       }
     });
