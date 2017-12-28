@@ -78,9 +78,267 @@ var seedData = [
       }
     ];
 
+var seedData1 = [
+      {
+        name:   "one last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "one last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "one last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "one last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "one last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "one last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "one last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "one last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "one last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "one last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "two last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "two last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "two last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "two last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "two last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "two last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "two last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "two last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "two last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "two last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "three last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "three last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "three last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "three last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "three last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "three last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "three last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "three last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "three last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "three last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "four last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "four last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "four last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "four last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "four last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "four last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "four last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "four last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "four last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "four last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "five last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "five last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "five last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "five last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "five last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "five last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "five last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "five last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "five last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "five last",
+        phone:  "7854026587",
+        email:  "john@gmail.com"
+      },
+      {
+        name:   "six last",
+        phone:  "785785",
+        email:  "gfsvsdf545"
+      }
+    ];
+
 function seedDB(){
-  for(var i=0; i<seedData.length; i++){
-      Customer.create(seedData[i], function(err,createdCust){
+  for(var i=0; i<seedData1.length; i++){
+      Customer.create(seedData1[i], function(err,createdCust){
           if(err){
             console.log(err);
           } else{

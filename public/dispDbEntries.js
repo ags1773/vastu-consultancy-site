@@ -1,5 +1,6 @@
-function filter(collection, srchName, startDt, endDt, callback){
+function filter(collection, recordsPerPage, skipCounter, srchName, startDt, endDt, callback){
   var Collection;
+  var pgCount;
   if(collection === "Archive"){
     Collection = require("../models/archives");
   }
@@ -28,19 +29,46 @@ function filter(collection, srchName, startDt, endDt, callback){
   console.log("name Search --> " + nameSrch);
   console.log("start--> " + startDate);
   console.log("end--> " + endDate);
-  Collection.find(
+  // Collection.find(
+  //   {
+  //     _id : {$gte : startDate, $lte : endDate},
+  //     name: {$regex : new RegExp(nameSrch, "i")}                                //slow but thorough search (does not use index). Searching 'tom' WILL show 'tommy' .Case insensitive, searches all characters under 'name'
+  //   },
+  //   function(err,foundDocs){
+  //     if(err){
+  //       console.log(err);
+  //     } else{
+  //       return callback(foundDocs);
+  //     }
+  //   }
+  // );
+  Collection.count(
     {
       _id : {$gte : startDate, $lte : endDate},
       name: {$regex : new RegExp(nameSrch, "i")}                                //slow but thorough search (does not use index). Searching 'tom' WILL show 'tommy' .Case insensitive, searches all characters under 'name'
-    },
-    function(err,foundDocs){
+    }, function(err,count){
       if(err){
         console.log(err);
       } else{
-        return callback(foundDocs);
+        Collection.find(
+          {
+            _id : {$gte : startDate, $lte : endDate},
+            name: {$regex : new RegExp(nameSrch, "i")}                                //slow but thorough search (does not use index). Searching 'tom' WILL show 'tommy' .Case insensitive, searches all characters under 'name'
+          }
+        ).sort({_id: 1}).limit(recordsPerPage).skip(skipCounter).exec(function(err,foundDocs){
+          if(err){
+            console.log(err);
+          } else{
+            ((count%recordsPerPage) === 0)?(pgCount = count/recordsPerPage):(pgCount=((count/recordsPerPage)-((count%recordsPerPage)/recordsPerPage)+1));
+            let currentPg = (skipCounter / recordsPerPage) + 1;
+            let disp = (skipCounter + 1) + " to " + (skipCounter + (recordsPerPage>count-skipCounter?count-skipCounter:recordsPerPage)) + " of " + (count);
+            return callback(foundDocs,pgCount,currentPg,disp);
+          }
+        });
       }
     }
   );
+
 }
 
 module.exports = filter;

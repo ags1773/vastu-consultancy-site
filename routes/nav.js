@@ -7,6 +7,12 @@ var express       = require('express'),
     dispDbEntries = require('../public/dispDbEntries'),
     moveDocs      = require('../public/docsMovePgm');
 
+//recordsPerPage value can be set
+var recordsPerPage = 5;
+var skipCounter = 0;
+var renderData = [];
+var tempArray = [];
+
 router.get("/", function(req,res){
     res.render('landing');
 });
@@ -35,30 +41,47 @@ router.post("/contact-us", function(req,res){
   });
 });
 router.get('/customerdata', middleware.isLoggedIn, function(req,res){
-  //recordsPerPage value can be set
-  let recordsPerPage = 10;
-  let pgCount;
-  let skipCounter = 0;
-  Customer.count({}, function(err, count){
-    console.log(count + " Records found..");
-    ((count%recordsPerPage) === 0)?(pgCount = count/recordsPerPage):(pgCount=((count/recordsPerPage)-((count%recordsPerPage)/recordsPerPage)+1));
-    Customer.find({}).sort({_id: 1}).limit(recordsPerPage).skip(skipCounter).exec(function(err,foundCustRecords){
-      if(err){
-        console.log(err);
-      } else{
-        res.render("customerdata", {custRecord: foundCustRecords, pgCount: pgCount});
-      }
-    });
+  tempArray.length = 0;
+  skipCounter = 0;
+  tempArray[0] = tempArray[1] = tempArray[2] = undefined;
+  dispDbEntries("Customer", recordsPerPage, skipCounter, tempArray[0], tempArray[1], tempArray[2], function(foundDocs,pgCount,currentPg,disp){
+    renderData.length = 0;
+    renderData = [foundDocs,currentPg,disp,pgCount]
+    res.render("customerdata", {renderData: renderData});
   });
 });
 
 router.post('/customerdata', middleware.isLoggedIn, function(req,res){
-  req.body.nameSrch   = req.sanitize(req.body.nameSrch);
-  req.body.dateStart  = req.sanitize(req.body.dateStart);
-  req.body.dateEnd    = req.sanitize(req.body.dateEnd);
-  dispDbEntries("Customer", req.body.nameSrch, req.body.dateStart, req.body.dateEnd, function(foundDocs){
-    res.render("customerdata", {custRecord: foundDocs});
-  });
+  tempArray.length = 0;
+  let pgNav = [];
+    if(req.body.action === "1"){
+      pgNav = ["0","1"];
+      tempArray[0] = req.sanitize(req.body.nameSrch);
+      tempArray[1] = req.sanitize(req.body.dateStart);
+      tempArray[2] = req.sanitize(req.body.dateEnd);
+    } else{
+      tempArray[0] = tempArray[1] = tempArray[2] = undefined;
+      pgNav = req.body.pipeline.split(",");
+    }
+    //go to first page
+    if(pgNav[0] === "0"){
+      skipCounter = 0;
+    }
+    //go to last page
+    else if(pgNav[0] === "Z"){
+      skipCounter = (Number(pgNav[1]) - 1) * recordsPerPage;
+    }
+    //go to chosen page
+    else{
+      skipCounter = (Number(pgNav[0]) - 1) * recordsPerPage;
+    }
+    console.log(skipCounter + " Records skipped");
+    dispDbEntries("Customer", recordsPerPage, skipCounter, tempArray[0], tempArray[1], tempArray[2], function(foundDocs,pgCount,currentPg,disp){
+      renderData.length = 0;
+      renderData = [foundDocs,currentPg,disp,pgCount]
+      res.render("customerdata", {renderData: renderData});
+    });
+
 });
 
 router.put('/customerdata', middleware.isLoggedIn, function(req,res){
@@ -109,8 +132,8 @@ router.post('/customerdata/archives', middleware.isLoggedIn, function(req,res){
   req.body.dateStart  = req.sanitize(req.body.dateStart);
   req.body.dateEnd    = req.sanitize(req.body.dateEnd);
 
-  dispDbEntries("Archive", req.body.nameSrch, req.body.dateStart, req.body.dateEnd, function(foundDocs){
-    res.render("archives", {archivedRecord: foundDocs});
+  dispDbEntries("Archive", recordsPerPage, skipCounter, req.body.nameSrch, req.body.dateStart, req.body.dateEnd, function(foundDocs,count,pgCount){
+    res.render("archives", {archivedRecord: foundDocs, pgCount: pgCount});
   });
 });
 
@@ -129,8 +152,8 @@ router.post('/customerdata/trash', middleware.isLoggedIn, function(req,res){
   req.body.dateStart  = req.sanitize(req.body.dateStart);
   req.body.dateEnd    = req.sanitize(req.body.dateEnd);
 
-  dispDbEntries("Trash", req.body.nameSrch, req.body.dateStart, req.body.dateEnd, function(foundDocs){
-    res.render("trash", {trashRecord: foundDocs});
+  dispDbEntries("Trash", recordsPerPage, skipCounter, req.body.nameSrch, req.body.dateStart, req.body.dateEnd, function(foundDocs,count,pgCount){
+    res.render("trash", {trashRecord: foundDocs, pgCount: pgCount});
   });
 });
 

@@ -170,6 +170,9 @@ main{
 #filterBar{
   margin-top:0;
 }
+.ui.pagination.menu .item.active{
+  background-color: teal;
+}
 /*------------------------------------*/
 /*-----     Media Queries    --------*/
 /*------------------------------------*/

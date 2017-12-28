@@ -50,6 +50,6 @@ app.use(function(req, res, next){
 app.use(navRoutes);
 app.use(authRoutes);
 
-//seedDB();
+// seedDB();
 
 app.listen(port);
