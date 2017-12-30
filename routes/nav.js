@@ -8,7 +8,7 @@ var express       = require('express'),
     moveDocs      = require('../public/docsMovePgm');
 
 //recordsPerPage value can be set
-var recordsPerPage = 1;
+var recordsPerPage = 2;
 var skipCounter = 0;
 var renderData = [];
 var tempArray = [];
@@ -115,13 +115,59 @@ router.put('/customerdata', middleware.isLoggedIn, function(req,res){
 });
 
 router.get('/customerdata/archives', middleware.isLoggedIn, function(req,res){
-  Archive.find({}, function(err, foundArchives){
-    if(err){
-      console.log(err);
-    } else{
-      res.render("archives", {archivedRecord: foundArchives});
-    }
+  tempArray.length = 0;
+  skipCounter = 0;
+  tempArray[0] = tempArray[1] = tempArray[2] = undefined;
+  dispDbEntries("Archive", recordsPerPage, skipCounter, tempArray[0], tempArray[1], tempArray[2], function(foundDocs,pgCount,currentPg,disp){
+    renderData.length = 0;
+    renderData = [foundDocs,currentPg,disp,pgCount,tempArray]
+    res.render("archives", {renderData: renderData});
   });
+});
+
+router.post('/customerdata/archives', middleware.isLoggedIn, function(req,res){
+  tempArray.length = 0;
+  let pipelineData = [];
+    if(req.body.action === "1"){
+      //POST request from filterbar
+      pipelineData[0] = "0";
+      tempArray[0] = req.sanitize(req.body.nameSrch);
+      tempArray[1] = req.sanitize(req.body.dateStart);
+      tempArray[2] = req.sanitize(req.body.dateEnd);
+    } else if(req.body.action === "2"){
+      //POST request from pagination menu and from clearing filters
+      pipelineData = req.body.pipeline.split(",");
+      tempArray[0] = tempArray[1] = tempArray[2] = undefined;
+      if(pipelineData[2]){
+        tempArray[0] = req.sanitize(pipelineData[2]);
+      }
+      if(pipelineData[3]){
+        tempArray[1] = req.sanitize(pipelineData[3]);
+      }
+      if(pipelineData[4]){
+        tempArray[2] = req.sanitize(pipelineData[4]);
+      }
+      console.log("---bhingtas---");
+      console.log(tempArray);
+    }
+    //go to first page
+    if(pipelineData[0] === "0"){
+      skipCounter = 0;
+    }
+    //go to last page
+    else if(pipelineData[0] === "Z"){
+      skipCounter = (Number(pipelineData[1]) - 1) * recordsPerPage;
+    }
+    //go to chosen page
+    else{
+      skipCounter = (Number(pipelineData[0]) - 1) * recordsPerPage;
+    }
+    console.log(skipCounter + " Records skipped");
+    dispDbEntries("Archive", recordsPerPage, skipCounter, tempArray[0], tempArray[1], tempArray[2], function(foundDocs,pgCount,currentPg,disp){
+      renderData.length = 0;
+      renderData = [foundDocs,currentPg,disp,pgCount,tempArray]
+      res.render("archives", {renderData: renderData});
+    });
 });
 
 router.put('/customerdata/archives', middleware.isLoggedIn, function(req,res){
@@ -140,34 +186,60 @@ router.put('/customerdata/archives', middleware.isLoggedIn, function(req,res){
   }
 });
 
-router.post('/customerdata/archives', middleware.isLoggedIn, function(req,res){
-  req.body.nameSrch   = req.sanitize(req.body.nameSrch);
-  req.body.dateStart  = req.sanitize(req.body.dateStart);
-  req.body.dateEnd    = req.sanitize(req.body.dateEnd);
-
-  dispDbEntries("Archive", recordsPerPage, skipCounter, req.body.nameSrch, req.body.dateStart, req.body.dateEnd, function(foundDocs,count,pgCount){
-    res.render("archives", {archivedRecord: foundDocs, pgCount: pgCount});
-  });
-});
-
 router.get("/customerdata/trash", middleware.isLoggedIn, function(req,res){
-  Trash.find({}, function(err, foundItems){
-    if(err){
-      console.log(err);
-    } else{
-      res.render("trash", {trashRecord: foundItems});
-    }
+  tempArray.length = 0;
+  skipCounter = 0;
+  tempArray[0] = tempArray[1] = tempArray[2] = undefined;
+  dispDbEntries("Trash", recordsPerPage, skipCounter, tempArray[0], tempArray[1], tempArray[2], function(foundDocs,pgCount,currentPg,disp){
+    renderData.length = 0;
+    renderData = [foundDocs,currentPg,disp,pgCount,tempArray]
+    res.render("trash", {renderData: renderData});
   });
 });
 
 router.post('/customerdata/trash', middleware.isLoggedIn, function(req,res){
-  req.body.nameSrch   = req.sanitize(req.body.nameSrch);
-  req.body.dateStart  = req.sanitize(req.body.dateStart);
-  req.body.dateEnd    = req.sanitize(req.body.dateEnd);
-
-  dispDbEntries("Trash", recordsPerPage, skipCounter, req.body.nameSrch, req.body.dateStart, req.body.dateEnd, function(foundDocs,count,pgCount){
-    res.render("trash", {trashRecord: foundDocs, pgCount: pgCount});
-  });
+  tempArray.length = 0;
+  let pipelineData = [];
+    if(req.body.action === "1"){
+      //POST request from filterbar
+      pipelineData[0] = "0";
+      tempArray[0] = req.sanitize(req.body.nameSrch);
+      tempArray[1] = req.sanitize(req.body.dateStart);
+      tempArray[2] = req.sanitize(req.body.dateEnd);
+    } else if(req.body.action === "2"){
+      //POST request from pagination menu and from clearing filters
+      pipelineData = req.body.pipeline.split(",");
+      tempArray[0] = tempArray[1] = tempArray[2] = undefined;
+      if(pipelineData[2]){
+        tempArray[0] = req.sanitize(pipelineData[2]);
+      }
+      if(pipelineData[3]){
+        tempArray[1] = req.sanitize(pipelineData[3]);
+      }
+      if(pipelineData[4]){
+        tempArray[2] = req.sanitize(pipelineData[4]);
+      }
+      console.log("---bhingtas---");
+      console.log(tempArray);
+    }
+    //go to first page
+    if(pipelineData[0] === "0"){
+      skipCounter = 0;
+    }
+    //go to last page
+    else if(pipelineData[0] === "Z"){
+      skipCounter = (Number(pipelineData[1]) - 1) * recordsPerPage;
+    }
+    //go to chosen page
+    else{
+      skipCounter = (Number(pipelineData[0]) - 1) * recordsPerPage;
+    }
+    console.log(skipCounter + " Records skipped");
+    dispDbEntries("Trash", recordsPerPage, skipCounter, tempArray[0], tempArray[1], tempArray[2], function(foundDocs,pgCount,currentPg,disp){
+      renderData.length = 0;
+      renderData = [foundDocs,currentPg,disp,pgCount,tempArray]
+      res.render("trash", {renderData: renderData});
+    });
 });
 
 router.put('/customerdata/trash', middleware.isLoggedIn, function(req,res){

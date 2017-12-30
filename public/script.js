@@ -5,7 +5,7 @@ var breakpointMobile = 768,
     slider_api;
 
 
-window.addEventListener("DOMContentLoaded", function(event) {
+window.addEventListener("DOMContentLoaded", function(e) {
   $('.ui.dropdown').dropdown();
 
   if($('#landingPage').length && getScreenType() == 'desktop'){
@@ -34,9 +34,70 @@ window.addEventListener("DOMContentLoaded", function(event) {
         $("#pipeline").submit();
       }
     }
+    var clearFilters = function(formAction){
+      $("#pipeline").attr("method", "POST");
+      $("#pipeline").attr("action", formAction);
+      $("#pipeline input:nth-child(1)").val(["0"]);
+      $("#pipeline input:nth-child(2)").val(2);
+      $("#pipeline").submit();
+    }
+    var pagination = function(currentPg,pgCount,filters,formAction){
+      $("#pageNavi" + currentPg).addClass("active");
+
+      $(".ui.pagination.menu a").click(function(e){
+        let temp = [$(this).attr('id').slice(8), pgCount, filters.nameSrch, filters.startDate, filters.endDate];
+        $("#pipeline").attr("method", "POST");
+        $("#pipeline").attr("action", formAction);
+        $("#pipeline input:nth-child(1)").val(temp);
+        $("#pipeline input:nth-child(2)").val(2);
+        $("#pipeline").submit();
+      });
+
+      $("#filterBar button[type='reset']").click(function(){
+        clearFilters(formAction);
+      });
+
+      //display appropriate buttons in pagination menu depending on the number of pages
+      if(pgCount>5){
+         if(currentPg-3 > 0){
+           $(".pageNavi.start").show();
+         } else{
+            $(".pageNavi.start").hide();
+         }
+         if((pgCount - currentPg) > 2){
+           $(".pageNavi.end").show();
+         } else{
+           $(".pageNavi.end").hide();
+         }
+         for(let i=1; i<(pgCount+1); i++){
+           if((i < (currentPg - 2)) || (i > (currentPg + 2))){
+             $("#pageNavi" + i).hide();
+           } else{
+             $("#pageNavi" + i).show();
+           }
+           switch (currentPg) {
+             case 1:
+               $("#pageNavi4, #pageNavi5").show();
+               break;
+             case 2:
+               $("#pageNavi5").show();
+               break;
+             case pgCount:
+               $("#pageNavi" + (pgCount - 3)).show();
+               $("#pageNavi" + (pgCount - 4)).show();
+               break;
+             case (pgCount - 1):
+               $("#pageNavi" + (pgCount - 4)).show();
+               break;
+           }
+         }
+      } else{
+        $(".pageNavi.start, .pageNavi.end").hide();
+      }
+    }
 
     //adds and removes "checked" class to checkboxes
-      $('tbody tr input[type="checkbox"]').click(function(event){
+      $('tbody tr input[type="checkbox"]').click(function(e){
         if(this.checked){
           $(this).addClass('checked');
         } else{
@@ -45,7 +106,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
       });
 
     // checkbox select all
-      $('thead tr:nth-child(1) input[type="checkbox"]').click(function(event){
+      $('thead tr:nth-child(1) input[type="checkbox"]').click(function(e){
         if(this.checked){
           $('tbody tr input[type="checkbox"]').addClass('checked').prop( "checked", true );
         } else{
@@ -89,42 +150,68 @@ window.addEventListener("DOMContentLoaded", function(event) {
     });
 
     if($('#customerData').length){
-      if("custRecord" in mainGlobalObject){
-        $("#cust2trash").on("click", function(event){
-          sendDataOverPipeline(mainGlobalObject.custRecord, "/customerdata/trash", "custToTrash");
+      if("customerdataPg" in mainGlobalObject){
+        let pgCount = Number(mainGlobalObject.customerdataPg[3]);
+        let currentPg = Number(mainGlobalObject.customerdataPg[1]);
+        let filters = {
+          nameSrch: mainGlobalObject.customerdataPg[4][0],
+          startDate: mainGlobalObject.customerdataPg[4][1],
+          endDate: mainGlobalObject.customerdataPg[4][2]
+        }
+        pagination(currentPg,pgCount,filters,"/customerdata");
+
+        //move records from customerdata to trash and archive pages
+        $("#cust2trash").on("click", function(e){
+          sendDataOverPipeline(mainGlobalObject.customerdataPg[0], "/customerdata/trash", "custToTrash");
         });
-        $("#cust2arch").on("click", function(event){
-          sendDataOverPipeline(mainGlobalObject.custRecord, "/customerdata/archives", "custToArchive");
+        $("#cust2arch").on("click", function(e){
+          sendDataOverPipeline(mainGlobalObject.customerdataPg[0], "/customerdata/archives", "custToArchive");
         });
       } else{
-        console.log("'custRecord' property of 'mainGlobalObject' not found!")
+        console.log("'customerdataPg' property of 'mainGlobalObject' not found!")
       }
     }
     if($('#archivesPage').length){
-      if("archivedRecord" in mainGlobalObject){
-        $("#arch2trash").on("click", function(event){
-          sendDataOverPipeline(mainGlobalObject.archivedRecord, "/customerdata/trash", "archiveToTrash");
+      if("archivesPg" in mainGlobalObject){
+        let pgCount = Number(mainGlobalObject.archivesPg[3]);
+        let currentPg = Number(mainGlobalObject.archivesPg[1]);
+        let filters = {
+          nameSrch: mainGlobalObject.archivesPg[4][0],
+          startDate: mainGlobalObject.archivesPg[4][1],
+          endDate: mainGlobalObject.archivesPg[4][2]
+        }
+        pagination(currentPg,pgCount,filters,"/customerdata/archives");
+        $("#arch2trash").on("click", function(e){
+          sendDataOverPipeline(mainGlobalObject.archivesPg[0], "/customerdata/trash", "archiveToTrash");
         });
-        $("#arch2cust").on("click", function(event){
-          sendDataOverPipeline(mainGlobalObject.archivedRecord, "/customerdata", "archiveToCust");
+        $("#arch2cust").on("click", function(e){
+          sendDataOverPipeline(mainGlobalObject.archivesPg[0], "/customerdata", "archiveToCust");
         });
       } else{
-        console.log("'archivedRecord' property of 'mainGlobalObject' not found!")
+        console.log("'archivesPg' property of 'mainGlobalObject' not found!")
       }
     }
     if($('#trashPage').length){
-      if("trashRecord" in mainGlobalObject){
-        $("#trash2cust").on("click", function(event){
-          sendDataOverPipeline(mainGlobalObject.trashRecord, "/customerdata", "trashToCust");
+      if("trashPg" in mainGlobalObject){
+        let pgCount = Number(mainGlobalObject.trashPg[3]);
+        let currentPg = Number(mainGlobalObject.trashPg[1]);
+        let filters = {
+          nameSrch: mainGlobalObject.trashPg[4][0],
+          startDate: mainGlobalObject.trashPg[4][1],
+          endDate: mainGlobalObject.trashPg[4][2]
+        }
+        pagination(currentPg,pgCount,filters,"/customerdata/trash");
+        $("#trash2cust").on("click", function(e){
+          sendDataOverPipeline(mainGlobalObject.trashPg[0], "/customerdata", "trashToCust");
         });
-        $("#trash2arch").on("click", function(event){
-          sendDataOverPipeline(mainGlobalObject.trashRecord, "/customerdata/archives", "trashToArchive");
+        $("#trash2arch").on("click", function(e){
+          sendDataOverPipeline(mainGlobalObject.trashPg[0], "/customerdata/archives", "trashToArchive");
         });
-        $("#deleteForever").on("click", function(event){
-          sendDataOverPipeline(mainGlobalObject.trashRecord, "/customerdata/trash", "deleteForever");
+        $("#deleteForever").on("click", function(e){
+          sendDataOverPipeline(mainGlobalObject.trashPg[0], "/customerdata/trash", "deleteForever");
         });
       } else{
-        console.log("'trashRecord' property of 'mainGlobalObject' not found!")
+        console.log("'trashPg' property of 'mainGlobalObject' not found!")
       }
     }
   }
@@ -188,9 +275,9 @@ function sliderInit(){
 // ==============================
 // ==  Click auto scrolling    ==
 // ==============================
-$(".scrollLink").click(function(event) {
+$(".scrollLink").click(function(e) {
       // Prevent a page reload when a link is pressed
-    event.preventDefault();
+    e.preventDefault();
       // Call the scroll function
     goToByScroll(this.id);
 });

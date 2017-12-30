@@ -107,70 +107,7 @@
 <script type="text/javascript" src='/jquery.min.js'></script>
 <script type="text/javascript" src='/semantic-ui/semantic.min.js'></script>
 <script type="text/javascript" src='/semantic-ui/calendar.min.js'></script>
-<script> var mainGlobalObject = {custRecord : <%- JSON.stringify(renderData[0]) %>}; </script>
+<script>var mainGlobalObject = {customerdataPg : <%- JSON.stringify(renderData) %>,};</script>
 <script type="text/javascript" src='/script.js'></script>
-<script>
-  var renderData = <%- JSON.stringify(renderData)%>;
-  var pgCount = Number(renderData[3]);
-  var currentPg = Number(renderData[1]);
-
-  $("#pageNavi" + currentPg).addClass("active");
-
-  $("#filterBar button[type='reset']").on("click", function(){
-    $("#pipeline").attr("method", "POST");
-    $("#pipeline").attr("action", "/customerdata");
-    $("#pipeline input:nth-child(1)").val(["0"]);
-    $("#pipeline input:nth-child(2)").val(2);
-    $("#pipeline").submit();
-  });
-
-  //display appropriate buttons in pagination menu
-  if(pgCount>5){
-     if(currentPg-3 > 0){
-       $(".pageNavi.start").show();
-     } else{
-        $(".pageNavi.start").hide();
-     }
-     if((pgCount - currentPg) > 2){
-       $(".pageNavi.end").show();
-     } else{
-       $(".pageNavi.end").hide();
-     }
-     for(let i=1; i<(pgCount+1); i++){
-       if((i < (currentPg - 2)) || (i > (currentPg + 2))){
-         $("#pageNavi" + i).hide();
-       } else{
-         $("#pageNavi" + i).show();
-       }
-       switch (currentPg) {
-         case 1:
-           $("#pageNavi4, #pageNavi5").show();
-           break;
-         case 2:
-           $("#pageNavi5").show();
-           break;
-         case pgCount:
-           $("#pageNavi" + (pgCount - 3)).show();
-           $("#pageNavi" + (pgCount - 4)).show();
-           break;
-         case (pgCount - 1):
-           $("#pageNavi" + (pgCount - 4)).show();
-           break;
-       }
-     }
-  } else{
-    $(".pageNavi.start, .pageNavi.end").hide();
-  }
-
-  $(".ui.pagination.menu a").click(function(e){
-    let temp = [$(this).attr('id').slice(8), pgCount, renderData[4][0], renderData[4][1], renderData[4][2]];
-
-    $("#pipeline").attr("method", "POST");
-    $("#pipeline").attr("action", "/customerdata");
-    $("#pipeline input:nth-child(1)").val(temp);
-    $("#pipeline input:nth-child(2)").val(2);
-    $("#pipeline").submit();
-  });
-</script>
 </body>
 </html>

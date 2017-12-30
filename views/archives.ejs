@@ -58,17 +58,17 @@
         </tr>
       </thead>
       <tbody>
-        <% for(var i=0; i<archivedRecord.length; i++){ %>
+        <% for(var i=0; i<renderData[0].length; i++){ %>
           <tr>
             <td class="collapsing">
               <div class="ui fitted checkbox">
                 <input type="checkbox"> <label></label>
               </div>
             </td>
-            <td><%= archivedRecord[i].name %></td>
-            <td><%= archivedRecord[i].phone %></td>
-            <td><%= archivedRecord[i].email %></td>
-            <td><%= archivedRecord[i]._id.getTimestamp() %></td>
+            <td><%= renderData[0][i].name %></td>
+            <td><%= renderData[0][i].phone %></td>
+            <td><%= renderData[0][i].email %></td>
+            <td><%= renderData[0][i]._id.getTimestamp() %></td>
           </tr>
         <% } %>
       </tbody>
@@ -77,17 +77,17 @@
           <th colspan='4'>
             <div class="centerAlign">
               <div class="ui pagination menu">
-                <a class="active item">1</a>
-                <a class="item">2</a>
-                <a class="item">3</a>
-                <a class="item">4</a>
-                <div class="disabled item">.....</div>
-                <a class="item">10</a>
+                <a class="item pageNavi start" id="pageNavi0" title="First page"><i class="angle double left icon"></i></a>
+                <% for(var i=1; i<(renderData[3]+1); i++){ %>
+                  <a class="item" id="<%= 'pageNavi'+ i %>"><%= i %></a>
+                <% } %>
+                <div class="item pageNavi end disabled">...</div>
+                <a class="item pageNavi end" id="pageNaviZ" title="Last page"><i class="angle double right icon"></i></a>
               </div>
             </div>
           </th>
           <th colspan='1'>
-            <p class="recNumDisplay"><%= archivedRecord.length %> Record(s) found</p>
+            <p class="recNumDisplay"><%= renderData[2] %> Record(s)</p>
           </th>
         </tr>
       </tfoot>
@@ -106,7 +106,7 @@
 <script type="text/javascript" src='/jquery.min.js'></script>
 <script type="text/javascript" src='/semantic-ui/semantic.min.js'></script>
 <script type="text/javascript" src='/semantic-ui/calendar.min.js'></script>
-<script> var mainGlobalObject = {archivedRecord : <%- JSON.stringify(archivedRecord) %>}; </script>
+<script> var mainGlobalObject = {archivesPg : <%- JSON.stringify(renderData) %>}; </script>
 <script type="text/javascript" src='/script.js'></script>
 </body>
 </html>
