@@ -78,12 +78,12 @@
           <th colspan='4'>
             <div class="centerAlign">
               <div class="ui pagination menu">
-                <a class="item pageNavi start" id="pageNavi0"><i class="angle double left icon"></i></a>
+                <a class="item pageNavi start" id="pageNavi0" title="First page"><i class="angle double left icon"></i></a>
                 <% for(var i=1; i<(renderData[3]+1); i++){ %>
                   <a class="item" id="<%= 'pageNavi'+ i %>"><%= i %></a>
                 <% } %>
                 <div class="item pageNavi end disabled">...</div>
-                <a class="item pageNavi end" id="pageNaviZ"><i class="angle double right icon"></i></a>
+                <a class="item pageNavi end" id="pageNaviZ" title="Last page"><i class="angle double right icon"></i></a>
               </div>
             </div>
           </th>
@@ -115,6 +115,14 @@
   var currentPg = Number(renderData[1]);
 
   $("#pageNavi" + currentPg).addClass("active");
+
+  $("#filterBar button[type='reset']").on("click", function(){
+    $("#pipeline").attr("method", "POST");
+    $("#pipeline").attr("action", "/customerdata");
+    $("#pipeline input:nth-child(1)").val(["0"]);
+    $("#pipeline input:nth-child(2)").val(2);
+    $("#pipeline").submit();
+  });
 
   //display appropriate buttons in pagination menu
   if(pgCount>5){
@@ -155,7 +163,7 @@
   }
 
   $(".ui.pagination.menu a").click(function(e){
-    let temp = [$(this).attr('id').slice(8), pgCount];
+    let temp = [$(this).attr('id').slice(8), pgCount, renderData[4][0], renderData[4][1], renderData[4][2]];
 
     $("#pipeline").attr("method", "POST");
     $("#pipeline").attr("action", "/customerdata");

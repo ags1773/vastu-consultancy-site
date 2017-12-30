@@ -1,13 +1,13 @@
 <div class="item">
   <div class="ui input">
-    <input type="text" name='nameSrch' placeholder="Search Name..">
+    <input type="text" name='nameSrch' placeholder="Search Name.." value="<%= renderData[4][0]%>">
   </div>
 </div>
 <div class="item">
   <div class="ui calendar" id="rangeStart">
     <div class="ui small input left icon">
       <i class="calendar icon"></i>
-      <input type="text" name="dateStart" placeholder="Start Date">
+      <input type="text" name="dateStart" placeholder="Start Date" value="<%= renderData[4][1]%>">
     </div>
   </div>
 </div>
@@ -15,7 +15,7 @@
   <div class="ui calendar" id="rangeEnd">
     <div class="ui small input left icon">
       <i class="calendar icon"></i>
-      <input type="text" name="dateEnd" placeholder="End Date">
+      <input type="text" name="dateEnd" placeholder="End Date" value="<%= renderData[4][2]%>">
     </div>
   </div>
 </div>
@@ -23,5 +23,9 @@
   <input type="hidden" name="action" value="1">
 </div>
 <div class="right item">
-  <button type="submit" class="ui orange compact button">Apply Filters</button>
+  <div class="ui compact buttons">
+    <button type="reset" class="ui button">Clear</button>
+    <button type="submit" class="ui orange button">Apply Filters</button>
+  </div>
+  <!-- <button type="submit" class="ui orange compact button">Apply Filters</button> -->
 </div>
