@@ -45,12 +45,14 @@ window.addEventListener("DOMContentLoaded", function(e) {
       $("#pageNavi" + currentPg).addClass("active");
 
       $(".ui.pagination.menu a").click(function(e){
-        let temp = [$(this).attr('id').slice(8), pgCount, filters.nameSrch, filters.startDate, filters.endDate];
-        $("#pipeline").attr("method", "POST");
-        $("#pipeline").attr("action", formAction);
-        $("#pipeline input:nth-child(1)").val(temp);
-        $("#pipeline input:nth-child(2)").val(2);
-        $("#pipeline").submit();
+        if(!$(this).hasClass("active")){
+          let temp = [$(this).attr('id').slice(8), pgCount, filters.nameSrch, filters.startDate, filters.endDate];
+          $("#pipeline").attr("method", "POST");
+          $("#pipeline").attr("action", formAction);
+          $("#pipeline input:nth-child(1)").val(temp);
+          $("#pipeline input:nth-child(2)").val(2);
+          $("#pipeline").submit();
+        }
       });
 
       $("#filterBar button[type='reset']").click(function(){
@@ -150,69 +152,57 @@ window.addEventListener("DOMContentLoaded", function(e) {
     });
 
     if($('#customerData').length){
-      if("customerdataPg" in mainGlobalObject){
-        let pgCount = Number(mainGlobalObject.customerdataPg[3]);
-        let currentPg = Number(mainGlobalObject.customerdataPg[1]);
-        let filters = {
-          nameSrch: mainGlobalObject.customerdataPg[4][0],
-          startDate: mainGlobalObject.customerdataPg[4][1],
-          endDate: mainGlobalObject.customerdataPg[4][2]
-        }
-        pagination(currentPg,pgCount,filters,"/customerdata");
-
-        //move records from customerdata to trash and archive pages
-        $("#cust2trash").on("click", function(e){
-          sendDataOverPipeline(mainGlobalObject.customerdataPg[0], "/customerdata/trash", "custToTrash");
-        });
-        $("#cust2arch").on("click", function(e){
-          sendDataOverPipeline(mainGlobalObject.customerdataPg[0], "/customerdata/archives", "custToArchive");
-        });
-      } else{
-        console.log("'customerdataPg' property of 'mainGlobalObject' not found!")
+      let pgCount = Number(mainGlobalObject.pgCount);
+      let currentPg = Number(mainGlobalObject.currentPg);
+      let filters = {
+        nameSrch: mainGlobalObject.filterArray[0],
+        startDate: mainGlobalObject.filterArray[1],
+        endDate: mainGlobalObject.filterArray[2]
       }
+      pagination(currentPg,pgCount,filters,"/customerdata");
+
+      //move records from customerdata to trash and archive pages
+      $("#cust2trash").on("click", function(e){
+        sendDataOverPipeline(mainGlobalObject.foundDocs, "/customerdata/trash", "custToTrash");
+      });
+      $("#cust2arch").on("click", function(e){
+        sendDataOverPipeline(mainGlobalObject.foundDocs, "/customerdata/archives", "custToArchive");
+      });
     }
     if($('#archivesPage').length){
-      if("archivesPg" in mainGlobalObject){
-        let pgCount = Number(mainGlobalObject.archivesPg[3]);
-        let currentPg = Number(mainGlobalObject.archivesPg[1]);
-        let filters = {
-          nameSrch: mainGlobalObject.archivesPg[4][0],
-          startDate: mainGlobalObject.archivesPg[4][1],
-          endDate: mainGlobalObject.archivesPg[4][2]
-        }
-        pagination(currentPg,pgCount,filters,"/customerdata/archives");
-        $("#arch2trash").on("click", function(e){
-          sendDataOverPipeline(mainGlobalObject.archivesPg[0], "/customerdata/trash", "archiveToTrash");
-        });
-        $("#arch2cust").on("click", function(e){
-          sendDataOverPipeline(mainGlobalObject.archivesPg[0], "/customerdata", "archiveToCust");
-        });
-      } else{
-        console.log("'archivesPg' property of 'mainGlobalObject' not found!")
+      let pgCount = Number(mainGlobalObject.pgCount);
+      let currentPg = Number(mainGlobalObject.currentPg);
+      let filters = {
+        nameSrch: mainGlobalObject.filterArray[0],
+        startDate: mainGlobalObject.filterArray[1],
+        endDate: mainGlobalObject.filterArray[2]
       }
+      pagination(currentPg,pgCount,filters,"/customerdata/archives");
+      $("#arch2trash").on("click", function(e){
+        sendDataOverPipeline(mainGlobalObject.foundDocs, "/customerdata/trash", "archiveToTrash");
+      });
+      $("#arch2cust").on("click", function(e){
+        sendDataOverPipeline(mainGlobalObject.foundDocs, "/customerdata", "archiveToCust");
+      });
     }
     if($('#trashPage').length){
-      if("trashPg" in mainGlobalObject){
-        let pgCount = Number(mainGlobalObject.trashPg[3]);
-        let currentPg = Number(mainGlobalObject.trashPg[1]);
-        let filters = {
-          nameSrch: mainGlobalObject.trashPg[4][0],
-          startDate: mainGlobalObject.trashPg[4][1],
-          endDate: mainGlobalObject.trashPg[4][2]
-        }
-        pagination(currentPg,pgCount,filters,"/customerdata/trash");
-        $("#trash2cust").on("click", function(e){
-          sendDataOverPipeline(mainGlobalObject.trashPg[0], "/customerdata", "trashToCust");
-        });
-        $("#trash2arch").on("click", function(e){
-          sendDataOverPipeline(mainGlobalObject.trashPg[0], "/customerdata/archives", "trashToArchive");
-        });
-        $("#deleteForever").on("click", function(e){
-          sendDataOverPipeline(mainGlobalObject.trashPg[0], "/customerdata/trash", "deleteForever");
-        });
-      } else{
-        console.log("'trashPg' property of 'mainGlobalObject' not found!")
+      let pgCount = Number(mainGlobalObject.pgCount);
+      let currentPg = Number(mainGlobalObject.currentPg);
+      let filters = {
+        nameSrch: mainGlobalObject.filterArray[0],
+        startDate: mainGlobalObject.filterArray[1],
+        endDate: mainGlobalObject.filterArray[2]
       }
+      pagination(currentPg,pgCount,filters,"/customerdata/trash");
+      $("#trash2cust").on("click", function(e){
+        sendDataOverPipeline(mainGlobalObject.foundDocs, "/customerdata", "trashToCust");
+      });
+      $("#trash2arch").on("click", function(e){
+        sendDataOverPipeline(mainGlobalObject.foundDocs, "/customerdata/archives", "trashToArchive");
+      });
+      $("#deleteForever").on("click", function(e){
+        sendDataOverPipeline(mainGlobalObject.foundDocs, "/customerdata/trash", "deleteForever");
+      });
     }
   }
 });

@@ -167,11 +167,15 @@ main{
 #menuBar, #menuBar a, #filterBar{
   border-radius: 0;
 }
+#menuBar a.active{
+  cursor: default;
+}
 #filterBar{
   margin-top:0;
 }
 .ui.pagination.menu .item.active{
   background-color: teal;
+  cursor: default;
 }
 /*------------------------------------*/
 /*-----     Media Queries    --------*/

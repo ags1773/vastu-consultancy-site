@@ -8,9 +8,8 @@ var express       = require('express'),
     moveDocs      = require('../public/docsMovePgm');
 
 //recordsPerPage value can be set
-var recordsPerPage = 2;
+var recordsPerPage = 10;
 var skipCounter = 0;
-var renderData = [];
 var tempArray = [];
 
 router.get("/", function(req,res){
@@ -44,10 +43,23 @@ router.get('/customerdata', middleware.isLoggedIn, function(req,res){
   tempArray.length = 0;
   skipCounter = 0;
   tempArray[0] = tempArray[1] = tempArray[2] = undefined;
-  dispDbEntries("Customer", recordsPerPage, skipCounter, tempArray[0], tempArray[1], tempArray[2], function(foundDocs,pgCount,currentPg,disp){
-    renderData.length = 0;
-    renderData = [foundDocs,currentPg,disp,pgCount,tempArray]
-    res.render("customerdata", {renderData: renderData});
+  let tempObj = {
+    collection: "Customer",
+    recordsPerPage: recordsPerPage,
+    skipCounter: skipCounter,
+    srchName: tempArray[0],
+    startDt: tempArray[1],
+    endDt: tempArray[2]
+  };
+  dispDbEntries(tempObj, function(k){
+    res.render("customerdata",
+      {
+        foundDocs: k.foundDocs,
+        currentPg: k.currentPg,
+        disp: k.disp,
+        pgCount: k.pgCount,
+        filterArray: tempArray
+      });
   });
 });
 
@@ -73,8 +85,6 @@ router.post('/customerdata', middleware.isLoggedIn, function(req,res){
       if(pipelineData[4]){
         tempArray[2] = req.sanitize(pipelineData[4]);
       }
-      console.log("---bhingtas---");
-      console.log(tempArray);
     }
     //go to first page
     if(pipelineData[0] === "0"){
@@ -89,12 +99,24 @@ router.post('/customerdata', middleware.isLoggedIn, function(req,res){
       skipCounter = (Number(pipelineData[0]) - 1) * recordsPerPage;
     }
     console.log(skipCounter + " Records skipped");
-    dispDbEntries("Customer", recordsPerPage, skipCounter, tempArray[0], tempArray[1], tempArray[2], function(foundDocs,pgCount,currentPg,disp){
-      renderData.length = 0;
-      renderData = [foundDocs,currentPg,disp,pgCount,tempArray]
-      res.render("customerdata", {renderData: renderData});
+    let tempObj = {
+      collection: "Customer",
+      recordsPerPage: recordsPerPage,
+      skipCounter: skipCounter,
+      srchName: tempArray[0],
+      startDt: tempArray[1],
+      endDt: tempArray[2]
+    };
+    dispDbEntries(tempObj, function(k){
+      res.render("customerdata",
+        {
+          foundDocs: k.foundDocs,
+          currentPg: k.currentPg,
+          disp: k.disp,
+          pgCount: k.pgCount,
+          filterArray: tempArray
+        });
     });
-
 });
 
 router.put('/customerdata', middleware.isLoggedIn, function(req,res){
@@ -118,10 +140,23 @@ router.get('/customerdata/archives', middleware.isLoggedIn, function(req,res){
   tempArray.length = 0;
   skipCounter = 0;
   tempArray[0] = tempArray[1] = tempArray[2] = undefined;
-  dispDbEntries("Archive", recordsPerPage, skipCounter, tempArray[0], tempArray[1], tempArray[2], function(foundDocs,pgCount,currentPg,disp){
-    renderData.length = 0;
-    renderData = [foundDocs,currentPg,disp,pgCount,tempArray]
-    res.render("archives", {renderData: renderData});
+  let tempObj = {
+    collection: "Archive",
+    recordsPerPage: recordsPerPage,
+    skipCounter: skipCounter,
+    srchName: tempArray[0],
+    startDt: tempArray[1],
+    endDt: tempArray[2]
+  };
+  dispDbEntries(tempObj, function(k){
+    res.render("archives",
+      {
+        foundDocs: k.foundDocs,
+        currentPg: k.currentPg,
+        disp: k.disp,
+        pgCount: k.pgCount,
+        filterArray: tempArray
+      });
   });
 });
 
@@ -147,8 +182,6 @@ router.post('/customerdata/archives', middleware.isLoggedIn, function(req,res){
       if(pipelineData[4]){
         tempArray[2] = req.sanitize(pipelineData[4]);
       }
-      console.log("---bhingtas---");
-      console.log(tempArray);
     }
     //go to first page
     if(pipelineData[0] === "0"){
@@ -163,10 +196,23 @@ router.post('/customerdata/archives', middleware.isLoggedIn, function(req,res){
       skipCounter = (Number(pipelineData[0]) - 1) * recordsPerPage;
     }
     console.log(skipCounter + " Records skipped");
-    dispDbEntries("Archive", recordsPerPage, skipCounter, tempArray[0], tempArray[1], tempArray[2], function(foundDocs,pgCount,currentPg,disp){
-      renderData.length = 0;
-      renderData = [foundDocs,currentPg,disp,pgCount,tempArray]
-      res.render("archives", {renderData: renderData});
+    let tempObj = {
+      collection: "Archive",
+      recordsPerPage: recordsPerPage,
+      skipCounter: skipCounter,
+      srchName: tempArray[0],
+      startDt: tempArray[1],
+      endDt: tempArray[2]
+    };
+    dispDbEntries(tempObj, function(k){
+      res.render("archives",
+        {
+          foundDocs: k.foundDocs,
+          currentPg: k.currentPg,
+          disp: k.disp,
+          pgCount: k.pgCount,
+          filterArray: tempArray
+        });
     });
 });
 
@@ -190,10 +236,23 @@ router.get("/customerdata/trash", middleware.isLoggedIn, function(req,res){
   tempArray.length = 0;
   skipCounter = 0;
   tempArray[0] = tempArray[1] = tempArray[2] = undefined;
-  dispDbEntries("Trash", recordsPerPage, skipCounter, tempArray[0], tempArray[1], tempArray[2], function(foundDocs,pgCount,currentPg,disp){
-    renderData.length = 0;
-    renderData = [foundDocs,currentPg,disp,pgCount,tempArray]
-    res.render("trash", {renderData: renderData});
+  let tempObj = {
+    collection: "Trash",
+    recordsPerPage: recordsPerPage,
+    skipCounter: skipCounter,
+    srchName: tempArray[0],
+    startDt: tempArray[1],
+    endDt: tempArray[2]
+  };
+  dispDbEntries(tempObj, function(k){
+    res.render("trash",
+      {
+        foundDocs: k.foundDocs,
+        currentPg: k.currentPg,
+        disp: k.disp,
+        pgCount: k.pgCount,
+        filterArray: tempArray
+      });
   });
 });
 
@@ -219,8 +278,6 @@ router.post('/customerdata/trash', middleware.isLoggedIn, function(req,res){
       if(pipelineData[4]){
         tempArray[2] = req.sanitize(pipelineData[4]);
       }
-      console.log("---bhingtas---");
-      console.log(tempArray);
     }
     //go to first page
     if(pipelineData[0] === "0"){
@@ -235,10 +292,23 @@ router.post('/customerdata/trash', middleware.isLoggedIn, function(req,res){
       skipCounter = (Number(pipelineData[0]) - 1) * recordsPerPage;
     }
     console.log(skipCounter + " Records skipped");
-    dispDbEntries("Trash", recordsPerPage, skipCounter, tempArray[0], tempArray[1], tempArray[2], function(foundDocs,pgCount,currentPg,disp){
-      renderData.length = 0;
-      renderData = [foundDocs,currentPg,disp,pgCount,tempArray]
-      res.render("trash", {renderData: renderData});
+    let tempObj = {
+      collection: "Trash",
+      recordsPerPage: recordsPerPage,
+      skipCounter: skipCounter,
+      srchName: tempArray[0],
+      startDt: tempArray[1],
+      endDt: tempArray[2]
+    };
+    dispDbEntries(tempObj, function(k){
+      res.render("trash",
+        {
+          foundDocs: k.foundDocs,
+          currentPg: k.currentPg,
+          disp: k.disp,
+          pgCount: k.pgCount,
+          filterArray: tempArray
+        });
     });
 });
 
@@ -262,7 +332,6 @@ router.put('/customerdata/trash', middleware.isLoggedIn, function(req,res){
         console.log(err);
       } else{
         console.log("Selected records deleted!");
-        //Find next 20 records and render them..
         res.redirect('/customerdata/trash');
       }
     });

@@ -37,7 +37,7 @@
       <thead class="full-width">
         <tr>
           <th class="collapsing">
-            <div class="ui checkbox fitted">
+            <div class="ui checkbox fitted" title="Select All">
               <input type="checkbox"> <label></label>
             </div>
           </th>
@@ -59,17 +59,17 @@
         </tr>
       </thead>
       <tbody>
-        <% for(var i=0; i<renderData[0].length; i++){ %>
+        <% for(var i=0; i<foundDocs.length; i++){ %>
           <tr>
             <td class="collapsing">
               <div class="ui fitted checkbox">
                 <input type="checkbox"> <label></label>
               </div>
             </td>
-            <td><%= renderData[0][i].name %></td>
-            <td><%= renderData[0][i].phone %></td>
-            <td><%= renderData[0][i].email %></td>
-            <td><%= renderData[0][i]._id.getTimestamp() %></td>
+            <td><%= foundDocs[i].name %></td>
+            <td><%= foundDocs[i].phone %></td>
+            <td><%= foundDocs[i].email %></td>
+            <td><%= foundDocs[i]._id.getTimestamp() %></td>
           </tr>
         <% } %>
       </tbody>
@@ -79,16 +79,16 @@
             <div class="centerAlign">
               <div class="ui pagination menu">
                 <a class="item pageNavi start" id="pageNavi0" title="First page"><i class="angle double left icon"></i></a>
-                <% for(var i=1; i<(renderData[3]+1); i++){ %>
-                  <a class="item" id="<%= 'pageNavi'+ i %>"><%= i %></a>
-                <% } %>
+                  <% for(var i=1; i<(pgCount+1); i++){ %>
+                    <a class="item" id="<%= 'pageNavi'+ i %>"><%= i %></a>
+                  <% } %>
                 <div class="item pageNavi end disabled">...</div>
                 <a class="item pageNavi end" id="pageNaviZ" title="Last page"><i class="angle double right icon"></i></a>
               </div>
             </div>
           </th>
           <th colspan='1'>
-            <p class="recNumDisplay"><%= renderData[2] %> Record(s)</p>
+            <p class="recNumDisplay"><%= disp %></p>
           </th>
         </tr>
       </tfoot>
@@ -107,7 +107,15 @@
 <script type="text/javascript" src='/jquery.min.js'></script>
 <script type="text/javascript" src='/semantic-ui/semantic.min.js'></script>
 <script type="text/javascript" src='/semantic-ui/calendar.min.js'></script>
-<script>var mainGlobalObject = {customerdataPg : <%- JSON.stringify(renderData) %>,};</script>
+<script>
+  var mainGlobalObject = {
+    foundDocs: <%- JSON.stringify(foundDocs) %>,
+    currentPg: <%- JSON.stringify(currentPg) %>,
+    disp: <%- JSON.stringify(disp) %>,
+    pgCount: <%- JSON.stringify(pgCount) %>,
+    filterArray: <%- JSON.stringify(filterArray) %>
+  };
+</script>
 <script type="text/javascript" src='/script.js'></script>
 </body>
 </html>
