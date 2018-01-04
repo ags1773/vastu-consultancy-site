@@ -14,11 +14,13 @@ var middleware = require('./middleware');
 
 //==== Requiring routes ====
 var navRoutes   = require('./routes/nav'),
-    authRoutes  = require('./routes/auth');
+    authRoutes  = require('./routes/auth'),
+    customerDataRoutes  = require('./routes/customerdata'),
+    archiveRoutes  = require('./routes/archives'),
+    trashRoutes  = require('./routes/trash');
 
 mongoose.connect(process.env.DBURL_DEV1);
 var port = 8080;
-// var Customer = require("./models/customers");
 var User = require("./models/users");
 var app = express();
 app.set('view engine', 'ejs');
@@ -49,6 +51,9 @@ app.use(function(req, res, next){
 });
 app.use(navRoutes);
 app.use(authRoutes);
+app.use(customerDataRoutes);
+app.use(archiveRoutes);
+app.use(trashRoutes);
 
 // seedDB();
 
