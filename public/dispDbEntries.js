@@ -1,4 +1,13 @@
+//inputs:   skipCounter
+//          recordsPerPage
+//          collection
+//          filters - srchName
+//                    startDt
+//                    endDt
+
 function filter(inputObj, callback){
+  inputObj.skipCounter = Number(inputObj.skipCounter);
+  inputObj.recordsPerPage = Number(inputObj.recordsPerPage);
   var Collection;
   var pgCount;
   if(inputObj.collection === "Archive"){
@@ -14,15 +23,15 @@ function filter(inputObj, callback){
   var nameSrch = " ";
   var startDate = "000000000000000000000000";
   var endDate   = "ffffffffffffffffffffffff";
-  if(inputObj.srchName){
-    nameSrch = inputObj.srchName;
+  if(inputObj.filters.srchName && typeof inputObj.filters.srchName !== 'undefined'){
+    nameSrch = inputObj.filters.srchName;
   }
-  if(inputObj.startDt){
-    var unixStartDate = Date.parse(inputObj.startDt.toString());
+  if(inputObj.filters.startDt && typeof inputObj.filters.startDt !== 'undefined'){
+    var unixStartDate = Date.parse(inputObj.filters.startDt.toString());
     startDate = (Math.floor(unixStartDate/1000)).toString(16) + "0000000000000000";
   }
-  if(inputObj.endDt){
-    var unixEndDate = Date.parse(inputObj.endDt.toString());
+  if(inputObj.filters.endDt && typeof inputObj.filters.endDt !== 'undefined'){
+    var unixEndDate = Date.parse(inputObj.filters.endDt.toString());
     endDate = (Math.floor(unixEndDate/1000) + 86399).toString(16) + "0000000000000000";
     //23 hrs 59 min 59 sec = 86399 sec. It will ensure to get even the last entry for the day
   }

@@ -11,6 +11,12 @@ var express       = require('express'),
 var recordsPerPage = 10;
 var skipCounter = 0;
 var tempArray = [];
+var tempObj = {};
+var clearObject = function(obj){
+  Object.keys(obj).forEach(function(key){
+    delete obj[key];
+  })
+};
 
 router.get("/", function(req,res){
     res.render('landing');
@@ -43,13 +49,16 @@ router.get('/customerdata', middleware.isLoggedIn, function(req,res){
   tempArray.length = 0;
   skipCounter = 0;
   tempArray[0] = tempArray[1] = tempArray[2] = undefined;
-  let tempObj = {
+  clearObject(tempObj);
+  tempObj = {
     collection: "Customer",
     recordsPerPage: recordsPerPage,
     skipCounter: skipCounter,
-    srchName: tempArray[0],
-    startDt: tempArray[1],
-    endDt: tempArray[2]
+    filters: {
+      srchName: tempArray[0],
+      startDt: tempArray[1],
+      endDt: tempArray[2]
+    }
   };
   dispDbEntries(tempObj, function(k){
     res.render("customerdata",
@@ -99,13 +108,16 @@ router.post('/customerdata', middleware.isLoggedIn, function(req,res){
       skipCounter = (Number(pipelineData[0]) - 1) * recordsPerPage;
     }
     console.log(skipCounter + " Records skipped");
-    let tempObj = {
+    clearObject(tempObj);
+    tempObj = {
       collection: "Customer",
       recordsPerPage: recordsPerPage,
       skipCounter: skipCounter,
-      srchName: tempArray[0],
-      startDt: tempArray[1],
-      endDt: tempArray[2]
+      filters: {
+        srchName: tempArray[0],
+        startDt: tempArray[1],
+        endDt: tempArray[2]
+      }
     };
     dispDbEntries(tempObj, function(k){
       res.render("customerdata",
@@ -124,12 +136,24 @@ router.put('/customerdata', middleware.isLoggedIn, function(req,res){
   var action = req.body.action;
 
   if(action === "archiveToCust"){
-    moveDocs(idsQueue, "Archive", "Customer", function(){
+    clearObject(tempObj);
+    tempObj = {
+      idsQueue: idsQueue,
+      sourceCollection: "Archive",
+      destCollection: "Customer"
+    };
+    moveDocs(tempObj, function(){
       res.redirect('/customerdata/archives');
     });
   }
   if(action === "trashToCust"){
-    moveDocs(idsQueue, "Trash", "Customer", function(){
+    clearObject(tempObj);
+    tempObj = {
+      idsQueue: idsQueue,
+      sourceCollection: "Trash",
+      destCollection: "Customer"
+    };
+    moveDocs(tempObj, function(){
       res.redirect('/customerdata/trash');
     });
   }
@@ -140,13 +164,16 @@ router.get('/customerdata/archives', middleware.isLoggedIn, function(req,res){
   tempArray.length = 0;
   skipCounter = 0;
   tempArray[0] = tempArray[1] = tempArray[2] = undefined;
-  let tempObj = {
+  clearObject(tempObj);
+  tempObj = {
     collection: "Archive",
     recordsPerPage: recordsPerPage,
     skipCounter: skipCounter,
-    srchName: tempArray[0],
-    startDt: tempArray[1],
-    endDt: tempArray[2]
+    filters: {
+      srchName: tempArray[0],
+      startDt: tempArray[1],
+      endDt: tempArray[2]
+    }
   };
   dispDbEntries(tempObj, function(k){
     res.render("archives",
@@ -196,13 +223,16 @@ router.post('/customerdata/archives', middleware.isLoggedIn, function(req,res){
       skipCounter = (Number(pipelineData[0]) - 1) * recordsPerPage;
     }
     console.log(skipCounter + " Records skipped");
-    let tempObj = {
+    clearObject(tempObj);
+    tempObj = {
       collection: "Archive",
       recordsPerPage: recordsPerPage,
       skipCounter: skipCounter,
-      srchName: tempArray[0],
-      startDt: tempArray[1],
-      endDt: tempArray[2]
+      filters: {
+        srchName: tempArray[0],
+        startDt: tempArray[1],
+        endDt: tempArray[2]
+      }
     };
     dispDbEntries(tempObj, function(k){
       res.render("archives",
@@ -221,12 +251,24 @@ router.put('/customerdata/archives', middleware.isLoggedIn, function(req,res){
   var action = req.body.action;
 
   if(action === "custToArchive"){
-    moveDocs(idsQueue, "Customer", "Archive", function(){
+    clearObject(tempObj);
+    tempObj = {
+      idsQueue: idsQueue,
+      sourceCollection: "Customer",
+      destCollection: "Archive"
+    };
+    moveDocs(tempObj, function(){
       res.redirect('/customerdata');
     });
   }
   if(action === "trashToArchive"){
-    moveDocs(idsQueue, "Trash", "Archive", function(){
+    clearObject(tempObj);
+    tempObj = {
+      idsQueue: idsQueue,
+      sourceCollection: "Trash",
+      destCollection: "Archive"
+    };
+    moveDocs(tempObj, function(){
       res.redirect('/customerdata/trash');
     });
   }
@@ -236,13 +278,16 @@ router.get("/customerdata/trash", middleware.isLoggedIn, function(req,res){
   tempArray.length = 0;
   skipCounter = 0;
   tempArray[0] = tempArray[1] = tempArray[2] = undefined;
-  let tempObj = {
+  clearObject(tempObj);
+  tempObj = {
     collection: "Trash",
     recordsPerPage: recordsPerPage,
     skipCounter: skipCounter,
-    srchName: tempArray[0],
-    startDt: tempArray[1],
-    endDt: tempArray[2]
+    filters: {
+      srchName: tempArray[0],
+      startDt: tempArray[1],
+      endDt: tempArray[2]
+    }
   };
   dispDbEntries(tempObj, function(k){
     res.render("trash",
@@ -292,13 +337,16 @@ router.post('/customerdata/trash', middleware.isLoggedIn, function(req,res){
       skipCounter = (Number(pipelineData[0]) - 1) * recordsPerPage;
     }
     console.log(skipCounter + " Records skipped");
-    let tempObj = {
+    clearObject(tempObj);
+    tempObj = {
       collection: "Trash",
       recordsPerPage: recordsPerPage,
       skipCounter: skipCounter,
-      srchName: tempArray[0],
-      startDt: tempArray[1],
-      endDt: tempArray[2]
+      filters: {
+        srchName: tempArray[0],
+        startDt: tempArray[1],
+        endDt: tempArray[2]
+      }
     };
     dispDbEntries(tempObj, function(k){
       res.render("trash",
@@ -317,12 +365,24 @@ router.put('/customerdata/trash', middleware.isLoggedIn, function(req,res){
   var action = req.body.action;
 
   if(action === "archiveToTrash"){
-    moveDocs(idsQueue, "Archive", "Trash", function(){
+    clearObject(tempObj);
+    tempObj = {
+      idsQueue: idsQueue,
+      sourceCollection: "Archive",
+      destCollection: "Trash"
+    };
+    moveDocs(tempObj, function(){
       res.redirect('/customerdata/archives');
     });
   }
   if(action === "custToTrash"){
-    moveDocs(idsQueue, "Customer", "Trash", function(){
+    clearObject(tempObj);
+    tempObj = {
+      idsQueue: idsQueue,
+      sourceCollection: "Customer",
+      destCollection: "Trash"
+    };
+    moveDocs(tempObj, function(){
       res.redirect('/customerdata');
     });
   }

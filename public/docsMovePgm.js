@@ -1,25 +1,27 @@
-function docsMove(idsQueue, sourceCollection, destCollection, callback){
+//inputs: idsQueue, sourceCollection, destCollection
+//data returned: NO
+function docsMove(inputObj, callback){
   var Source, Destination;
-  if(sourceCollection === "Customer"){
+  if(inputObj.sourceCollection === "Customer"){
     Source = require("../models/customers");
   }
-  if(sourceCollection === "Archive"){
+  if(inputObj.sourceCollection === "Archive"){
     Source = require("../models/archives");
   }
-  if(sourceCollection === "Trash"){
+  if(inputObj.sourceCollection === "Trash"){
     Source = require("../models/trashes");
   }
-  if(destCollection === "Customer"){
+  if(inputObj.destCollection === "Customer"){
     Destination = require("../models/customers");
   }
-  if(destCollection === "Archive"){
+  if(inputObj.destCollection === "Archive"){
     Destination = require("../models/archives");
   }
-  if(destCollection === "Trash"){
+  if(inputObj.destCollection === "Trash"){
     Destination = require("../models/trashes");
   }
 
-  Source.find({_id: {$in: idsQueue}}, function(err, foundDocs){
+  Source.find({_id: {$in: inputObj.idsQueue}}, function(err, foundDocs){
     if(err){
       console.log(err);
     } else{
@@ -28,13 +30,12 @@ function docsMove(idsQueue, sourceCollection, destCollection, callback){
         if(err){
           console.log(err);
         } else{
-          console.log(insertedDocs.length + " Documents inserted into collection " + destCollection);
+          console.log(insertedDocs.length + " Documents inserted into collection " + inputObj.destCollection);
           Source.deleteMany({_id: {$in: insertedDocs}}, function(err, deletedDocs){
             if(err){
               console.log(err);
             } else{
-              console.log(deletedDocs.result.n + " Documents deleted from collection " + sourceCollection);
-              //res.redirect('/customerdata');
+              console.log(deletedDocs.result.n + " Documents deleted from collection " + inputObj.sourceCollection);
               return callback();
             }
           });
