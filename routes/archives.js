@@ -4,6 +4,7 @@ var express       = require("express"),
     dispDbEntries = require("../public/dispDbEntries"),
     moveDocs      = require("../public/docsMovePgm");
 
+//recordsPerPage can be set, but SET THE SAME VALUE IN customerdata.js, archives.js and trash.js
 var recordsPerPage = 10;
 var skipCounter = 0;
 var tempArray = [];
@@ -18,6 +19,14 @@ router.get("/customerdata/archives", middleware.isLoggedIn, function(req,res){
   tempArray.length = 0;
   skipCounter = 0;
   tempArray[0] = tempArray[1] = tempArray[2] = undefined;
+  if(req.session.skipCtr){
+    skipCounter = req.session.skipCtr;
+    req.session.skipCtr = null;
+  }
+  if(req.session.filter){
+    tempArray = req.session.filter;
+    req.session.filter = null;
+  }
   clearObject(tempObj);
   tempObj = {
     collection: "Archive",
@@ -36,7 +45,9 @@ router.get("/customerdata/archives", middleware.isLoggedIn, function(req,res){
         currentPg: k.currentPg,
         disp: k.disp,
         pgCount: k.pgCount,
-        filterArray: tempArray
+        filterArray: tempArray,
+        skipCounter: skipCounter,
+        recordsPerPage: recordsPerPage
       });
   });
 });
@@ -54,13 +65,13 @@ router.post("/customerdata/archives", middleware.isLoggedIn, function(req,res){
       //POST request from pagination menu and from clearing filters
       pipelineData = req.body.pipeline.split(",");
       tempArray[0] = tempArray[1] = tempArray[2] = undefined;
-      if(typeof pipelineData[2] !== "undefined"){
+      if(pipelineData[2]){
         tempArray[0] = req.sanitize(pipelineData[2]);
       }
-      if(typeof pipelineData[3] !== "undefined"){
+      if(pipelineData[3]){
         tempArray[1] = req.sanitize(pipelineData[3]);
       }
-      if(typeof pipelineData[4] !== "undefined"){
+      if(pipelineData[4]){
         tempArray[2] = req.sanitize(pipelineData[4]);
       }
     }
@@ -95,14 +106,19 @@ router.post("/customerdata/archives", middleware.isLoggedIn, function(req,res){
           currentPg: k.currentPg,
           disp: k.disp,
           pgCount: k.pgCount,
-          filterArray: tempArray
+          filterArray: tempArray,
+          skipCounter: skipCounter,
+          recordsPerPage: recordsPerPage
         });
     });
 });
 
 router.put("/customerdata/archives", middleware.isLoggedIn, function(req,res){
-  var idsQueue = req.body.pipeline.split(",");
-  var action = req.body.action;
+  let pipelineData = req.body.pipeline.split(",");
+  let skipCounter = pipelineData[0];
+  let filterArray = pipelineData.slice(1,4);
+  let idsQueue = pipelineData.slice(4);
+  let action = req.body.action;
 
   if(action === "custToArchive"){
     clearObject(tempObj);
@@ -112,6 +128,8 @@ router.put("/customerdata/archives", middleware.isLoggedIn, function(req,res){
       destCollection: "Archive"
     };
     moveDocs(tempObj, function(){
+      req.session.skipCtr = skipCounter;
+      req.session.filter = filterArray;
       res.redirect("/customerdata");
     });
   }
@@ -123,6 +141,8 @@ router.put("/customerdata/archives", middleware.isLoggedIn, function(req,res){
       destCollection: "Archive"
     };
     moveDocs(tempObj, function(){
+      req.session.skipCtr = skipCounter;
+      req.session.filter = filterArray;
       res.redirect("/customerdata/trash");
     });
   }

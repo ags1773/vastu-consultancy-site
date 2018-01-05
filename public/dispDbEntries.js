@@ -23,14 +23,14 @@ function filter(inputObj, callback){
   var nameSrch = " ";
   var startDate = "000000000000000000000000";
   var endDate   = "ffffffffffffffffffffffff";
-  if(inputObj.filters.srchName && typeof inputObj.filters.srchName !== 'undefined'){
+  if(inputObj.filters.srchName){
     nameSrch = inputObj.filters.srchName;
   }
-  if(inputObj.filters.startDt && typeof inputObj.filters.startDt !== 'undefined'){
+  if(inputObj.filters.startDt){
     var unixStartDate = Date.parse(inputObj.filters.startDt.toString());
     startDate = (Math.floor(unixStartDate/1000)).toString(16) + "0000000000000000";
   }
-  if(inputObj.filters.endDt && typeof inputObj.filters.endDt !== 'undefined'){
+  if(inputObj.filters.endDt){
     var unixEndDate = Date.parse(inputObj.filters.endDt.toString());
     endDate = (Math.floor(unixEndDate/1000) + 86399).toString(16) + "0000000000000000";
     //23 hrs 59 min 59 sec = 86399 sec. It will ensure to get even the last entry for the day

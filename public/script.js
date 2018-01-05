@@ -17,7 +17,8 @@ window.addEventListener("DOMContentLoaded", function(e) {
   }
   if($('#customerData').length || $('#archivesPage').length || $('#trashPage').length){
     let idsQueue = new Array();
-    var sendDataOverPipeline = function(dataObj, formAction, pipelineAction){
+    let pipelineData = [];
+    var sendDataOverPipeline = function(dataObj, skipCounter, filterArray, recordsPerPage, formAction, pipelineAction){
       idsQueue.length = 0;
       let j = 0;
       for(let i=0; i<dataObj.length; i++){
@@ -27,9 +28,25 @@ window.addEventListener("DOMContentLoaded", function(e) {
         }
       }
       if(idsQueue.length){
+        pipelineData.length = 0;
+        //If all records from a page are moved, skip records such that previous page loads next.
+        //If all records from page 1 are moved, stay on page 1 itself
+        if(dataObj.length === j){
+          if(Number(skipCounter) === 0){
+            pipelineData[0] = 0;
+          } else{
+            pipelineData[0] = skipCounter-recordsPerPage;
+          }
+        } else{
+          pipelineData[0] = skipCounter;
+        }
+        pipelineData[1] = filterArray[0];
+        pipelineData[2] = filterArray[1];
+        pipelineData[3] = filterArray[2];
+        pipelineData[4] = idsQueue;
         $("#pipeline").attr("method", "POST");
         $("#pipeline").attr("action", (formAction + "?_method=PUT"));
-        $("#pipeline input:nth-child(1)").val(idsQueue);
+        $("#pipeline input:nth-child(1)").val(pipelineData);
         $("#pipeline input:nth-child(2)").val(pipelineAction);
         $("#pipeline").submit();
       }
@@ -161,12 +178,11 @@ window.addEventListener("DOMContentLoaded", function(e) {
       }
       pagination(currentPg,pgCount,filters,"/customerdata");
 
-      //move records from customerdata to trash and archive pages
       $("#cust2trash").on("click", function(e){
-        sendDataOverPipeline(mainGlobalObject.foundDocs, "/customerdata/trash", "custToTrash");
+        sendDataOverPipeline(mainGlobalObject.foundDocs, mainGlobalObject.skipCounter, mainGlobalObject.filterArray, mainGlobalObject.recordsPerPage, "/customerdata/trash", "custToTrash");
       });
       $("#cust2arch").on("click", function(e){
-        sendDataOverPipeline(mainGlobalObject.foundDocs, "/customerdata/archives", "custToArchive");
+        sendDataOverPipeline(mainGlobalObject.foundDocs, mainGlobalObject.skipCounter, mainGlobalObject.filterArray, mainGlobalObject.recordsPerPage, "/customerdata/archives", "custToArchive");
       });
     }
     if($('#archivesPage').length){
@@ -179,10 +195,10 @@ window.addEventListener("DOMContentLoaded", function(e) {
       }
       pagination(currentPg,pgCount,filters,"/customerdata/archives");
       $("#arch2trash").on("click", function(e){
-        sendDataOverPipeline(mainGlobalObject.foundDocs, "/customerdata/trash", "archiveToTrash");
+        sendDataOverPipeline(mainGlobalObject.foundDocs, mainGlobalObject.skipCounter, mainGlobalObject.filterArray, mainGlobalObject.recordsPerPage, "/customerdata/trash", "archiveToTrash");
       });
       $("#arch2cust").on("click", function(e){
-        sendDataOverPipeline(mainGlobalObject.foundDocs, "/customerdata", "archiveToCust");
+        sendDataOverPipeline(mainGlobalObject.foundDocs, mainGlobalObject.skipCounter, mainGlobalObject.filterArray, mainGlobalObject.recordsPerPage, "/customerdata", "archiveToCust");
       });
     }
     if($('#trashPage').length){
@@ -195,13 +211,13 @@ window.addEventListener("DOMContentLoaded", function(e) {
       }
       pagination(currentPg,pgCount,filters,"/customerdata/trash");
       $("#trash2cust").on("click", function(e){
-        sendDataOverPipeline(mainGlobalObject.foundDocs, "/customerdata", "trashToCust");
+        sendDataOverPipeline(mainGlobalObject.foundDocs, mainGlobalObject.skipCounter, mainGlobalObject.filterArray, mainGlobalObject.recordsPerPage, "/customerdata", "trashToCust");
       });
       $("#trash2arch").on("click", function(e){
-        sendDataOverPipeline(mainGlobalObject.foundDocs, "/customerdata/archives", "trashToArchive");
+        sendDataOverPipeline(mainGlobalObject.foundDocs, mainGlobalObject.skipCounter, mainGlobalObject.filterArray, mainGlobalObject.recordsPerPage, "/customerdata/archives", "trashToArchive");
       });
       $("#deleteForever").on("click", function(e){
-        sendDataOverPipeline(mainGlobalObject.foundDocs, "/customerdata/trash", "deleteForever");
+        sendDataOverPipeline(mainGlobalObject.foundDocs, mainGlobalObject.skipCounter, mainGlobalObject.filterArray, mainGlobalObject.recordsPerPage, "/customerdata/trash", "deleteForever");
       });
     }
   }
