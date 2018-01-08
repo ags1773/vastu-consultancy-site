@@ -2,10 +2,8 @@
 This is a website giving details of a consultancy business
 
 ### Features
-* mobile first design
-  
-### Dependencies
-* Semantic-ui
-* jquery
-* font awesome 
-* glideJS
+
+- []  contact-us form vasidation
+- []  delete trash after 30 days
+- [x] pagination
+- [x] searchbar
