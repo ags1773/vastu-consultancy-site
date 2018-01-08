@@ -46,6 +46,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use(function(req, res, next){
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
+  res.locals.info = req.flash('info');
   res.locals.currentUser = req.user;
   next();
 });
@@ -55,6 +56,6 @@ app.use(customerDataRoutes);
 app.use(archiveRoutes);
 app.use(trashRoutes);
 
-// seedDB();
+//seedDB();
 
 app.listen(port);

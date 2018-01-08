@@ -130,6 +130,7 @@ router.put("/customerdata", middleware.isLoggedIn, function(req,res){
     moveDocs(tempObj, function(){
       req.session.skipCtr = skipCounter;
       req.session.filter = filterArray;
+      req.flash('info', 'Selected entries restored from archives');
       res.redirect("/customerdata/archives");
     });
   }
@@ -143,6 +144,7 @@ router.put("/customerdata", middleware.isLoggedIn, function(req,res){
     moveDocs(tempObj, function(){
       req.session.skipCtr = skipCounter;
       req.session.filter = filterArray;
+      req.flash('info', 'Selected entries restored from trash');
       res.redirect("/customerdata/trash");
     });
   }

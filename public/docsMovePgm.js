@@ -26,6 +26,12 @@ function docsMove(inputObj, callback){
       console.log(err);
     } else{
       console.log("Found " + foundDocs.length + " Docs..");
+      if(inputObj.destCollection === "Trash"){
+        foundDocs.forEach(function(doc){
+          doc.expiryCtr = new Date();
+          console.log("name ==> " + doc.name + " expiryCtr => " + doc.expiryCtr);
+        });
+      }
       Destination.insertMany(foundDocs, function(err, insertedDocs){
         if(err){
           console.log(err);
@@ -43,6 +49,35 @@ function docsMove(inputObj, callback){
       });
     }
   });
+
 }
 
 module.exports = docsMove;
+
+
+// inputObj.idsQueue.forEach(function(id){
+//   console.log("Moving docs one at a time...");
+//   Source.findOne({_id: id}, function(err,foundDoc){
+//     if(err){
+//       console.log(err);
+//     } else{
+//       console.log("Found document in " + inputObj.sourceCollection + " Collection -> " + foundDoc);
+//       foundDoc.expiryCtr = new Date();
+//       Destination.insertOne(foundDoc, function(err,insertedDoc){
+//         if(err){
+//           console.log(err);
+//         } else{
+//           console.log("Inserted into " + inputObj.destCollection + " Collection -> " + insertedDoc);
+//           Source.deleteOne({_id:id}, function(err,deletedDoc){
+//             if(err){
+//               console.log(err);
+//             } else{
+//               console.log("Deleted from " + inputObj.sourceCollection + " Collection -> " + deletedDoc);
+//               return callback();
+//             }
+//           });
+//         }
+//       });
+//     }
+//   });
+// });

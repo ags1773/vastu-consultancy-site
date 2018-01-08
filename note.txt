@@ -1,0 +1,13 @@
+Create a TTL index on collection "trashes", with "expiryCtr" as key and set the appropriate trash expiry time
+{
+  "v": 2,
+  "key": {
+    "expiryCtr": 1
+  },
+  "name": "expiryCtr_1",
+  "ns": "devinstance1.trashes",
+  "background": true,
+  "sparse": true,
+  "expireAfterSeconds": 3600
+}
+--------------------------------------------------------------------------------------------------------------

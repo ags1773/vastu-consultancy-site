@@ -131,6 +131,7 @@ router.put("/customerdata/trash", middleware.isLoggedIn, function(req,res){
     moveDocs(tempObj, function(){
       req.session.skipCtr = skipCounter;
       req.session.filter = filterArray;
+      req.flash('info', 'Selected entries moved to trash');
       res.redirect("/customerdata/archives");
     });
   }
@@ -144,6 +145,7 @@ router.put("/customerdata/trash", middleware.isLoggedIn, function(req,res){
     moveDocs(tempObj, function(){
       req.session.skipCtr = skipCounter;
       req.session.filter = filterArray;
+      req.flash('info', 'Selected entries moved to trash');
       res.redirect("/customerdata");
     });
   }
@@ -155,6 +157,7 @@ router.put("/customerdata/trash", middleware.isLoggedIn, function(req,res){
         console.log("Selected records deleted!");
         req.session.skipCtr = skipCounter;
         req.session.filter = filterArray;
+        req.flash('info', 'Selected entries permanently deleted from database');
         res.redirect("/customerdata/trash");
       }
     });

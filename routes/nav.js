@@ -21,6 +21,7 @@ router.post("/contact-us", function(req,res){
   var newCustomer = ({
     name: capsFirstLtr(req.sanitize(req.body.fname)) + " " + capsFirstLtr(req.sanitize(req.body.lname)),
     phone: req.sanitize(req.body.phone),
+    expiryCtr: new Date(0),
     email: req.sanitize(req.body.email)
   });
   Customer.create(newCustomer, function(err,customer){
