@@ -42,25 +42,30 @@
     <div id="userInput" class="ui raised segment">
       <h3 class="centerAlign">Schedule an appointment</h3>
       <form class="ui form" action="/contact-us" method="POST">
-        <div class="field">
+        <div class="required field">
+          <label for="fname">First name</label>
           <input type="text" name="fname" placeholder="First Name">
         </div>
         <div class="field">
+          <label for="lname">Last name</label>
           <input type="text" name="lname" placeholder="Last Name">
         </div>
-        <div class="field">
+        <div class="required field">
+          <label for="phone">Phone</label>
           <input type="text" name="phone" placeholder="Phone Number">
         </div>
         <div class="field">
+          <label for="email">e-mail</label>
           <input type="text" name="email" placeholder="e-mail Address">
         </div>
         <div class="field">
           <div class="ui checkbox">
-            <input type="checkbox" tabindex="0">
+            <input type="checkbox" name="checkbox">
             <label>It's okay to contact me</label>
           </div>
         </div>
         <button class="ui button teal fluid disabled" type="submit">Submit</button>
+        <div class="ui error message"></div>
       </form>
     </div><!-- /userInput -->
   </div><!-- /mainContainer -->

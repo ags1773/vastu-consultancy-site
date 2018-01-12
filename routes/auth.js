@@ -12,7 +12,8 @@ router.get('/contact-us/login', function(req,res){
 });
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/customerdata',
-  failureRedirect: '/login'
+  failureRedirect: '/login',
+  failureFlash: true
   })
 );
 

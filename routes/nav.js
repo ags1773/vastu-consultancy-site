@@ -16,7 +16,11 @@ router.get("/contact-us", function(req,res){
 
 router.post("/contact-us", function(req,res){
   let capsFirstLtr = function(str){
-    return str[0].toUpperCase() + str.slice(1).toLowerCase();
+    if(typeof str != undefined && str){
+      return str[0].toUpperCase() + str.slice(1).toLowerCase();
+    } else{
+      return "";
+    }
   }
   var newCustomer = ({
     name: capsFirstLtr(req.sanitize(req.body.fname)) + " " + capsFirstLtr(req.sanitize(req.body.lname)),

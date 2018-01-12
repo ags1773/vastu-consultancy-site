@@ -1,17 +1,32 @@
 <div id="alerts" class="ui container">
    <% if(error && error.length > 0){ %>
-     <div class="ui red message" role="alert">
-       <%= error %>
+     <div class="ui icon red tiny message" role="alert">
+       <i class="warning sign icon"></i>
+       <div class="content">
+         <div class="header">
+           <%= error %>
+         </div>
+       </div>
      </div>
    <% } %>
    <% if(success && success.length > 0){ %>
-     <div class="ui green message" role="alert">
-       <%= success %>
+     <div class="ui icon green tiny message" role="alert">
+       <i class="checkmark box icon"></i>
+       <div class="content">
+         <div class="header">
+           <%= success %>
+         </div>
+       </div>
      </div>
    <% } %>
    <% if(info && info.length > 0){ %>
-     <div class="ui yellow message" role="alert">
-       <%= info %>
+     <div class="ui icon violet tiny message" role="alert">
+       <i class="info circle icon"></i>
+       <div class="content">
+         <div class="header">
+           <%= info %>
+         </div>
+       </div>
      </div>
    <% } %>
  </div>
