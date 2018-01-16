@@ -222,59 +222,69 @@ window.addEventListener("DOMContentLoaded", function(e) {
     }
   }
 
-  // if($('#contactUs').length){
-  //   $('#userInput form').form({
-  //     fields: {
-  //       fname: {
-  //         identifier: 'fname',
-  //         rules: [
-  //           {
-  //             type   : 'regExp[/^[a-zA-Z\']{1,35} ?(([a-zA-Z\']{1,35} ?){0,2})?$/]',
-  //             prompt : 'Invalid name'
-  //           }
-  //         ]
-  //       },
-  //       lname: {
-  //         identifier: 'lname',
-  //         optional: true,
-  //         rules: [
-  //           {
-  //             type   : 'regExp[/^[a-zA-Z\']{1,35} ?(([a-zA-Z\']{1,35} ?){0,2})?$/]',
-  //             prompt : 'Invalid last name'
-  //           }
-  //         ]
-  //       },
-  //       phone: {
-  //         identifier  : 'phone',
-  //         rules: [
-  //           {
-  //             type   : 'regExp[/^(\\+?[0-9]+[ -]{0,3})?(([0-9]{2,4}[ -]{0,3})*)?[0-9]+$/]',
-  //             prompt : 'Invalid phone number'
-  //           }
-  //         ]
-  //       },
-  //       email: {
-  //         identifier  : 'email',
-  //         optional: true,
-  //         rules: [
-  //           {
-  //             type   : 'email',
-  //             prompt : 'Invalid e-mail'
-  //           }
-  //         ]
-  //       },
-  //       checkbox: {
-  //         identifier  : 'checkbox',
-  //         rules: [
-  //           {
-  //             type   : 'checked',
-  //             prompt : 'Please check the checkbox'
-  //           }
-  //         ]
-  //       }
-  //     }
-  //   });
-  // }
+  if($('#contactUs').length){
+    $('#userInput form').form({
+      fields: {
+        fname: {
+          identifier: 'fname',
+          rules: [
+            {
+              type   : 'regExp[/^[a-zA-Z\']{1,35} ?(([a-zA-Z\']{1,35} ?){0,2})?$/]',
+              prompt : 'Invalid name'
+            }
+          ]
+        },
+        lname: {
+          identifier: 'lname',
+          optional: true,
+          rules: [
+            {
+              type   : 'regExp[/^[a-zA-Z\']{1,35} ?(([a-zA-Z\']{1,35} ?){0,2})?$/]',
+              prompt : 'Invalid last name'
+            }
+          ]
+        },
+        phone: {
+          identifier  : 'phone',
+          rules: [
+            {
+              type   : 'regExp[/^(\\+?[0-9]+[ -]{0,3})?(([0-9]{2,4}[ -]{0,3})*)?[0-9]+$/]',
+              prompt : 'Invalid phone number'
+            }
+          ]
+        },
+        email: {
+          identifier  : 'email',
+          optional: true,
+          rules: [
+            {
+              type   : "regExp[/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/]",
+              prompt : 'Invalid e-mail'
+            }
+          ]
+        },
+        // email: {
+        //   identifier  : 'email',
+        //   optional: true,
+        //   rules: [
+        //     {
+        //       type   : 'email',
+        //       prompt : 'Invalid e-mail'
+        //     }
+        //   ]
+        // },
+        checkbox: {
+          identifier  : 'checkbox',
+          rules: [
+            {
+              type   : 'checked',
+              prompt : 'Please check the checkbox'
+            }
+          ]
+        }
+      }
+    });
+  }
 
 });
 
